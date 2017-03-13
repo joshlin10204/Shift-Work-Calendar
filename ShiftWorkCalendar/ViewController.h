@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#define Calendar_Date_Notification @"Calendar_Date_Notification"
 
 @interface ViewController : UIViewController
+
+@property (weak, nonatomic) IBOutlet UINavigationItem *calendarNavigationItem;
 
 
 @end

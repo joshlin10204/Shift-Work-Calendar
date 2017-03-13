@@ -16,6 +16,11 @@
 		037C49201E7511520050D84B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 037C491E1E7511520050D84B /* LaunchScreen.storyboard */; };
 		037C492B1E7511520050D84B /* ShiftWorkCalendarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 037C492A1E7511520050D84B /* ShiftWorkCalendarTests.m */; };
 		037C49361E7511520050D84B /* ShiftWorkCalendarUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 037C49351E7511520050D84B /* ShiftWorkCalendarUITests.m */; };
+		037C49491E7516F20050D84B /* CalendarCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 037C49441E7516F20050D84B /* CalendarCollectionView.m */; };
+		037C494A1E7516F20050D84B /* CalendarData.m in Sources */ = {isa = PBXBuildFile; fileRef = 037C49461E7516F20050D84B /* CalendarData.m */; };
+		037C494B1E7516F20050D84B /* CalendarPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 037C49481E7516F20050D84B /* CalendarPageView.m */; };
+		037C49521E75BB2E0050D84B /* CalendarCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 037C49501E75BB2E0050D84B /* CalendarCollectionCell.m */; };
+		037C49531E75BB2E0050D84B /* CalendarCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 037C49511E75BB2E0050D84B /* CalendarCollectionCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +58,15 @@
 		037C49311E7511520050D84B /* ShiftWorkCalendarUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShiftWorkCalendarUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		037C49351E7511520050D84B /* ShiftWorkCalendarUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShiftWorkCalendarUITests.m; sourceTree = "<group>"; };
 		037C49371E7511520050D84B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		037C49431E7516F20050D84B /* CalendarCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarCollectionView.h; sourceTree = "<group>"; };
+		037C49441E7516F20050D84B /* CalendarCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarCollectionView.m; sourceTree = "<group>"; };
+		037C49451E7516F20050D84B /* CalendarData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarData.h; sourceTree = "<group>"; };
+		037C49461E7516F20050D84B /* CalendarData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarData.m; sourceTree = "<group>"; };
+		037C49471E7516F20050D84B /* CalendarPageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarPageView.h; sourceTree = "<group>"; };
+		037C49481E7516F20050D84B /* CalendarPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarPageView.m; sourceTree = "<group>"; };
+		037C494F1E75BB2E0050D84B /* CalendarCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarCollectionCell.h; sourceTree = "<group>"; };
+		037C49501E75BB2E0050D84B /* CalendarCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarCollectionCell.m; sourceTree = "<group>"; };
+		037C49511E75BB2E0050D84B /* CalendarCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CalendarCollectionCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +121,7 @@
 				037C49111E7511520050D84B /* AppDelegate.m */,
 				037C49131E7511520050D84B /* ViewController.h */,
 				037C49141E7511520050D84B /* ViewController.m */,
+				037C49551E75BF1D0050D84B /* Calendar */,
 				037C49161E7511520050D84B /* Main.storyboard */,
 				037C491C1E7511520050D84B /* Assets.xcassets */,
 				037C491E1E7511520050D84B /* LaunchScreen.storyboard */,
@@ -141,6 +156,30 @@
 				037C49371E7511520050D84B /* Info.plist */,
 			);
 			path = ShiftWorkCalendarUITests;
+			sourceTree = "<group>";
+		};
+		037C49541E75BEE20050D84B /* CalendarCollection */ = {
+			isa = PBXGroup;
+			children = (
+				037C49431E7516F20050D84B /* CalendarCollectionView.h */,
+				037C49441E7516F20050D84B /* CalendarCollectionView.m */,
+				037C494F1E75BB2E0050D84B /* CalendarCollectionCell.h */,
+				037C49501E75BB2E0050D84B /* CalendarCollectionCell.m */,
+				037C49511E75BB2E0050D84B /* CalendarCollectionCell.xib */,
+			);
+			name = CalendarCollection;
+			sourceTree = "<group>";
+		};
+		037C49551E75BF1D0050D84B /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				037C49471E7516F20050D84B /* CalendarPageView.h */,
+				037C49481E7516F20050D84B /* CalendarPageView.m */,
+				037C49451E7516F20050D84B /* CalendarData.h */,
+				037C49461E7516F20050D84B /* CalendarData.m */,
+				037C49541E75BEE20050D84B /* CalendarCollection */,
+			);
+			name = Calendar;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -250,6 +289,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				037C49201E7511520050D84B /* LaunchScreen.storyboard in Resources */,
+				037C49531E75BB2E0050D84B /* CalendarCollectionCell.xib in Resources */,
 				037C491D1E7511520050D84B /* Assets.xcassets in Resources */,
 				037C49181E7511520050D84B /* Main.storyboard in Resources */,
 			);
@@ -277,7 +317,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				037C49151E7511520050D84B /* ViewController.m in Sources */,
+				037C49521E75BB2E0050D84B /* CalendarCollectionCell.m in Sources */,
 				037C491B1E7511520050D84B /* ShiftWorkCalendar.xcdatamodeld in Sources */,
+				037C49491E7516F20050D84B /* CalendarCollectionView.m in Sources */,
+				037C494A1E7516F20050D84B /* CalendarData.m in Sources */,
+				037C494B1E7516F20050D84B /* CalendarPageView.m in Sources */,
 				037C49121E7511520050D84B /* AppDelegate.m in Sources */,
 				037C490F1E7511520050D84B /* main.m in Sources */,
 			);
@@ -511,6 +555,7 @@
 				037C493C1E7511520050D84B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		037C493D1E7511520050D84B /* Build configuration list for PBXNativeTarget "ShiftWorkCalendarTests" */ = {
 			isa = XCConfigurationList;
@@ -519,6 +564,7 @@
 				037C493F1E7511520050D84B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		037C49401E7511520050D84B /* Build configuration list for PBXNativeTarget "ShiftWorkCalendarUITests" */ = {
 			isa = XCConfigurationList;
@@ -527,6 +573,7 @@
 				037C49421E7511520050D84B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

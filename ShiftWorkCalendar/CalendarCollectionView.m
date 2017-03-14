@@ -13,7 +13,14 @@
 
 @interface CalendarCollectionView ()
 {
+    CalendarCollectionCell *selectDayCell;
     BOOL isCurrenCalendar;
+    
+    NSNumber* todayYear ;
+    NSNumber* todayMonth;
+    NSNumber* todayDay;
+
+    
     NSNumber * curYear;
     NSNumber * curMonth;
     NSNumber * curDay;
@@ -59,6 +66,14 @@
 
 -(void)initDateDictionary
 {
+    
+    //今天的日期
+    NSDateComponents *todayDate = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:[NSDate date]];
+    todayYear = [NSNumber numberWithInteger:[todayDate year]];
+    todayMonth =[NSNumber numberWithInteger:[todayDate month]];
+    todayDay =[NSNumber numberWithInteger:[todayDate day]];
+
+    //當前選擇的Calendar
     curYear=[self.dateDictionary objectForKey:@"curYear"];
     curMonth=[self.dateDictionary objectForKey:@"curMonth"];
     curDay=[self.dateDictionary objectForKey:@"curDay"];
@@ -66,9 +81,6 @@
     weekTotalInMonth=[self.dateDictionary objectForKey:@"weekTotalInMonth"];
     weekOfMonthFirstDay=[self.dateDictionary objectForKey:@"weekOfMonthFirstDay"];
     
-    NSDateComponents *todayDate = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:[NSDate date]];
-    NSNumber* todayYear = [NSNumber numberWithInteger:[todayDate year]];
-    NSNumber* todayMonth =[NSNumber numberWithInteger:[todayDate month]];
     if (todayYear ==curYear &&todayMonth==curMonth)
     {
         isCurrenCalendar=YES;
@@ -162,7 +174,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
 
     
     static NSString *cellID = @"CalendarCollectionCell";
-    CalendarCollectionCell * cell=[collectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
+    CalendarCollectionCell * dayCell=[collectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
 
 
     NSInteger mothTotalDay=[daysTotalInMonth integerValue];
@@ -172,13 +184,16 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
     if (cellRow>=monthFirstDayOnWeek &&
         cellRow<mothTotalDay+monthFirstDayOnWeek)
     {
-        NSNumber * dateInt= [NSNumber numberWithInteger:cellRow-monthFirstDayOnWeek+1];
-        NSString *dateString=[[NSString alloc]initWithFormat:@"%@",dateInt];
-        cell.calendarDayLabel.text=dateString;
-        
-        if (isCurrenCalendar&&dateInt ==curDay)
+        NSNumber * dayInt= [NSNumber numberWithInteger:cellRow-monthFirstDayOnWeek+1];
+        NSString *dayString=[[NSString alloc]initWithFormat:@"%@",dayInt];
+        NSString *dateString=[[NSString alloc]initWithFormat:@"%@%@%@",curYear,curMonth,dayString];
+        NSInteger dateInt = [dateString intValue];
+
+        dayCell.calendarDayLabel.text=dayString;
+        [dayCell setTag:dateInt];
+        if (isCurrenCalendar&&dayInt ==curDay)
         {
-            cell.calendarDayLabel.textColor=[UIColor redColor];
+            dayCell.calendarDayLabel.textColor=[UIColor colorWithRed:242.0f/255.0f green:89.0f/255.0f blue:75.0f/255.0f alpha:1.0f];
 
         }
 
@@ -186,15 +201,49 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
     else
     {
         
+
         
         
-        cell.calendarDayLabel.text=@"";
+        dayCell.calendarDayLabel.text=@"";
     
     }
     
     
-    return cell;
+    
+    return dayCell;
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    NSString *todayString=[[NSString alloc]initWithFormat:@"%@%@%@",todayYear,todayMonth,todayDay];
+    NSInteger todayInt = [todayString intValue];
 
+    if (todayInt==selectDayCell.tag)
+    {
+        selectDayCell.backgroundColor=[UIColor whiteColor];
+        selectDayCell.calendarDayLabel.textColor=[UIColor colorWithRed:242.0f/255.0f green:89.0f/255.0f blue:75.0f/255.0f alpha:1.0f];
+    }
+    else
+    {
+        selectDayCell.backgroundColor=[UIColor whiteColor];
+        selectDayCell.calendarDayLabel.textColor=[UIColor colorWithRed:127.0f/255.0f green:127.0f/255.0f blue:127.0f/255.0f alpha:1.0f];
+    }
+    
+    UICollectionViewCell *cell =[collectionView cellForItemAtIndexPath:indexPath];
+    selectDayCell=(CalendarCollectionCell*)cell;
+    if (todayInt==selectDayCell.tag)
+    {
+        selectDayCell.backgroundColor=[UIColor colorWithRed:240.0f/255.0f green:240.0f/255.0f blue:240.0f/255.0f alpha:1.0f];
+        selectDayCell.calendarDayLabel.textColor=[UIColor colorWithRed:242.0f/255.0f green:89.0f/255.0f blue:75.0f/255.0f alpha:1.0f];
+    }
+    else
+    {
+        selectDayCell.backgroundColor=[UIColor colorWithRed:240.0f/255.0f green:240.0f/255.0f blue:240.0f/255.0f alpha:1.0f];
+        selectDayCell.calendarDayLabel.textColor=[UIColor whiteColor];
+
+    }
+
+
+}
 @end

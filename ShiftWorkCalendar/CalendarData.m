@@ -110,7 +110,7 @@
     [prevDateInfo setObject:prevYear  forKey:@"curYear"];
     [prevDateInfo setObject:prevMonth  forKey:@"curMonth"];
     [prevDateInfo setObject:prevDay  forKey:@"curDay"];
-    [prevDateInfo setObject:weekOfMonthFirstDay  forKey:@"weekOfMonthFirstDay"];
+    [prevDateInfo setObject:weekOfMonthFirstDay  forKey:@"curDay"];
     [prevDateInfo setObject:daysTotalInMonth  forKey:@"daysTotalInMonth"];
     [prevDateInfo setObject:weekTotalInMonth  forKey:@"weekTotalInMonth"];
 

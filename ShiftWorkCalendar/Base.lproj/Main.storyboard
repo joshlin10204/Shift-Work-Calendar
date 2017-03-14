@@ -23,46 +23,46 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VsP-cc-WG3">
-                                <rect key="frame" x="-1" y="64" width="376" height="39"/>
+                                <rect key="frame" x="-1" y="64" width="376" height="28"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="週日" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yti-4T-NQy">
-                                        <rect key="frame" x="0.0" y="0.0" width="54" height="39"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="54" height="28"/>
                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="17"/>
                                         <color key="textColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="週一" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AR2-Oc-YyY">
-                                        <rect key="frame" x="53.5" y="0.0" width="54" height="39"/>
+                                        <rect key="frame" x="53.5" y="0.0" width="54" height="28"/>
                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="17"/>
                                         <color key="textColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="週二" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pq3-Fo-sLn">
-                                        <rect key="frame" x="107.5" y="0.0" width="54" height="39"/>
+                                        <rect key="frame" x="107.5" y="0.0" width="54" height="28"/>
                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="17"/>
                                         <color key="textColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="週三" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v5q-pU-Avp">
-                                        <rect key="frame" x="161" y="0.0" width="54" height="39"/>
+                                        <rect key="frame" x="161" y="0.0" width="54" height="28"/>
                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="17"/>
                                         <color key="textColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="週四" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X20-cf-oPW">
-                                        <rect key="frame" x="215" y="0.0" width="54" height="39"/>
+                                        <rect key="frame" x="215" y="0.0" width="54" height="28"/>
                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="17"/>
                                         <color key="textColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="週五" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zdo-ZV-pdY">
-                                        <rect key="frame" x="268.5" y="0.0" width="54" height="39"/>
+                                        <rect key="frame" x="268.5" y="0.0" width="54" height="28"/>
                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="17"/>
                                         <color key="textColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="週六" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aMi-3R-NWY">
-                                        <rect key="frame" x="322.5" y="0.0" width="54" height="39"/>
+                                        <rect key="frame" x="322.5" y="0.0" width="54" height="28"/>
                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="17"/>
                                         <color key="textColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -105,7 +105,7 @@
                         <constraints>
                             <constraint firstItem="VsP-cc-WG3" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="9nZ-Rk-lxb"/>
                             <constraint firstItem="VsP-cc-WG3" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" constant="1" id="PMj-MS-dsQ"/>
-                            <constraint firstItem="VsP-cc-WG3" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="1/15" constant="-5.4000000000000057" id="QCZ-NM-T8f"/>
+                            <constraint firstItem="VsP-cc-WG3" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="5/100" constant="-5.4000000000000057" id="QCZ-NM-T8f"/>
                             <constraint firstItem="VsP-cc-WG3" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="i06-2R-VGH"/>
                         </constraints>
                     </view>

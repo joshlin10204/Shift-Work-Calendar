@@ -9,11 +9,14 @@
 #import "CalendarCollectionView.h"
 #import "ViewController.h"
 #import "CalendarCollectionCell.h"
+#import "CalendarData.h"
 
 
 @interface CalendarCollectionView ()
 {
     CalendarCollectionCell *selectDayCell;
+    NSMutableDictionary *nextDateInfo;
+    NSMutableDictionary *prevDateInfo;
     BOOL isCurrenCalendar;
     
     NSNumber* todayYear ;
@@ -63,10 +66,14 @@
 }
 
 
+#pragma mark - Date Data
 
 -(void)initDateDictionary
 {
-    
+    //取得下一個與前一個月的資料
+    nextDateInfo=[CalendarData getNextDateInfo:self.dateDictionary];
+    prevDateInfo=[CalendarData getPrevDateInfo:self.dateDictionary];
+
     //今天的日期
     NSDateComponents *todayDate = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:[NSDate date]];
     todayYear = [NSNumber numberWithInteger:[todayDate year]];
@@ -90,7 +97,8 @@
         isCurrenCalendar=NO;
     
     }
-
+    
+    
 
 }
 
@@ -198,52 +206,76 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
         }
 
     }
-    else
+    else if (cellRow<monthFirstDayOnWeek)
     {
-        
+        // Tag=0 代表 上/下個月 Cell
+        [dayCell setTag:0];
 
+        NSInteger prevDaysTotalInMonth=[[prevDateInfo objectForKey:@"daysTotalInMonth"]integerValue];
         
-        
-        dayCell.calendarDayLabel.text=@"";
-    
+        NSInteger prevDay=prevDaysTotalInMonth-(monthFirstDayOnWeek-cellRow-1);
+        NSString *dayString=[[NSString alloc]initWithFormat:@"%ld",(long)prevDay];
+        dayCell.calendarDayLabel.text=dayString;
+        dayCell.calendarDayLabel.textColor=[UIColor colorWithRed:230.0f/255.0f green:230.0f/255.0f blue:230.0f/255.0f alpha:1.0f];
+
     }
     
-    
-    
+    else
+    {
+        // Tag=0 代表 上/下個月 Cell
+        [dayCell setTag:0];
+
+        NSInteger nextDaysTotalInMonth=cellRow-(mothTotalDay+monthFirstDayOnWeek)+1;
+        NSString *dayString=[[NSString alloc]initWithFormat:@"%ld",(long)nextDaysTotalInMonth];
+        dayCell.calendarDayLabel.text=dayString;
+        dayCell.calendarDayLabel.textColor=[UIColor colorWithRed:230.0f/255.0f green:230.0f/255.0f blue:230.0f/255.0f alpha:1.0f];
+        
+    }
     return dayCell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+
+    UICollectionViewCell *cell =[collectionView cellForItemAtIndexPath:indexPath];
+
+    // Tag=0 代表 上/下個月 Cell
+    if (cell.tag !=0)
+    {
+        CalendarCollectionCell *curSelectDayCell=selectDayCell;
+        selectDayCell=(CalendarCollectionCell*)cell;
+        [self updateDayCell:curSelectDayCell isSelection:NO];
+        [self updateDayCell:selectDayCell isSelection:YES];
+    }
+
+
+
+
+}
+
+-(void)updateDayCell:(CalendarCollectionCell*)dayCell isSelection:(BOOL)isSelection
+{
     NSString *todayString=[[NSString alloc]initWithFormat:@"%@%@%@",todayYear,todayMonth,todayDay];
     NSInteger todayInt = [todayString intValue];
-
-    if (todayInt==selectDayCell.tag)
+    if (isSelection)
     {
-        selectDayCell.backgroundColor=[UIColor whiteColor];
-        selectDayCell.calendarDayLabel.textColor=[UIColor colorWithRed:242.0f/255.0f green:89.0f/255.0f blue:75.0f/255.0f alpha:1.0f];
+        if (todayInt!=dayCell.tag)
+        {
+            dayCell.calendarDayLabel.textColor=[UIColor whiteColor];
+        }
+
+        dayCell.backgroundColor=[UIColor colorWithRed:240.0f/255.0f green:240.0f/255.0f blue:240.0f/255.0f alpha:1.0f];
+        
     }
     else
     {
-        selectDayCell.backgroundColor=[UIColor whiteColor];
-        selectDayCell.calendarDayLabel.textColor=[UIColor colorWithRed:127.0f/255.0f green:127.0f/255.0f blue:127.0f/255.0f alpha:1.0f];
-    }
-    
-    UICollectionViewCell *cell =[collectionView cellForItemAtIndexPath:indexPath];
-    selectDayCell=(CalendarCollectionCell*)cell;
-    if (todayInt==selectDayCell.tag)
-    {
-        selectDayCell.backgroundColor=[UIColor colorWithRed:240.0f/255.0f green:240.0f/255.0f blue:240.0f/255.0f alpha:1.0f];
-        selectDayCell.calendarDayLabel.textColor=[UIColor colorWithRed:242.0f/255.0f green:89.0f/255.0f blue:75.0f/255.0f alpha:1.0f];
-    }
-    else
-    {
-        selectDayCell.backgroundColor=[UIColor colorWithRed:240.0f/255.0f green:240.0f/255.0f blue:240.0f/255.0f alpha:1.0f];
-        selectDayCell.calendarDayLabel.textColor=[UIColor whiteColor];
+        if (todayInt!=dayCell.tag)
+        {
+            dayCell.calendarDayLabel.textColor=[UIColor colorWithRed:127.0f/255.0f green:127.0f/255.0f blue:127.0f/255.0f alpha:1.0f];
+        }
 
+        dayCell.backgroundColor=[UIColor whiteColor];
+        
     }
-
-
 }
 @end

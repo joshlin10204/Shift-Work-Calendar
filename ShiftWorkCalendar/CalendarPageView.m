@@ -18,7 +18,7 @@
 
 }
 
-@property (strong, nonatomic) CalendarData *calendarData;
+//@property (strong, nonatomic) CalendarData *calendarData;
 
 @property (strong, nonatomic) NSArray *pageData;
 @property (strong, nonatomic) NSMutableDictionary *currentDateInfo;
@@ -43,8 +43,8 @@
 }
 -(void)initDateData
 {
-    self.calendarData=[[CalendarData alloc]init];
-    self.currentDateInfo=[self.calendarData getCurrentDateInfo];
+//    self.calendarData=[[CalendarData alloc]init];
+    self.currentDateInfo=[CalendarData getCurrentDateInfo];
 }
 
 -(void)initMonthCollectionView
@@ -88,7 +88,7 @@
     
     CalendarCollectionView * calendarCollectionView=(CalendarCollectionView *)viewController;
     
-    self.currentDateInfo=[self.calendarData getNextDateInfo:calendarCollectionView.dateDictionary];
+    self.currentDateInfo=[CalendarData getNextDateInfo:calendarCollectionView.dateDictionary];
     NSLog(@"前往 :%@",self.currentDateInfo);
 
     return [self currentCalendarViewDateInfo:self.currentDateInfo storyboard:viewController.storyboard];
@@ -98,7 +98,7 @@
 {
     CalendarCollectionView * calendarCollectionView=(CalendarCollectionView *)viewController;
 
-    self.currentDateInfo=[self.calendarData getPrevDateInfo:calendarCollectionView.dateDictionary];
+    self.currentDateInfo=[CalendarData getPrevDateInfo:calendarCollectionView.dateDictionary];
     NSLog(@"返回 :%@",self.currentDateInfo);
 
 

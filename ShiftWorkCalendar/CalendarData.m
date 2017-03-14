@@ -11,7 +11,7 @@
 @implementation CalendarData
 
 
--(NSMutableDictionary*)getCurrentDateInfo
++(NSMutableDictionary*)getCurrentDateInfo
 {
     NSCalendar *greCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     NSDateComponents *dateComponents = [greCalendar components:NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit | NSWeekCalendarUnit | NSWeekdayCalendarUnit | NSWeekOfMonthCalendarUnit | NSWeekOfYearCalendarUnit fromDate:[NSDate date]];
@@ -40,7 +40,7 @@
     return currentDateInfo;
 }
 
--(NSMutableDictionary*)getNextDateInfo:(NSMutableDictionary*)curDateInfo
++(NSMutableDictionary*)getNextDateInfo:(NSMutableDictionary*)curDateInfo
 {
     NSNumber * nextYear=[curDateInfo objectForKey:@"curYear"];
     NSNumber * nextMonth=[curDateInfo objectForKey:@"curMonth"];
@@ -77,7 +77,7 @@
 
     return nextDateInfo;
 }
--(NSMutableDictionary*)getPrevDateInfo:(NSMutableDictionary*)curDateInfo
++(NSMutableDictionary*)getPrevDateInfo:(NSMutableDictionary*)curDateInfo
 {
 
     NSNumber * prevYear=[curDateInfo objectForKey:@"curYear"];
@@ -110,7 +110,7 @@
     [prevDateInfo setObject:prevYear  forKey:@"curYear"];
     [prevDateInfo setObject:prevMonth  forKey:@"curMonth"];
     [prevDateInfo setObject:prevDay  forKey:@"curDay"];
-    [prevDateInfo setObject:weekOfMonthFirstDay  forKey:@"curDay"];
+    [prevDateInfo setObject:weekOfMonthFirstDay  forKey:@"weekOfMonthFirstDay"];
     [prevDateInfo setObject:daysTotalInMonth  forKey:@"daysTotalInMonth"];
     [prevDateInfo setObject:weekTotalInMonth  forKey:@"weekTotalInMonth"];
 
@@ -122,7 +122,7 @@
 
 
 //取得每個月的第一天是禮拜幾
-- (NSNumber*)getWeekOfMonthFirstDay:(NSNumber*)month inputYear:(NSNumber*)year
++(NSNumber*)getWeekOfMonthFirstDay:(NSNumber*)month inputYear:(NSNumber*)year
 {
     NSInteger monthInt = [month integerValue];
     NSInteger yearInt = [year integerValue];
@@ -142,7 +142,7 @@
     return curWeekOfMonthFirstDay;
     
 }
-- (NSNumber*)getWeekTotalInMonth:(NSNumber*)month inputYear:(NSNumber*)year
++(NSNumber*)getWeekTotalInMonth:(NSNumber*)month inputYear:(NSNumber*)year
 {
     NSInteger daysTotalInMonth=[[self getNumberOfDaysInMonth:month inputYear:year]integerValue];
     NSInteger monthInt = [month integerValue];
@@ -174,7 +174,7 @@
 
 
 //取得月份有幾天
-- (NSNumber*)getNumberOfDaysInMonth:(NSNumber*)month inputYear:(NSNumber*)year
++(NSNumber*)getNumberOfDaysInMonth:(NSNumber*)month inputYear:(NSNumber*)year
 
 {
     NSCalendar * calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];

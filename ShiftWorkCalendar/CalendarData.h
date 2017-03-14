@@ -11,9 +11,12 @@
 @interface CalendarData : NSObject
 
 
--(NSMutableDictionary*)getCurrentDateInfo;
--(NSMutableDictionary*)getNextDateInfo:(NSMutableDictionary*)curDateInfo;
--(NSMutableDictionary*)getPrevDateInfo:(NSMutableDictionary*)curDateInfo;
++(NSMutableDictionary*)getCurrentDateInfo;
++(NSMutableDictionary*)getNextDateInfo:(NSMutableDictionary*)curDateInfo;
++(NSMutableDictionary*)getPrevDateInfo:(NSMutableDictionary*)curDateInfo;
 
++(NSNumber*)getWeekOfMonthFirstDay:(NSNumber*)month inputYear:(NSNumber*)year;
++(NSNumber*)getWeekTotalInMonth:(NSNumber*)month inputYear:(NSNumber*)year;
++(NSNumber*)getNumberOfDaysInMonth:(NSNumber*)month inputYear:(NSNumber*)year;
 
 @end

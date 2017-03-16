@@ -44,7 +44,6 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    NSLog(@"2222 ： %f",self.view.frame.size.height);
     [self initNotification];
     [self initCalendarNavigationItem];
     [self initWeekTitleView];
@@ -129,7 +128,6 @@
 #pragma mark -  Shift Work
 -(void)initShiftWorkCollectionView
 {
-    NSLog(@"init時畫面高度 ： %f",self.view.frame.size.height);
 
     self.shiftWorkCollectionView=[ShiftWorkCollectionView initShiftWorkCollectionView:self.view];
     
@@ -140,12 +138,9 @@
 
 - (IBAction)onClickAddShiftWorkBtn:(id)sender
 {
-    NSLog(@"點選時畫面高度 ： %f",self.view.frame.size.height);
-    
-    
+        
     if (self.shiftWorkCollectionView.addShiftWorkStatus==AddShiftWorkStatusOff)
     {
-        NSLog(@"顯示1");
         [self.shiftWorkCollectionView showShiftWorkCollectionView:AddShiftWorkStatusOn];
     }
     else

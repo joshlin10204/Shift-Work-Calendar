@@ -6,19 +6,43 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="ShiftWorkCell" reuseIdentifier="ShiftWorkCell" id="gTV-IL-0wX" customClass="ShiftWorkCell">
-            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+            <rect key="frame" x="0.0" y="0.0" width="299" height="320"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                <rect key="frame" x="0.0" y="0.0" width="299" height="320"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fKn-nW-6sB">
+                        <rect key="frame" x="30" y="64" width="239" height="128"/>
+                        <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cvN-3K-LZg">
+                        <rect key="frame" x="-0.5" y="208" width="299" height="48"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
             </view>
-            <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="cvN-3K-LZg" firstAttribute="height" secondItem="gTV-IL-0wX" secondAttribute="height" multiplier="15/100" id="68J-aJ-z4P"/>
+                <constraint firstItem="fKn-nW-6sB" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="Qf9-ye-YCu"/>
+                <constraint firstItem="cvN-3K-LZg" firstAttribute="width" secondItem="gTV-IL-0wX" secondAttribute="width" id="YlO-rn-PDb"/>
+                <constraint firstItem="cvN-3K-LZg" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="de9-Ht-Eey"/>
+                <constraint firstItem="fKn-nW-6sB" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="bottom" multiplier="20/100" id="eA5-Dk-SuO"/>
+                <constraint firstItem="fKn-nW-6sB" firstAttribute="height" secondItem="gTV-IL-0wX" secondAttribute="height" multiplier="40/100" id="g5G-Gl-vuY"/>
+                <constraint firstItem="fKn-nW-6sB" firstAttribute="width" secondItem="gTV-IL-0wX" secondAttribute="width" multiplier="80/100" id="mtB-tF-whe"/>
+                <constraint firstItem="cvN-3K-LZg" firstAttribute="bottom" secondItem="gTV-IL-0wX" secondAttribute="bottom" multiplier="80/100" id="z4j-2l-vM7"/>
+            </constraints>
+            <size key="customSize" width="299" height="320"/>
+            <point key="canvasLocation" x="158.5" y="236"/>
         </collectionViewCell>
     </objects>
 </document>

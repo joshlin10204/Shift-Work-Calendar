@@ -19,6 +19,7 @@ typedef enum AddShiftWorkStatus
 @property (nonatomic, assign) AddShiftWorkStatus addShiftWorkStatus;
 
 +(ShiftWorkCollectionView*)initShiftWorkCollectionView:(UIView*)view;
++(NSMutableDictionary*)getSelectionShiftWorkType;
 -(void) showShiftWorkCollectionView:(AddShiftWorkStatus)status;
 
 @end

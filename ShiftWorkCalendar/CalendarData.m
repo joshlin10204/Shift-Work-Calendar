@@ -148,7 +148,6 @@
     NSInteger monthInt = [month integerValue];
     NSInteger yearInt = [year integerValue];
     
-    NSLog(@"####!!!!:%ld",(long)daysTotalInMonth);
     
     NSCalendar *greCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"GMT"];
@@ -164,7 +163,6 @@
     
     NSNumber * weekTotleInMonth=[NSNumber numberWithInteger:theComponents.weekOfMonth];
     
-    NSLog(@"##### :%@",weekTotleInMonth);
     return weekTotleInMonth;
 
 

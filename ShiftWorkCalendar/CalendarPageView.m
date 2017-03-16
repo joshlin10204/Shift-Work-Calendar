@@ -89,8 +89,7 @@
     CalendarCollectionView * calendarCollectionView=(CalendarCollectionView *)viewController;
     
     self.currentDateInfo=[CalendarData getNextDateInfo:calendarCollectionView.dateDictionary];
-    NSLog(@"前往 :%@",self.currentDateInfo);
-
+    
     return [self currentCalendarViewDateInfo:self.currentDateInfo storyboard:viewController.storyboard];
 }
 
@@ -99,7 +98,6 @@
     CalendarCollectionView * calendarCollectionView=(CalendarCollectionView *)viewController;
 
     self.currentDateInfo=[CalendarData getPrevDateInfo:calendarCollectionView.dateDictionary];
-    NSLog(@"返回 :%@",self.currentDateInfo);
 
 
     return [self currentCalendarViewDateInfo:self.currentDateInfo storyboard:viewController.storyboard];

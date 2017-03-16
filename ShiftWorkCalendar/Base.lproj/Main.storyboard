@@ -32,13 +32,13 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="週一" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AR2-Oc-YyY">
-                                        <rect key="frame" x="53.5" y="0.0" width="54" height="28"/>
+                                        <rect key="frame" x="54" y="0.0" width="54" height="28"/>
                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="17"/>
                                         <color key="textColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="週二" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pq3-Fo-sLn">
-                                        <rect key="frame" x="107.5" y="0.0" width="54" height="28"/>
+                                        <rect key="frame" x="108" y="0.0" width="54" height="28"/>
                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="17"/>
                                         <color key="textColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -56,13 +56,13 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="週五" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zdo-ZV-pdY">
-                                        <rect key="frame" x="268.5" y="0.0" width="54" height="28"/>
+                                        <rect key="frame" x="269" y="0.0" width="54" height="28"/>
                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="17"/>
                                         <color key="textColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="週六" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aMi-3R-NWY">
-                                        <rect key="frame" x="322.5" y="0.0" width="54" height="28"/>
+                                        <rect key="frame" x="323" y="0.0" width="54" height="28"/>
                                         <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="17"/>
                                         <color key="textColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -109,8 +109,16 @@
                             <constraint firstItem="VsP-cc-WG3" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="i06-2R-VGH"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="YrE-cS-kza"/>
+                    <navigationItem key="navigationItem" id="YrE-cS-kza">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Lga-Ht-UVt">
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="onClickAddShiftWorkBtn:" destination="BYZ-38-t0r" id="ocd-x2-6JZ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="addShiftWorkBtn" destination="Lga-Ht-UVt" id="cMW-AA-RQx"/>
                         <outlet property="calendarNavigationItem" destination="YrE-cS-kza" id="yXv-yO-ALO"/>
                         <outlet property="weekTitleView" destination="VsP-cc-WG3" id="0Av-EU-nuK"/>
                     </connections>
@@ -139,7 +147,7 @@
         <scene sceneID="ql6-M0-t4z">
             <objects>
                 <collectionViewController storyboardIdentifier="CalendarCollectionView" id="DJD-vt-8Vu" customClass="CalendarCollectionView" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="qgr-rm-hDD">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="qgr-rm-hDD">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -168,7 +176,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XRa-vZ-Hcn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="824.79999999999995" y="404.34782608695656"/>
+            <point key="canvasLocation" x="852" y="251"/>
         </scene>
     </scenes>
 </document>

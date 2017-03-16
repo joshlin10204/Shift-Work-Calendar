@@ -8,11 +8,16 @@
 
 #import "ViewController.h"
 #import "CalendarPageView.h"
+#import "ShiftWorkCollectionView.h"
+
 
 
 @interface ViewController ()
 @property (strong, nonatomic) CalendarPageView *calendarPageView;
+@property (strong, nonatomic) ShiftWorkCollectionView *shiftWorkCollectionView;
+
 @property (weak, nonatomic) IBOutlet UIView *weekTitleView;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *addShiftWorkBtn;
 
 @end
 
@@ -22,13 +27,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
 
-    [self initNotification];
-    [self initCalendarNavigationItem];
-    [self initWeekTitleView];
-    
-    [self initCalendarPageView];
-    [self initScheduleTableView];
-    
+
     
 }
 
@@ -39,8 +38,24 @@
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
 
 }
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    NSLog(@"2222 ： %f",self.view.frame.size.height);
+    [self initNotification];
+    [self initCalendarNavigationItem];
+    [self initWeekTitleView];
+    [self initCalendarPageView];
+    [self initScheduleTableView];
+    [self initShiftWorkCollectionView];
+
+    
+    
+}
+
 
 #pragma mark - NavigationBar 
 -(void)initCalendarNavigationItem
@@ -88,17 +103,18 @@
 
 #pragma mark - Calendar PageView
 
+
+
 -(void)initCalendarPageView
 {
 
-
     CGSize calendarPageSize;
-    calendarPageSize.height=self.view.frame.size.height*65/100;
+    calendarPageSize.height=self.view.frame.size.height*75/100;
     calendarPageSize.width=self.view.frame.size.width;
     
     CGPoint calendarPagePoint;
     calendarPagePoint.x=0;
-    calendarPagePoint.y=self.weekTitleView.frame.origin.y;
+    calendarPagePoint.y=self.weekTitleView.frame.size.height;
     self.calendarPageView=[[CalendarPageView alloc]init];
     self.calendarPageView.frame=CGRectMake(calendarPagePoint.x,
                                            calendarPagePoint.y,
@@ -108,7 +124,41 @@
     [self.view addSubview:self.calendarPageView];
 
 
+
 }
+#pragma mark -  Shift Work
+-(void)initShiftWorkCollectionView
+{
+    NSLog(@"init時畫面高度 ： %f",self.view.frame.size.height);
+
+    self.shiftWorkCollectionView=[ShiftWorkCollectionView initShiftWorkCollectionView:self.view];
+    
+    
+
+}
+#pragma mark -- Add Shift Work
+
+- (IBAction)onClickAddShiftWorkBtn:(id)sender
+{
+    NSLog(@"點選時畫面高度 ： %f",self.view.frame.size.height);
+    
+    
+    if (self.shiftWorkCollectionView.addShiftWorkStatus==AddShiftWorkStatusOff)
+    {
+        NSLog(@"顯示1");
+        [self.shiftWorkCollectionView showShiftWorkCollectionView:AddShiftWorkStatusOn];
+    }
+    else
+    {
+
+        [self.shiftWorkCollectionView showShiftWorkCollectionView:AddShiftWorkStatusOff];
+    }
+    
+    
+    
+}
+
+
 
 #pragma mark - Schedule TableView
 

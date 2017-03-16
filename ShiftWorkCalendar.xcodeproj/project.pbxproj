@@ -21,6 +21,10 @@
 		037C494B1E7516F20050D84B /* CalendarPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 037C49481E7516F20050D84B /* CalendarPageView.m */; };
 		037C49521E75BB2E0050D84B /* CalendarCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 037C49501E75BB2E0050D84B /* CalendarCollectionCell.m */; };
 		037C49531E75BB2E0050D84B /* CalendarCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 037C49511E75BB2E0050D84B /* CalendarCollectionCell.xib */; };
+		037C496F1E785CF70050D84B /* ShiftWorkCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 037C496D1E785CF70050D84B /* ShiftWorkCell.m */; };
+		037C49701E785CF70050D84B /* ShiftWorkCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 037C496E1E785CF70050D84B /* ShiftWorkCell.xib */; };
+		037C49741E78648A0050D84B /* ShiftWorkCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 037C49721E78648A0050D84B /* ShiftWorkCollectionView.m */; };
+		037C49751E78648A0050D84B /* ShiftWorkCollectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 037C49731E78648A0050D84B /* ShiftWorkCollectionView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +71,12 @@
 		037C494F1E75BB2E0050D84B /* CalendarCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarCollectionCell.h; sourceTree = "<group>"; };
 		037C49501E75BB2E0050D84B /* CalendarCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarCollectionCell.m; sourceTree = "<group>"; };
 		037C49511E75BB2E0050D84B /* CalendarCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CalendarCollectionCell.xib; sourceTree = "<group>"; };
+		037C496C1E785CF70050D84B /* ShiftWorkCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShiftWorkCell.h; sourceTree = "<group>"; };
+		037C496D1E785CF70050D84B /* ShiftWorkCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShiftWorkCell.m; sourceTree = "<group>"; };
+		037C496E1E785CF70050D84B /* ShiftWorkCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShiftWorkCell.xib; sourceTree = "<group>"; };
+		037C49711E78648A0050D84B /* ShiftWorkCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShiftWorkCollectionView.h; sourceTree = "<group>"; };
+		037C49721E78648A0050D84B /* ShiftWorkCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShiftWorkCollectionView.m; sourceTree = "<group>"; };
+		037C49731E78648A0050D84B /* ShiftWorkCollectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShiftWorkCollectionView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +132,7 @@
 				037C49131E7511520050D84B /* ViewController.h */,
 				037C49141E7511520050D84B /* ViewController.m */,
 				037C49551E75BF1D0050D84B /* Calendar */,
+				037C495E1E7841F50050D84B /* Shift Work */,
 				037C49161E7511520050D84B /* Main.storyboard */,
 				037C491C1E7511520050D84B /* Assets.xcassets */,
 				037C491E1E7511520050D84B /* LaunchScreen.storyboard */,
@@ -180,6 +191,19 @@
 				037C49541E75BEE20050D84B /* CalendarCollection */,
 			);
 			name = Calendar;
+			sourceTree = "<group>";
+		};
+		037C495E1E7841F50050D84B /* Shift Work */ = {
+			isa = PBXGroup;
+			children = (
+				037C49711E78648A0050D84B /* ShiftWorkCollectionView.h */,
+				037C49721E78648A0050D84B /* ShiftWorkCollectionView.m */,
+				037C49731E78648A0050D84B /* ShiftWorkCollectionView.xib */,
+				037C496C1E785CF70050D84B /* ShiftWorkCell.h */,
+				037C496D1E785CF70050D84B /* ShiftWorkCell.m */,
+				037C496E1E785CF70050D84B /* ShiftWorkCell.xib */,
+			);
+			name = "Shift Work";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -288,9 +312,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				037C49751E78648A0050D84B /* ShiftWorkCollectionView.xib in Resources */,
 				037C49201E7511520050D84B /* LaunchScreen.storyboard in Resources */,
 				037C49531E75BB2E0050D84B /* CalendarCollectionCell.xib in Resources */,
 				037C491D1E7511520050D84B /* Assets.xcassets in Resources */,
+				037C49701E785CF70050D84B /* ShiftWorkCell.xib in Resources */,
 				037C49181E7511520050D84B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -318,8 +344,10 @@
 			files = (
 				037C49151E7511520050D84B /* ViewController.m in Sources */,
 				037C49521E75BB2E0050D84B /* CalendarCollectionCell.m in Sources */,
+				037C49741E78648A0050D84B /* ShiftWorkCollectionView.m in Sources */,
 				037C491B1E7511520050D84B /* ShiftWorkCalendar.xcdatamodeld in Sources */,
 				037C49491E7516F20050D84B /* CalendarCollectionView.m in Sources */,
+				037C496F1E785CF70050D84B /* ShiftWorkCell.m in Sources */,
 				037C494A1E7516F20050D84B /* CalendarData.m in Sources */,
 				037C494B1E7516F20050D84B /* CalendarPageView.m in Sources */,
 				037C49121E7511520050D84B /* AppDelegate.m in Sources */,

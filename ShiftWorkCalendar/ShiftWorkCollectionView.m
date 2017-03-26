@@ -8,6 +8,8 @@
 
 #import "ShiftWorkCollectionView.h"
 #import "ShiftWorkCell.h"
+#import "CoreDataHandle.h"
+
 
 static ShiftWorkCollectionView *instance=nil;
 
@@ -15,6 +17,7 @@ static ShiftWorkCollectionView *instance=nil;
 {
     CGFloat cellLineSpacing;
     CGFloat cellInteritemSpacing;
+    NSMutableArray *shiftWorkTypeInfosArray;
 
 }
 
@@ -63,10 +66,10 @@ static ShiftWorkCollectionView *instance=nil;
         [[NSBundle mainBundle]loadNibNamed:@"ShiftWorkCollectionView" owner:self options:nil];
         self.shiftWorkCollectionBasicView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
         [self addSubview:self.shiftWorkCollectionBasicView];
-        
+        [self reloadShiftWorkTypeData];
+
         [self initShiftWorkCell];
         [self initShiftWorkCollectionView];
-
 
         
         
@@ -74,6 +77,25 @@ static ShiftWorkCollectionView *instance=nil;
     
     return self;
 }
+#pragma mark - Shift Work Type Data
+//- (NSMutableArray *)shiftWorkTypeInfosArray
+//{
+//    if (!shiftWorkTypeInfosArray) {
+//        
+//        shiftWorkTypeInfosArray = [NSMutableArray array];
+//    }
+//    
+//    return shiftWorkTypeInfosArray;
+//}
+//
+-(void)reloadShiftWorkTypeData
+{
+    shiftWorkTypeInfosArray = [[CoreDataHandle shareCoreDatabase] loadAllShiftWorkType];
+
+    [self.shiftWorkCollectionView reloadData];
+}
+
+
 #pragma mark - Show Shift Work View
 
 -(void) showShiftWorkCollectionView:(AddShiftWorkStatus)status;
@@ -107,6 +129,10 @@ static ShiftWorkCollectionView *instance=nil;
 {
     self.shiftWorkCollectionView.delegate=self;
     self.shiftWorkCollectionView.dataSource=self;
+    UILongPressGestureRecognizer * longPressGr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
+    longPressGr.minimumPressDuration = 1.0;
+    [self.shiftWorkCollectionView addGestureRecognizer:longPressGr];
+
 
 
 }
@@ -170,8 +196,19 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
+    if (shiftWorkTypeInfosArray.count==0)
+    {
+        return 1;
+
+    }
+    else
+    {
+        NSInteger rowCount=shiftWorkTypeInfosArray.count+1;
+        
+        return rowCount;
+    }
     
-    return 60;
+    
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -180,8 +217,90 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
     
     static NSString *cellID = @"ShiftWorkCell";
     ShiftWorkCell * shiftCell=[collectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
+
+    
+
+    
+    if (shiftWorkTypeInfosArray.count==0||indexPath.row==shiftWorkTypeInfosArray.count)
+    {
+        [shiftCell setTag:0];
+        UIColor *newTextColor=[UIColor colorWithRed:(100/255.0f) green:(100/255.0f) blue:(100/255.0f) alpha:1];
+        UIColor *newBgColor=[UIColor colorWithRed:(255/255.0f) green:(255/255.0f) blue:(255/255.0f) alpha:0];
+        [self setShiftCellWithLabel:shiftCell.titleNameLabel withTextString:@"New Shift" withTextColor:newTextColor withBgColor:newBgColor];
+        [self setShiftCellWithLabel:shiftCell.shortNameLabel withTextString:@"＋" withTextColor:newTextColor withBgColor:newBgColor];
+        
+    }
+    else
+    {
+        NSMutableDictionary* typeInfo=shiftWorkTypeInfosArray[indexPath.row];
+        UIColor *shiftColor=[typeInfo objectForKey:CoreData_ShiftTypeInfo_Color];
+        UIColor *clenerColor=[UIColor colorWithRed:(255/255.0f) green:(255/255.0f) blue:(255/255.0f) alpha:0];
+        NSString*titleString=[typeInfo objectForKey:CoreData_ShiftTypeInfo_TitleName];
+        NSString*shortString=[typeInfo objectForKey:CoreData_ShiftTypeInfo_ShortName];
+        NSInteger typeID=[[typeInfo objectForKey:CoreData_ShiftTypeInfo_TypeID]integerValue];
+        
+        [shiftCell setTag:typeID];
+        [self setShiftCellWithLabel:shiftCell.shortNameLabel
+                     withTextString:shortString
+                      withTextColor:[UIColor whiteColor]
+                        withBgColor:shiftColor];
+        [self setShiftCellWithLabel:shiftCell.titleNameLabel
+                     withTextString:titleString
+                      withTextColor:shiftColor
+                        withBgColor:clenerColor];
+
+    
+    }
+    
     
     return shiftCell;
+}
+
+-(void)setShiftCellWithLabel:(UILabel*)label
+              withTextString:(NSString*)textString
+               withTextColor:(UIColor*)textColor
+                 withBgColor:(UIColor*)bgColor
+{
+    label.text=textString;
+    label.textColor=textColor;
+    label.layer.backgroundColor=[bgColor CGColor];
+
+}
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    UICollectionViewCell *cell =[collectionView cellForItemAtIndexPath:indexPath];
+    NSMutableDictionary *info=[NSMutableDictionary new];
+    // Tag=0 New Shift Work Cell
+    if (cell.tag==0)
+    {
+        NSLog(@"***___%ld",(long)cell.tag);
+        [self.delegate selectShiftWorkCellWithCellType:ShiftWorkCellTypeAddShiftType withShiftTypeInfo:info];
+    }
+    else
+    {
+        NSLog(@"***___%ld",(long)cell.tag);
+        info=shiftWorkTypeInfosArray[indexPath.row];
+
+    }
+}
+-(void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer
+{
+       if (gestureRecognizer.state != UIGestureRecognizerStateEnded) {
+        return;
+    }
+    CGPoint point = [gestureRecognizer locationInView:self.shiftWorkCollectionView];
+    
+    NSIndexPath *indexPath = [self.shiftWorkCollectionView indexPathForItemAtPoint:point];
+    UICollectionViewCell *cell =[self.shiftWorkCollectionView cellForItemAtIndexPath:indexPath];
+    NSMutableDictionary *info=[NSMutableDictionary new];
+
+    if (cell.tag!=0)
+    {
+        info=shiftWorkTypeInfosArray[indexPath.row];
+        [self.delegate selectShiftWorkCellWithCellType:ShiftWorkCellTypeEditShiftType withShiftTypeInfo:info];
+    }
+
 }
 
 

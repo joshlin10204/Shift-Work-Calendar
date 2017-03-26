@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -110,6 +111,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="YrE-cS-kza">
+                        <barButtonItem key="backBarButtonItem" title="Calendar" id="ZTA-tS-ajF"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Lga-Ht-UVt">
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
@@ -121,11 +123,117 @@
                         <outlet property="addShiftWorkBtn" destination="Lga-Ht-UVt" id="cMW-AA-RQx"/>
                         <outlet property="calendarNavigationItem" destination="YrE-cS-kza" id="yXv-yO-ALO"/>
                         <outlet property="weekTitleView" destination="VsP-cc-WG3" id="0Av-EU-nuK"/>
+                        <segue destination="6Oo-cy-2iQ" kind="show" identifier="goNewShiftWorkType" id="CY6-MO-cr7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-90.400000000000006" y="405.24737631184411"/>
+        </scene>
+        <!--Shift-->
+        <scene sceneID="oNe-S9-lFX">
+            <objects>
+                <viewController storyboardIdentifier="ShiftWorkTypeSetViewController" id="6Oo-cy-2iQ" customClass="ShiftWorkTypeSetViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="tUT-Gx-PFA"/>
+                        <viewControllerLayoutGuide type="bottom" id="P3e-4e-eQl"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="MyB-AF-Yx0">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Shift Work Title" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1xg-9e-If2">
+                                <rect key="frame" x="0.0" y="64" width="375" height="66.5"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Shift Short Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8e2-1O-sCg">
+                                <rect key="frame" x="0.0" y="130.5" width="375" height="66.5"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kiS-mr-AAC">
+                                <rect key="frame" x="0.0" y="197" width="375" height="66.5"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9iw-NX-TSS">
+                                <rect key="frame" x="0.0" y="263.5" width="375" height="133.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="下午 02:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6F4-Ru-QLP">
+                                        <rect key="frame" x="244" y="26.5" width="112.5" height="80.5"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="上午 07:30" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fA1-MJ-4kO">
+                                        <rect key="frame" x="19" y="26.5" width="112.5" height="80.5"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ShiftWorkTypeSetView_TimePoint_Image" translatesAutoresizingMaskIntoConstraints="NO" id="zYN-Mb-UeW">
+                                        <rect key="frame" x="178" y="57.5" width="19" height="19"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="zYN-Mb-UeW" secondAttribute="height" multiplier="1:1" id="7jI-u2-iNa"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="6F4-Ru-QLP" firstAttribute="height" secondItem="fA1-MJ-4kO" secondAttribute="height" id="2XM-Mz-DCR"/>
+                                    <constraint firstItem="6F4-Ru-QLP" firstAttribute="centerY" secondItem="9iw-NX-TSS" secondAttribute="centerY" id="6Af-lI-fHK"/>
+                                    <constraint firstItem="6F4-Ru-QLP" firstAttribute="leading" secondItem="9iw-NX-TSS" secondAttribute="trailing" multiplier="65/100" id="KIv-EL-5zU"/>
+                                    <constraint firstItem="zYN-Mb-UeW" firstAttribute="centerY" secondItem="9iw-NX-TSS" secondAttribute="centerY" id="Lj1-8w-fkw"/>
+                                    <constraint firstItem="6F4-Ru-QLP" firstAttribute="width" secondItem="fA1-MJ-4kO" secondAttribute="width" id="MeY-kY-MRo"/>
+                                    <constraint firstItem="zYN-Mb-UeW" firstAttribute="width" secondItem="9iw-NX-TSS" secondAttribute="width" multiplier="5/100" id="WVZ-kF-jTv"/>
+                                    <constraint firstItem="fA1-MJ-4kO" firstAttribute="width" secondItem="9iw-NX-TSS" secondAttribute="width" multiplier="30/100" id="ali-Jd-NHG"/>
+                                    <constraint firstItem="fA1-MJ-4kO" firstAttribute="height" secondItem="9iw-NX-TSS" secondAttribute="height" multiplier="60/100" id="fg2-Fd-xnc"/>
+                                    <constraint firstItem="zYN-Mb-UeW" firstAttribute="centerX" secondItem="9iw-NX-TSS" secondAttribute="centerX" id="ihX-Cy-xti"/>
+                                    <constraint firstItem="fA1-MJ-4kO" firstAttribute="leading" secondItem="9iw-NX-TSS" secondAttribute="trailing" multiplier="5/100" id="mGa-i2-8TK"/>
+                                    <constraint firstItem="fA1-MJ-4kO" firstAttribute="centerY" secondItem="9iw-NX-TSS" secondAttribute="centerY" id="wQV-v4-pGY"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="9iw-NX-TSS" firstAttribute="centerX" secondItem="MyB-AF-Yx0" secondAttribute="centerX" id="2K4-gj-GPR"/>
+                            <constraint firstItem="1xg-9e-If2" firstAttribute="height" secondItem="MyB-AF-Yx0" secondAttribute="height" multiplier="10/100" id="92K-tg-EEY"/>
+                            <constraint firstItem="8e2-1O-sCg" firstAttribute="top" secondItem="1xg-9e-If2" secondAttribute="bottom" id="94C-3q-eXT"/>
+                            <constraint firstItem="9iw-NX-TSS" firstAttribute="width" secondItem="MyB-AF-Yx0" secondAttribute="width" id="D9n-4k-1WJ"/>
+                            <constraint firstItem="1xg-9e-If2" firstAttribute="width" secondItem="MyB-AF-Yx0" secondAttribute="width" id="DN4-C2-ZKf"/>
+                            <constraint firstItem="9iw-NX-TSS" firstAttribute="height" secondItem="MyB-AF-Yx0" secondAttribute="height" multiplier="2/10" id="Fwi-9x-EVl"/>
+                            <constraint firstItem="9iw-NX-TSS" firstAttribute="top" secondItem="kiS-mr-AAC" secondAttribute="bottom" id="GjM-6c-Bkd"/>
+                            <constraint firstItem="8e2-1O-sCg" firstAttribute="height" secondItem="1xg-9e-If2" secondAttribute="height" id="KBs-fP-ysr"/>
+                            <constraint firstItem="kiS-mr-AAC" firstAttribute="width" secondItem="MyB-AF-Yx0" secondAttribute="width" id="Loe-h1-Nfd"/>
+                            <constraint firstItem="kiS-mr-AAC" firstAttribute="centerX" secondItem="MyB-AF-Yx0" secondAttribute="centerX" id="Now-6D-VRR"/>
+                            <constraint firstItem="8e2-1O-sCg" firstAttribute="centerX" secondItem="MyB-AF-Yx0" secondAttribute="centerX" id="Yi5-eL-ZAM"/>
+                            <constraint firstItem="8e2-1O-sCg" firstAttribute="width" secondItem="1xg-9e-If2" secondAttribute="width" id="ZJK-Kn-gXx"/>
+                            <constraint firstItem="1xg-9e-If2" firstAttribute="top" secondItem="tUT-Gx-PFA" secondAttribute="bottom" id="oZV-lU-poO"/>
+                            <constraint firstItem="kiS-mr-AAC" firstAttribute="top" secondItem="8e2-1O-sCg" secondAttribute="bottom" id="vLI-fM-3PX"/>
+                            <constraint firstItem="kiS-mr-AAC" firstAttribute="height" secondItem="MyB-AF-Yx0" secondAttribute="height" multiplier="10/100" id="xLR-qG-gch"/>
+                            <constraint firstItem="1xg-9e-If2" firstAttribute="centerX" secondItem="MyB-AF-Yx0" secondAttribute="centerX" id="yGI-Ng-znq"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Shift" id="UKB-KJ-HNe">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="0BB-Ky-nCb">
+                            <connections>
+                                <action selector="onClickSaveBtn:" destination="6Oo-cy-2iQ" id="rXt-Rv-mpX"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="colorBasicView" destination="kiS-mr-AAC" id="yJf-Xg-TA3"/>
+                        <outlet property="shiftBeginTimeLabel" destination="fA1-MJ-4kO" id="1yy-kU-YXJ"/>
+                        <outlet property="shiftEndTimeLabel" destination="6F4-Ru-QLP" id="KZu-7N-ZCj"/>
+                        <outlet property="shiftTypeShortNameField" destination="8e2-1O-sCg" id="n5R-oz-ehM"/>
+                        <outlet property="shiftTypeTitleField" destination="1xg-9e-If2" id="Z45-nK-UPS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Cvu-Kl-nKu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="718" y="406"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="hIb-d9-lla">
@@ -176,7 +284,10 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XRa-vZ-Hcn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="852" y="251"/>
+            <point key="canvasLocation" x="2018" y="-15"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="ShiftWorkTypeSetView_TimePoint_Image" width="33" height="32"/>
+    </resources>
 </document>

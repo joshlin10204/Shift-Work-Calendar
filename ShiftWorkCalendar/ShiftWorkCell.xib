@@ -19,29 +19,35 @@
                 <rect key="frame" x="0.0" y="0.0" width="299" height="320"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fKn-nW-6sB">
-                        <rect key="frame" x="30" y="64" width="239" height="128"/>
-                        <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                    </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cvN-3K-LZg">
-                        <rect key="frame" x="-0.5" y="208" width="299" height="48"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tiltle Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="5" translatesAutoresizingMaskIntoConstraints="NO" id="cvN-3K-LZg">
+                        <rect key="frame" x="14.5" y="224" width="269" height="48"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
                         <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Short Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="6eS-Cg-cuH">
+                        <rect key="frame" x="14.5" y="64" width="269" height="128"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
             </view>
             <constraints>
+                <constraint firstItem="6eS-Cg-cuH" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="2xU-yc-NKV"/>
+                <constraint firstItem="6eS-Cg-cuH" firstAttribute="height" secondItem="gTV-IL-0wX" secondAttribute="height" multiplier="40/100" id="3YK-7g-WEB"/>
                 <constraint firstItem="cvN-3K-LZg" firstAttribute="height" secondItem="gTV-IL-0wX" secondAttribute="height" multiplier="15/100" id="68J-aJ-z4P"/>
-                <constraint firstItem="fKn-nW-6sB" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="Qf9-ye-YCu"/>
-                <constraint firstItem="cvN-3K-LZg" firstAttribute="width" secondItem="gTV-IL-0wX" secondAttribute="width" id="YlO-rn-PDb"/>
+                <constraint firstItem="cvN-3K-LZg" firstAttribute="width" secondItem="gTV-IL-0wX" secondAttribute="width" multiplier="90/100" id="YlO-rn-PDb"/>
+                <constraint firstItem="6eS-Cg-cuH" firstAttribute="width" secondItem="gTV-IL-0wX" secondAttribute="width" multiplier="90/100" id="ZAf-1g-gU1"/>
                 <constraint firstItem="cvN-3K-LZg" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="de9-Ht-Eey"/>
-                <constraint firstItem="fKn-nW-6sB" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="bottom" multiplier="20/100" id="eA5-Dk-SuO"/>
-                <constraint firstItem="fKn-nW-6sB" firstAttribute="height" secondItem="gTV-IL-0wX" secondAttribute="height" multiplier="40/100" id="g5G-Gl-vuY"/>
-                <constraint firstItem="fKn-nW-6sB" firstAttribute="width" secondItem="gTV-IL-0wX" secondAttribute="width" multiplier="80/100" id="mtB-tF-whe"/>
-                <constraint firstItem="cvN-3K-LZg" firstAttribute="bottom" secondItem="gTV-IL-0wX" secondAttribute="bottom" multiplier="80/100" id="z4j-2l-vM7"/>
+                <constraint firstItem="6eS-Cg-cuH" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="bottom" multiplier="20/100" id="vp7-ty-tB2"/>
+                <constraint firstItem="cvN-3K-LZg" firstAttribute="bottom" secondItem="gTV-IL-0wX" secondAttribute="bottom" multiplier="85/100" id="z4j-2l-vM7"/>
             </constraints>
             <size key="customSize" width="299" height="320"/>
+            <connections>
+                <outlet property="shortNameLabel" destination="6eS-Cg-cuH" id="Ygz-WY-MnR"/>
+                <outlet property="titleNameLabel" destination="cvN-3K-LZg" id="D3F-Ui-a8D"/>
+            </connections>
             <point key="canvasLocation" x="158.5" y="236"/>
         </collectionViewCell>
     </objects>

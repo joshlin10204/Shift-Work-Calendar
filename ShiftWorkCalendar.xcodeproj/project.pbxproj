@@ -25,6 +25,17 @@
 		037C49701E785CF70050D84B /* ShiftWorkCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 037C496E1E785CF70050D84B /* ShiftWorkCell.xib */; };
 		037C49741E78648A0050D84B /* ShiftWorkCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 037C49721E78648A0050D84B /* ShiftWorkCollectionView.m */; };
 		037C49751E78648A0050D84B /* ShiftWorkCollectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 037C49731E78648A0050D84B /* ShiftWorkCollectionView.xib */; };
+		037C4A8A1E7DD0C10050D84B /* CoreDataHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = 037C4A891E7DD0C10050D84B /* CoreDataHandle.m */; };
+		037C4A9C1E7EA82C0050D84B /* ShiftWorkTypeSetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 037C4A9B1E7EA82C0050D84B /* ShiftWorkTypeSetViewController.m */; };
+		037C4B3B1E81A6A50050D84B /* ColorChipsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 037C4B341E81A6A50050D84B /* ColorChipsView.m */; };
+		037C4B3C1E81A6A50050D84B /* ColorChipsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 037C4B351E81A6A50050D84B /* ColorChipsView.xib */; };
+		037C4B3D1E81A6A50050D84B /* ColorChipsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 037C4B371E81A6A50050D84B /* ColorChipsCell.m */; };
+		037C4B3E1E81A6A50050D84B /* ColorChipsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 037C4B381E81A6A50050D84B /* ColorChipsCell.xib */; };
+		037C4B3F1E81A6A50050D84B /* ColorChipsData.m in Sources */ = {isa = PBXBuildFile; fileRef = 037C4B3A1E81A6A50050D84B /* ColorChipsData.m */; };
+		037C4B891E8442720050D84B /* TimePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 037C4B871E8442720050D84B /* TimePickerView.m */; };
+		037C4B8A1E8442720050D84B /* TimePickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 037C4B881E8442720050D84B /* TimePickerView.xib */; };
+		037C4B901E8569E50050D84B /* ShiftWorkTypeCoreData+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 037C4B8D1E8569E50050D84B /* ShiftWorkTypeCoreData+CoreDataClass.m */; };
+		037C4B911E8569E50050D84B /* ShiftWorkTypeCoreData+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 037C4B8F1E8569E50050D84B /* ShiftWorkTypeCoreData+CoreDataProperties.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +88,25 @@
 		037C49711E78648A0050D84B /* ShiftWorkCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShiftWorkCollectionView.h; sourceTree = "<group>"; };
 		037C49721E78648A0050D84B /* ShiftWorkCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShiftWorkCollectionView.m; sourceTree = "<group>"; };
 		037C49731E78648A0050D84B /* ShiftWorkCollectionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShiftWorkCollectionView.xib; sourceTree = "<group>"; };
+		037C4A881E7DD0C10050D84B /* CoreDataHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataHandle.h; sourceTree = "<group>"; };
+		037C4A891E7DD0C10050D84B /* CoreDataHandle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataHandle.m; sourceTree = "<group>"; };
+		037C4A9A1E7EA82C0050D84B /* ShiftWorkTypeSetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShiftWorkTypeSetViewController.h; sourceTree = "<group>"; };
+		037C4A9B1E7EA82C0050D84B /* ShiftWorkTypeSetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShiftWorkTypeSetViewController.m; sourceTree = "<group>"; };
+		037C4B331E81A6A50050D84B /* ColorChipsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorChipsView.h; sourceTree = "<group>"; };
+		037C4B341E81A6A50050D84B /* ColorChipsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorChipsView.m; sourceTree = "<group>"; };
+		037C4B351E81A6A50050D84B /* ColorChipsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ColorChipsView.xib; sourceTree = "<group>"; };
+		037C4B361E81A6A50050D84B /* ColorChipsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorChipsCell.h; sourceTree = "<group>"; };
+		037C4B371E81A6A50050D84B /* ColorChipsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorChipsCell.m; sourceTree = "<group>"; };
+		037C4B381E81A6A50050D84B /* ColorChipsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ColorChipsCell.xib; sourceTree = "<group>"; };
+		037C4B391E81A6A50050D84B /* ColorChipsData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorChipsData.h; sourceTree = "<group>"; };
+		037C4B3A1E81A6A50050D84B /* ColorChipsData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorChipsData.m; sourceTree = "<group>"; };
+		037C4B861E8442720050D84B /* TimePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimePickerView.h; sourceTree = "<group>"; };
+		037C4B871E8442720050D84B /* TimePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimePickerView.m; sourceTree = "<group>"; };
+		037C4B881E8442720050D84B /* TimePickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimePickerView.xib; sourceTree = "<group>"; };
+		037C4B8C1E8569E50050D84B /* ShiftWorkTypeCoreData+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ShiftWorkTypeCoreData+CoreDataClass.h"; path = "../ShiftWorkTypeCoreData+CoreDataClass.h"; sourceTree = "<group>"; };
+		037C4B8D1E8569E50050D84B /* ShiftWorkTypeCoreData+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "ShiftWorkTypeCoreData+CoreDataClass.m"; path = "../ShiftWorkTypeCoreData+CoreDataClass.m"; sourceTree = "<group>"; };
+		037C4B8E1E8569E50050D84B /* ShiftWorkTypeCoreData+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ShiftWorkTypeCoreData+CoreDataProperties.h"; path = "../ShiftWorkTypeCoreData+CoreDataProperties.h"; sourceTree = "<group>"; };
+		037C4B8F1E8569E50050D84B /* ShiftWorkTypeCoreData+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "ShiftWorkTypeCoreData+CoreDataProperties.m"; path = "../ShiftWorkTypeCoreData+CoreDataProperties.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,13 +161,13 @@
 				037C49111E7511520050D84B /* AppDelegate.m */,
 				037C49131E7511520050D84B /* ViewController.h */,
 				037C49141E7511520050D84B /* ViewController.m */,
+				037C4A871E7DD0300050D84B /* CoreData */,
 				037C49551E75BF1D0050D84B /* Calendar */,
 				037C495E1E7841F50050D84B /* Shift Work */,
 				037C49161E7511520050D84B /* Main.storyboard */,
 				037C491C1E7511520050D84B /* Assets.xcassets */,
 				037C491E1E7511520050D84B /* LaunchScreen.storyboard */,
 				037C49211E7511520050D84B /* Info.plist */,
-				037C49191E7511520050D84B /* ShiftWorkCalendar.xcdatamodeld */,
 				037C490D1E7511520050D84B /* Supporting Files */,
 			);
 			path = ShiftWorkCalendar;
@@ -201,9 +231,52 @@
 				037C49731E78648A0050D84B /* ShiftWorkCollectionView.xib */,
 				037C496C1E785CF70050D84B /* ShiftWorkCell.h */,
 				037C496D1E785CF70050D84B /* ShiftWorkCell.m */,
-				037C496E1E785CF70050D84B /* ShiftWorkCell.xib */,
+				037C4B8B1E844C6B0050D84B /* Shift Work Set View */,
 			);
 			name = "Shift Work";
+			sourceTree = "<group>";
+		};
+		037C4A871E7DD0300050D84B /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				037C49191E7511520050D84B /* ShiftWorkCalendar.xcdatamodeld */,
+				037C4A881E7DD0C10050D84B /* CoreDataHandle.h */,
+				037C4A891E7DD0C10050D84B /* CoreDataHandle.m */,
+				037C4B8C1E8569E50050D84B /* ShiftWorkTypeCoreData+CoreDataClass.h */,
+				037C4B8D1E8569E50050D84B /* ShiftWorkTypeCoreData+CoreDataClass.m */,
+				037C4B8E1E8569E50050D84B /* ShiftWorkTypeCoreData+CoreDataProperties.h */,
+				037C4B8F1E8569E50050D84B /* ShiftWorkTypeCoreData+CoreDataProperties.m */,
+			);
+			name = CoreData;
+			sourceTree = "<group>";
+		};
+		037C4B401E81A6AB0050D84B /* ColorChips */ = {
+			isa = PBXGroup;
+			children = (
+				037C4B331E81A6A50050D84B /* ColorChipsView.h */,
+				037C4B341E81A6A50050D84B /* ColorChipsView.m */,
+				037C4B351E81A6A50050D84B /* ColorChipsView.xib */,
+				037C4B361E81A6A50050D84B /* ColorChipsCell.h */,
+				037C4B371E81A6A50050D84B /* ColorChipsCell.m */,
+				037C4B381E81A6A50050D84B /* ColorChipsCell.xib */,
+				037C4B391E81A6A50050D84B /* ColorChipsData.h */,
+				037C4B3A1E81A6A50050D84B /* ColorChipsData.m */,
+			);
+			name = ColorChips;
+			sourceTree = "<group>";
+		};
+		037C4B8B1E844C6B0050D84B /* Shift Work Set View */ = {
+			isa = PBXGroup;
+			children = (
+				037C4A9A1E7EA82C0050D84B /* ShiftWorkTypeSetViewController.h */,
+				037C4A9B1E7EA82C0050D84B /* ShiftWorkTypeSetViewController.m */,
+				037C496E1E785CF70050D84B /* ShiftWorkCell.xib */,
+				037C4B861E8442720050D84B /* TimePickerView.h */,
+				037C4B871E8442720050D84B /* TimePickerView.m */,
+				037C4B881E8442720050D84B /* TimePickerView.xib */,
+				037C4B401E81A6AB0050D84B /* ColorChips */,
+			);
+			name = "Shift Work Set View";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -313,11 +386,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				037C49751E78648A0050D84B /* ShiftWorkCollectionView.xib in Resources */,
+				037C4B3E1E81A6A50050D84B /* ColorChipsCell.xib in Resources */,
 				037C49201E7511520050D84B /* LaunchScreen.storyboard in Resources */,
 				037C49531E75BB2E0050D84B /* CalendarCollectionCell.xib in Resources */,
 				037C491D1E7511520050D84B /* Assets.xcassets in Resources */,
+				037C4B8A1E8442720050D84B /* TimePickerView.xib in Resources */,
 				037C49701E785CF70050D84B /* ShiftWorkCell.xib in Resources */,
 				037C49181E7511520050D84B /* Main.storyboard in Resources */,
+				037C4B3C1E81A6A50050D84B /* ColorChipsView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,14 +418,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				037C4B3B1E81A6A50050D84B /* ColorChipsView.m in Sources */,
+				037C4B3F1E81A6A50050D84B /* ColorChipsData.m in Sources */,
+				037C4B901E8569E50050D84B /* ShiftWorkTypeCoreData+CoreDataClass.m in Sources */,
+				037C4B3D1E81A6A50050D84B /* ColorChipsCell.m in Sources */,
 				037C49151E7511520050D84B /* ViewController.m in Sources */,
 				037C49521E75BB2E0050D84B /* CalendarCollectionCell.m in Sources */,
+				037C4A8A1E7DD0C10050D84B /* CoreDataHandle.m in Sources */,
 				037C49741E78648A0050D84B /* ShiftWorkCollectionView.m in Sources */,
+				037C4B911E8569E50050D84B /* ShiftWorkTypeCoreData+CoreDataProperties.m in Sources */,
 				037C491B1E7511520050D84B /* ShiftWorkCalendar.xcdatamodeld in Sources */,
 				037C49491E7516F20050D84B /* CalendarCollectionView.m in Sources */,
 				037C496F1E785CF70050D84B /* ShiftWorkCell.m in Sources */,
 				037C494A1E7516F20050D84B /* CalendarData.m in Sources */,
+				037C4A9C1E7EA82C0050D84B /* ShiftWorkTypeSetViewController.m in Sources */,
 				037C494B1E7516F20050D84B /* CalendarPageView.m in Sources */,
+				037C4B891E8442720050D84B /* TimePickerView.m in Sources */,
 				037C49121E7511520050D84B /* AppDelegate.m in Sources */,
 				037C490F1E7511520050D84B /* main.m in Sources */,
 			);

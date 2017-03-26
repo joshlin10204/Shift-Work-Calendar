@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C68" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TimePickerView">
+            <connections>
+                <outlet property="timePickerBasicView" destination="i5M-Pr-FkT" id="Wqv-QJ-5h9"/>
+                <outlet property="timePickerView" destination="eBt-dN-WOz" id="zuB-XE-Pw3"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="eBt-dN-WOz">
+                    <rect key="frame" x="0.0" y="200" width="375" height="467"/>
+                    <date key="date" timeIntervalSinceReferenceDate="511984272.42555898">
+                        <!--2017-03-23 17:51:12 +0000-->
+                    </date>
+                    <locale key="locale" localeIdentifier="zh_TW"/>
+                    <connections>
+                        <action selector="timePickerViewChange:" destination="-1" eventType="valueChanged" id="0HX-Lg-8Fa"/>
+                    </connections>
+                </datePicker>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sUd-PZ-laQ">
+                    <rect key="frame" x="-25" y="0.0" width="400" height="200"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="sUd-PZ-laQ" secondAttribute="height" multiplier="2:1" id="9bm-in-dQ9"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <state key="normal" title="Done"/>
+                    <connections>
+                        <action selector="onClickDoneBtn:" destination="-1" eventType="touchUpInside" id="Ybv-Pn-MCC"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="eBt-dN-WOz" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="70/100" id="24T-YG-Teb"/>
+                <constraint firstItem="sUd-PZ-laQ" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="30/100" id="3TK-Tk-3iD"/>
+                <constraint firstItem="sUd-PZ-laQ" firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="trailing" id="SZw-zC-elu"/>
+                <constraint firstItem="eBt-dN-WOz" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="U5E-Ig-thg"/>
+                <constraint firstItem="eBt-dN-WOz" firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" id="aLf-AS-xm1"/>
+                <constraint firstItem="sUd-PZ-laQ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="frZ-dC-ZnF"/>
+                <constraint firstItem="eBt-dN-WOz" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="paN-Ah-4uo"/>
+            </constraints>
+            <point key="canvasLocation" x="76" y="100"/>
+        </view>
+    </objects>
+</document>

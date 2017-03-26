@@ -13,6 +13,9 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    
+    self.shortNameLabel.layer.cornerRadius=10;
+
 }
 
 @end

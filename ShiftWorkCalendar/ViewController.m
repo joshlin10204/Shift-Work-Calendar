@@ -9,13 +9,13 @@
 #import "ViewController.h"
 #import "CalendarPageView.h"
 #import "ShiftWorkCollectionView.h"
+#import "ShiftWorkTypeSetViewController.h"
 
 
 
-@interface ViewController ()
+@interface ViewController ()<ShiftWorkCollectionViewDelegate>
 @property (strong, nonatomic) CalendarPageView *calendarPageView;
 @property (strong, nonatomic) ShiftWorkCollectionView *shiftWorkCollectionView;
-
 @property (weak, nonatomic) IBOutlet UIView *weekTitleView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *addShiftWorkBtn;
 
@@ -38,12 +38,14 @@
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    NSLog(@"----viewWillAppear-----");
     
 
 }
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
+    NSLog(@"----viewDidAppear-----");
+
     [self initNotification];
     [self initCalendarNavigationItem];
     [self initWeekTitleView];
@@ -130,6 +132,8 @@
 {
 
     self.shiftWorkCollectionView=[ShiftWorkCollectionView initShiftWorkCollectionView:self.view];
+    self.shiftWorkCollectionView.delegate=self;
+    [self.shiftWorkCollectionView reloadShiftWorkTypeData];
     
     
 
@@ -152,7 +156,23 @@
     
     
 }
+-(void)selectShiftWorkCellWithCellType:(ShiftWorkCellType)type withShiftTypeInfo:(NSMutableDictionary *)info
+{
 
+    if (type==ShiftWorkCellTypeAddShiftType||type==ShiftWorkCellTypeEditShiftType)
+    {
+        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        
+        ShiftWorkTypeSetViewController* addShiftWorkTypeView = [storyboard instantiateViewControllerWithIdentifier:@"ShiftWorkTypeSetViewController"];
+        addShiftWorkTypeView.shiftWorkTypeInfo=info;
+        [self.navigationController pushViewController:addShiftWorkTypeView animated:YES];
+        
+
+    }
+    
+
+
+}
 
 
 #pragma mark - Schedule TableView

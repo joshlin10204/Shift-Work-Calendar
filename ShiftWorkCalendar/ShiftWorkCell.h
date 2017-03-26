@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface ShiftWorkCell : UICollectionViewCell
+@property (weak, nonatomic) IBOutlet UILabel *titleNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *shortNameLabel;
 
 @end

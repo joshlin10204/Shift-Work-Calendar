@@ -10,6 +10,8 @@
 #import "ViewController.h"
 #import "CalendarCollectionCell.h"
 #import "CalendarData.h"
+#import "CoreDataHandle.h"
+
 
 
 @interface CalendarCollectionView ()
@@ -34,6 +36,10 @@
     CGFloat cellInteritemSpacing;
 
     
+    BOOL isAddShiftWork;
+    NSMutableDictionary*shiftTypeInfo;
+
+    
     
 
 }
@@ -46,8 +52,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     isCurrenCalendar=NO;
+    isAddShiftWork=NO;
     [self initDateDictionary];
     [self initCollectionViewCell];
+    [self initNotification];
     
 }
 
@@ -202,6 +210,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
         if (isCurrenCalendar&&dayInt ==curDay)
         {
             dayCell.calendarDayLabel.textColor=[UIColor colorWithRed:242.0f/255.0f green:89.0f/255.0f blue:75.0f/255.0f alpha:1.0f];
+            dayCell.calendarDayLabel.backgroundColor=[UIColor colorWithRed:242.0f/255.0f green:89.0f/255.0f blue:75.0f/255.0f alpha:0.3f];
 
         }
 
@@ -238,15 +247,26 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
 
     UICollectionViewCell *cell =[collectionView cellForItemAtIndexPath:indexPath];
-
-    // Tag=0 代表 上/下個月 Cell
-    if (cell.tag !=0)
+    CalendarCollectionCell *curSelectDayCell=selectDayCell;
+    selectDayCell=(CalendarCollectionCell*)cell;
+    if (isAddShiftWork)
     {
-        CalendarCollectionCell *curSelectDayCell=selectDayCell;
-        selectDayCell=(CalendarCollectionCell*)cell;
-        [self updateDayCell:curSelectDayCell isSelection:NO];
-        [self updateDayCell:selectDayCell isSelection:YES];
+        // Tag=0 代表 上/下個月 Cell
+        if (cell.tag !=0)
+        {
+            [self setAddShiftWorkInSelectCell:selectDayCell withShiftTypeInfo:shiftTypeInfo];
+        }
     }
+    else
+    {
+        // Tag=0 代表 上/下個月 Cell
+        if (cell.tag !=0)
+        {
+            [self updateDayCell:curSelectDayCell isSelection:NO];
+            [self updateDayCell:selectDayCell isSelection:YES];
+        }
+    }
+
 
 
 
@@ -259,23 +279,69 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
     NSInteger todayInt = [todayString intValue];
     if (isSelection)
     {
-        if (todayInt!=dayCell.tag)
+        if (todayInt==dayCell.tag)
         {
-            dayCell.calendarDayLabel.textColor=[UIColor whiteColor];
+            dayCell.backgroundColor=[UIColor colorWithRed:242.0f/255.0f green:89.0f/255.0f blue:75.0f/255.0f alpha:0.1f];
         }
-
-        dayCell.backgroundColor=[UIColor colorWithRed:240.0f/255.0f green:240.0f/255.0f blue:240.0f/255.0f alpha:1.0f];
+        else
+        {
+            dayCell.backgroundColor=[UIColor colorWithRed:240.0f/255.0f green:240.0f/255.0f blue:240.0f/255.0f alpha:1.0f];
+        }
         
     }
     else
     {
-        if (todayInt!=dayCell.tag)
-        {
-            dayCell.calendarDayLabel.textColor=[UIColor colorWithRed:127.0f/255.0f green:127.0f/255.0f blue:127.0f/255.0f alpha:1.0f];
-        }
+
 
         dayCell.backgroundColor=[UIColor whiteColor];
         
     }
 }
+#pragma mark -- Add Shift Work in Cell
+
+-(void)initNotification
+{
+    [[NSNotificationCenter defaultCenter]addObserver:self
+                                            selector:@selector(onAddShiftWorkNotification:)
+                                                name:ShiftWorkType_OnAdd_Notification
+                                              object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self
+                                            selector:@selector(offAddShiftWorkNotification)
+                                                name:ShiftWorkType_OffAdd_Notification
+                                              object:nil];
+
+    
+}
+-(void)onAddShiftWorkNotification:(NSNotification *)notification
+{
+    NSLog(@"收到Notification");
+    isAddShiftWork=YES;
+    shiftTypeInfo=[notification object];
+
+}
+-(void)offAddShiftWorkNotification
+{
+    isAddShiftWork=NO;
+
+
+}
+-(void)setAddShiftWorkInSelectCell:(CalendarCollectionCell*)cell
+                 withShiftTypeInfo:(NSMutableDictionary*)typeInfo
+{
+    NSLog(@"選擇的日期:%ld",(long)cell.tag);
+    NSString *shiftShortName=[typeInfo objectForKey:CoreData_ShiftTypeInfo_ShortName];
+    UIColor *shiftColor=[typeInfo objectForKey:CoreData_ShiftTypeInfo_Color];
+    
+    cell.shiftShortNameLabel.text=shiftShortName;
+    cell.shiftShortNameLabel.layer.backgroundColor=[shiftColor CGColor];
+    
+}
+-(void)setCancelShiftWorkInSelectCell:(CalendarCollectionCell*)cell
+                    withShiftTypeInfo:(NSMutableDictionary*)typeInfo
+{
+    cell.shiftShortNameLabel.text=@"";
+    cell.shiftShortNameLabel.layer.backgroundColor=[[UIColor clearColor] CGColor];
+
+}
+
 @end

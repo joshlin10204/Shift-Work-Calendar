@@ -10,5 +10,6 @@
 
 @interface CalendarCollectionCell : UICollectionViewCell
 @property (weak, nonatomic) IBOutlet UILabel *calendarDayLabel;
+@property (weak, nonatomic) IBOutlet UILabel *shiftShortNameLabel;
 
 @end

@@ -107,12 +107,14 @@ static ShiftWorkCollectionView *instance=nil;
     [UIView setAnimationDuration:1.0];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
 
+
     CGRect frame=self.frame;
     
     if (status==AddShiftWorkStatusOn)
     {
         self.addShiftWorkStatus=AddShiftWorkStatusOn;
         frame.origin.y =frame.size.height*4;
+        [self collectionView:self.shiftWorkCollectionView didSelectItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
         
     }
     else
@@ -277,7 +279,6 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     [self onCancelSelectCellAnimation:selectShiftCell];
     
     selectShiftCell =(ShiftWorkCell*)[collectionView cellForItemAtIndexPath:indexPath];
@@ -292,6 +293,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
     {
         info=shiftWorkTypeInfosArray[indexPath.row];
         [self onSelectCellAnimation:selectShiftCell];
+        [self.delegate selectShiftWorkCellWithCellType:ShiftWorkCellTypeSelShiftType withShiftTypeInfo:info];
 
     }
 }
@@ -350,4 +352,9 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
     [cell.shortNameLabel.layer addAnimation:openAnim forKey:@"scale-layer"];
 }
 
+-(void)sendNotification
+{
+
+
+}
 @end

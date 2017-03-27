@@ -149,6 +149,7 @@
     {
 
         [self.shiftWorkCollectionView showShiftWorkCollectionView:AddShiftWorkStatusOff];
+        [[NSNotificationCenter defaultCenter]postNotificationName:ShiftWorkType_OffAdd_Notification object:nil];
     }
     
     
@@ -174,6 +175,11 @@
         addShiftWorkTypeView.isAddNewShiftWorkType=NO;
         addShiftWorkTypeView.shiftWorkTypeInfo=info;
         [self.navigationController pushViewController:addShiftWorkTypeView animated:YES];
+    }
+    else
+    {
+    
+        [[NSNotificationCenter defaultCenter]postNotificationName:ShiftWorkType_OnAdd_Notification object:info];
     }
     
 

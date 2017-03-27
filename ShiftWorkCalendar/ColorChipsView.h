@@ -20,6 +20,9 @@ typedef enum OrientationTypes
 +(ColorChipsView*)initColorChipsViewWithSubview:(UIView*)view OrientationTypes:(OrientationTypes)type;
 
 @property (strong, nonatomic) IBOutlet UIView *colorChipsBasicView;
+@property (strong, nonatomic) UITableView *colorChipsTableView;
+@property (nonatomic, assign) OrientationTypes orientationTypes;
+
 @property (strong, nonatomic)UIColor *curColor;
 @property (strong, nonatomic)UIColor *selectBorderColor;
 

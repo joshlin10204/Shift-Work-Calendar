@@ -17,11 +17,11 @@ static ColorChipsView *instance=nil;
 
 @interface ColorChipsView ()
 {
-    UITableView *colorChipsTableView;
 
     NSMutableArray *colorChipsArray;
     
     NSInteger curSelectCellRow;
+    NSIndexPath *selectIndexPath;
 
 
 }
@@ -29,6 +29,7 @@ static ColorChipsView *instance=nil;
 @end
 
 @implementation ColorChipsView
+@synthesize curColor=_curColor;
 +(ColorChipsView*)initColorChipsViewWithSubview:(UIView*)view OrientationTypes:(OrientationTypes)type
 {
 
@@ -46,7 +47,21 @@ static ColorChipsView *instance=nil;
             instance=[[ColorChipsView alloc]initWithFrame:CGRectMake(colorChipsViewPoint.x,colorChipsViewPoint.y,colorChipsViewSize.width,colorChipsViewSize.height)];
             [view addSubview:instance];
             [instance initColorChipsTableView:type];
+//            [instance specifySelectColorCellAnimation];
 
+
+        }
+        else
+        {
+            CGSize colorChipsViewSize;
+            CGPoint colorChipsViewPoint;
+            colorChipsViewSize.height=view.frame.size.height;
+            colorChipsViewSize.width=view.frame.size.width;
+            colorChipsViewPoint.x=0;
+            colorChipsViewPoint.y=0;
+            
+            instance.frame=CGRectMake(colorChipsViewPoint.x,colorChipsViewPoint.y,colorChipsViewSize.width,colorChipsViewSize.height);
+            [view addSubview:instance];
 
         }
     }
@@ -65,34 +80,22 @@ static ColorChipsView *instance=nil;
     {
         
         [self initPaletteColorsData];
-        NSData *colorData = [[NSUserDefaults standardUserDefaults] objectForKey:LastSetColor];
-        ;
+
         
-        if (colorData==0)
+        if (self.curColor==0)
         {
             self.curColor=[UIColor colorWithRed:(0/255.0f) green:(0/255.0f) blue:(0/255.0f) alpha:1];
         }
-        else
-            
-        {
-            
-            self.curColor=[NSKeyedUnarchiver unarchiveObjectWithData:colorData];;
-            
-            
-        }
-
         
         [[NSBundle mainBundle]loadNibNamed:@"ColorChipsView" owner:self options:nil];
         self.colorChipsBasicView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
         self.colorChipsBasicView.opaque=NO;
-        self.colorChipsBasicView.backgroundColor=[UIColor colorWithRed:(255/255) green:(255/255) blue:(255/255) alpha:0];
+        self.colorChipsBasicView.backgroundColor=[UIColor colorWithRed:(255/255) green:(255/255) blue:(255/255) alpha:1];
         
         [self addSubview:self.colorChipsBasicView];
+
         
-        
-        
-        
-        
+
         
     }
     
@@ -102,39 +105,66 @@ static ColorChipsView *instance=nil;
 
 
 
+
 #pragma mark -  Color Chips Data
 -(void)initPaletteColorsData
 {
     colorChipsArray=[[ColorChipsData initColorChipsDatabase]loadColorChipsDatabase];
 }
-
+-(void)setCurColor:(UIColor *)color
+{
+    _curColor=color;
+    [self didSelectToCurColorCell];
+    [self.colorChipsTableView reloadData];
+    
+}
+-(void)didSelectToCurColorCell
+{
+    for (int i=0; i<colorChipsArray.count; i++)
+    {
+        if ([self.curColor isEqual:colorChipsArray[i]])
+        {
+            NSIndexPath *ip=[NSIndexPath indexPathForRow:i inSection:0];
+            [self.colorChipsTableView selectRowAtIndexPath:ip
+                                                  animated:NO
+                                            scrollPosition:UITableViewScrollPositionMiddle];
+            
+        }
+        
+    }
+    
+    [self.colorChipsTableView reloadData];
+    
+}
 #pragma mark - Color Chips TableView
 -(void)initColorChipsTableView:(OrientationTypes)type
 {
-    colorChipsTableView=[[UITableView alloc]init];
-    colorChipsTableView.separatorStyle=UITableViewCellSeparatorStyleNone;
-    colorChipsTableView.backgroundColor=[UIColor colorWithRed:(255/255) green:(255/255) blue:(255/255) alpha:0];
+    self.colorChipsTableView=[[UITableView alloc]init];
+    self.colorChipsTableView.separatorStyle=UITableViewCellSeparatorStyleNone;
+    self.colorChipsTableView.backgroundColor=[UIColor colorWithRed:(255/255) green:(255/255) blue:(255/255) alpha:0];
     
     
     if (type==OrientationTypesHorizontal)
     {
-        colorChipsTableView.transform = CGAffineTransformMakeRotation(-M_PI / 2);
-        colorChipsTableView.opaque=NO;
-        colorChipsTableView.showsVerticalScrollIndicator=NO;
+        self.colorChipsTableView.transform = CGAffineTransformMakeRotation(-M_PI / 2);
+        self.colorChipsTableView.opaque=NO;
+        self.colorChipsTableView.showsVerticalScrollIndicator=NO;
     }
 
-    colorChipsTableView.frame=CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+    self.colorChipsTableView.frame=CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
 
-    [self addSubview:colorChipsTableView];
-    [colorChipsTableView  setDelegate:self];
-    [colorChipsTableView setDataSource:self];
-    [colorChipsTableView registerNib:[UINib nibWithNibName:@"ColorChipsCell"
+    [self addSubview:self.colorChipsTableView];
+    [self.colorChipsTableView  setDelegate:self];
+    [self.colorChipsTableView setDataSource:self];
+    [self.colorChipsTableView registerNib:[UINib nibWithNibName:@"ColorChipsCell"
                                                           bundle:nil]
                     forCellReuseIdentifier:@"ColorChipsCell"];
 
 
 
 }
+
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -148,6 +178,7 @@ static ColorChipsView *instance=nil;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@" In Cell");
     static NSString *cellID = @"ColorChipsCell";
     
     
@@ -178,17 +209,10 @@ static ColorChipsView *instance=nil;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"已選擇的cell編號:%ld",indexPath.row);
     self.curColor=colorChipsArray[indexPath.row];
     curSelectCellRow=indexPath.row;
-    [colorChipsTableView reloadData];
+    [self.colorChipsTableView reloadData];
     
-    NSData *lastSetPenColor=[NSKeyedArchiver archivedDataWithRootObject:self.curColor];;
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:lastSetPenColor forKey:LastSetColor];
-    
-    NSLog(@"已選擇顏色:%@",self.curColor);
-
 }
 
 

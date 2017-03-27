@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ShiftWorkCalendar/ShiftWorkTypeSetViewController.m"
-            timestampString = "512213222.209627"
+            filePath = "ShiftWorkCalendar/ColorChipsView.m"
+            timestampString = "512309643.117461"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "71"
-            endingLineNumber = "71"
-            landmarkName = "-loadShiftWorkTypeData"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "+initColorChipsViewWithSubview:OrientationTypes:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

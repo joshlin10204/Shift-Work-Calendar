@@ -32,7 +32,20 @@ static TimePickerView *instance=nil;
             
             instance=[[TimePickerView alloc]initWithFrame:CGRectMake(pickerViewPoint.x,pickerViewPoint.y,pickerViewSize.width,pickerViewSize.height)];
             [view addSubview:instance];
-            
+        
+        }
+        else
+        {
+            CGSize pickerViewSize;
+            CGPoint pickerViewPoint;
+            pickerViewSize.height=view.frame.size.height*25/100;
+            pickerViewSize.width=view.frame.size.width;
+            pickerViewPoint.x=0;
+            pickerViewPoint.y=view.frame.size.height;
+            instance.frame=CGRectMake(pickerViewPoint.x,pickerViewPoint.y,pickerViewSize.width,pickerViewSize.height);
+            [view addSubview:instance];
+
+        
         }
     }
     return instance;

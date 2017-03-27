@@ -34,25 +34,20 @@ static CoreDataHandle *database;
 - (ShiftWorkTypeCoreData*)addShiftWorkType:(NSMutableDictionary*)typeInfo
 {
     NSError *error;
-    NSLog(@"0------%@", [typeInfo objectForKey:CoreData_ShiftTypeInfo_TitleName]);
-    
     NSManagedObjectContext *managedContext = [self delegate].persistentContainer.viewContext;
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"ShiftWorkTypeCoreData" inManagedObjectContext:managedContext];
-    ShiftWorkTypeCoreData *shiftWorkType = (ShiftWorkTypeCoreData *)[[NSManagedObject alloc] initWithEntity:entity insertIntoManagedObjectContext:managedContext];
-    shiftWorkType.typeID = [typeInfo objectForKey:CoreData_ShiftTypeInfo_TypeID];
-    shiftWorkType.titleName = [typeInfo objectForKey:CoreData_ShiftTypeInfo_TitleName];
-    shiftWorkType.shortName = [typeInfo objectForKey:CoreData_ShiftTypeInfo_ShortName];
-//    shiftWorkType.color = [typeInfo objectForKey:@"color"];
-//    shiftWorkType.time = [typeInfo objectForKey:@"time"];
-//    shiftWorkType.image = [typeInfo objectForKey:@"image"];
-    shiftWorkType.color = [NSKeyedArchiver archivedDataWithRootObject:[typeInfo objectForKey:CoreData_ShiftTypeInfo_Color]];
-    shiftWorkType.time = [NSKeyedArchiver archivedDataWithRootObject:[typeInfo objectForKey:CoreData_ShiftTypeInfo_Time]];
-    shiftWorkType.image = [NSKeyedArchiver archivedDataWithRootObject:[typeInfo objectForKey:CoreData_ShiftTypeInfo_Image]];
+    ShiftWorkTypeCoreData *coreData = (ShiftWorkTypeCoreData *)[[NSManagedObject alloc] initWithEntity:entity insertIntoManagedObjectContext:managedContext];
+    coreData.typeID = [typeInfo objectForKey:CoreData_ShiftTypeInfo_TypeID];
+    coreData.titleName = [typeInfo objectForKey:CoreData_ShiftTypeInfo_TitleName];
+    coreData.shortName = [typeInfo objectForKey:CoreData_ShiftTypeInfo_ShortName];
+    coreData.color = [NSKeyedArchiver archivedDataWithRootObject:[typeInfo objectForKey:CoreData_ShiftTypeInfo_Color]];
+    coreData.time = [NSKeyedArchiver archivedDataWithRootObject:[typeInfo objectForKey:CoreData_ShiftTypeInfo_Time]];
+    coreData.image = [NSKeyedArchiver archivedDataWithRootObject:[typeInfo objectForKey:CoreData_ShiftTypeInfo_Image]];
 
     
     BOOL result = [[self delegate].persistentContainer.viewContext save:&error];
     if (result) {
-        return shiftWorkType;
+        return coreData;
     }
     return nil;
 }
@@ -100,6 +95,29 @@ static CoreDataHandle *database;
 
 
 }
+- (void)updateShiftWorkTypeWithTypeID:(NSString *)typeID withShiftWorkType:(NSMutableDictionary*)typeInfo
+{
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"ShiftWorkTypeCoreData" inManagedObjectContext:[self delegate].persistentContainer.viewContext];
+    
+    NSFetchRequest *request = [NSFetchRequest new];
+    [request setEntity:entity];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"typeID = %@",typeID];
+    [request setPredicate:predicate];
+    NSError *error = nil;
+    
+    NSArray *infos = [[[self delegate].persistentContainer.viewContext executeFetchRequest:request error:&error] mutableCopy];
+    ShiftWorkTypeCoreData *coreData = infos[0];
+    coreData.titleName = [typeInfo objectForKey:CoreData_ShiftTypeInfo_TitleName];
+    coreData.shortName = [typeInfo objectForKey:CoreData_ShiftTypeInfo_ShortName];
+    coreData.color = [NSKeyedArchiver archivedDataWithRootObject:[typeInfo objectForKey:CoreData_ShiftTypeInfo_Color]];
+    coreData.time = [NSKeyedArchiver archivedDataWithRootObject:[typeInfo objectForKey:CoreData_ShiftTypeInfo_Time]];
+    coreData.image = [NSKeyedArchiver archivedDataWithRootObject:[typeInfo objectForKey:CoreData_ShiftTypeInfo_Image]];
+    
+    [[self delegate].persistentContainer.viewContext save:nil];
+
+    
+}
+
 - (BOOL)deleteShiftWorkTypeWithTypeID:(NSString *)typeID
 {
     NSPredicate *perdicate = [NSPredicate predicateWithFormat:@"typeID = %@",typeID];

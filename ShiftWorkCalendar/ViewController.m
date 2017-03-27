@@ -38,13 +38,11 @@
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    NSLog(@"----viewWillAppear-----");
     
 
 }
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    NSLog(@"----viewDidAppear-----");
 
     [self initNotification];
     [self initCalendarNavigationItem];
@@ -159,15 +157,23 @@
 -(void)selectShiftWorkCellWithCellType:(ShiftWorkCellType)type withShiftTypeInfo:(NSMutableDictionary *)info
 {
 
-    if (type==ShiftWorkCellTypeAddShiftType||type==ShiftWorkCellTypeEditShiftType)
+    if (type==ShiftWorkCellTypeAddShiftType)
     {
         UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         
         ShiftWorkTypeSetViewController* addShiftWorkTypeView = [storyboard instantiateViewControllerWithIdentifier:@"ShiftWorkTypeSetViewController"];
+        addShiftWorkTypeView.isAddNewShiftWorkType=YES;
+        [self.navigationController pushViewController:addShiftWorkTypeView animated:YES];
+    
+    }
+    else if (type==ShiftWorkCellTypeEditShiftType)
+    {
+        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        
+        ShiftWorkTypeSetViewController* addShiftWorkTypeView = [storyboard instantiateViewControllerWithIdentifier:@"ShiftWorkTypeSetViewController"];
+        addShiftWorkTypeView.isAddNewShiftWorkType=NO;
         addShiftWorkTypeView.shiftWorkTypeInfo=info;
         [self.navigationController pushViewController:addShiftWorkTypeView animated:YES];
-        
-
     }
     
 

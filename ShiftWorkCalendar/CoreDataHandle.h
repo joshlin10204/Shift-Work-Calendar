@@ -23,7 +23,9 @@
 // ShiftWorkType
 - (ShiftWorkTypeCoreData*)addShiftWorkType:(NSMutableDictionary*)typeInfo;
 - (NSMutableArray*)loadAllShiftWorkType;
+- (void)updateShiftWorkTypeWithTypeID:(NSString *)typeID withShiftWorkType:(NSMutableDictionary*)typeInfo;
 - (BOOL)deleteShiftWorkTypeWithTypeID:(NSString *)typeID;
+
 
 
 

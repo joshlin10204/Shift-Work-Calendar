@@ -9,12 +9,12 @@
 #import <UIKit/UIKit.h>
 
 
-
 @interface ShiftWorkTypeSetViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UITextField *shiftTypeTitleField;
 @property (weak, nonatomic) IBOutlet UITextField *shiftTypeShortNameField;
 @property (weak, nonatomic) IBOutlet UILabel *shiftBeginTimeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *shiftEndTimeLabel;
 @property (nonatomic, strong) NSMutableDictionary * shiftWorkTypeInfo;
+@property (nonatomic, assign) BOOL isAddNewShiftWorkType;
 
 @end

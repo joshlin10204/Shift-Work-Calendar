@@ -41,7 +41,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.navigationItem.backBarButtonItem.title=@"";
+//    self.navigationItem.backBarButtonItem.title=@"";
     [self loadShiftWorkTypeData];
     [self initShiftTypeNameText];
     [self initColorChipsView];
@@ -66,18 +66,7 @@
 #pragma mark - Load & Save Data
 -(void)loadShiftWorkTypeData
 {
-    if (self.shiftWorkTypeInfo.count!=0)
-    {
-        typeID=[self.shiftWorkTypeInfo objectForKey:CoreData_ShiftTypeInfo_TypeID];
-        titleName=[self.shiftWorkTypeInfo objectForKey:CoreData_ShiftTypeInfo_TitleName];
-        shortName=[self.shiftWorkTypeInfo objectForKey:CoreData_ShiftTypeInfo_ShortName];
-        shiftTypeColor=[self.shiftWorkTypeInfo objectForKey:CoreData_ShiftTypeInfo_Color];
-        shiftTimeInfo=[self.shiftWorkTypeInfo objectForKey:CoreData_ShiftTypeInfo_Time];
-        shiftBeginTimeInfo=[shiftTimeInfo objectForKey:ShiftTypeInfo_BeginTimeInfo];
-        shiftEndTimeInfo=[shiftTimeInfo objectForKey:ShiftTypeInfo_EndTimeInfo];
-
-    }
-    else
+    if (_isAddNewShiftWorkType)
     {
         NSDate *date = [NSDate date];
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -93,7 +82,18 @@
         [shiftEndTimeInfo setObject:@"18" forKey:ShiftTypeInfo_Time_Hour];
         [shiftEndTimeInfo setObject:@"30" forKey:ShiftTypeInfo_Time_Minute];
 
-        
+    }
+    else
+    {
+
+
+        typeID=[self.shiftWorkTypeInfo objectForKey:CoreData_ShiftTypeInfo_TypeID];
+        titleName=[self.shiftWorkTypeInfo objectForKey:CoreData_ShiftTypeInfo_TitleName];
+        shortName=[self.shiftWorkTypeInfo objectForKey:CoreData_ShiftTypeInfo_ShortName];
+        shiftTypeColor=[self.shiftWorkTypeInfo objectForKey:CoreData_ShiftTypeInfo_Color];
+        shiftTimeInfo=[self.shiftWorkTypeInfo objectForKey:CoreData_ShiftTypeInfo_Time];
+        shiftBeginTimeInfo=[shiftTimeInfo objectForKey:ShiftTypeInfo_BeginTimeInfo];
+        shiftEndTimeInfo=[shiftTimeInfo objectForKey:ShiftTypeInfo_EndTimeInfo];
     
     }
     
@@ -107,29 +107,24 @@
     shiftTypeColor=colorChipsView.curColor;
     [shiftTimeInfo setObject:shiftBeginTimeInfo forKey:ShiftTypeInfo_BeginTimeInfo];
     [shiftTimeInfo setObject:shiftEndTimeInfo forKey:ShiftTypeInfo_EndTimeInfo];
-    
     [self.shiftWorkTypeInfo setObject:typeID forKey:CoreData_ShiftTypeInfo_TypeID];
     [self.shiftWorkTypeInfo setObject:titleName forKey:CoreData_ShiftTypeInfo_TitleName];
     [self.shiftWorkTypeInfo setObject:shortName forKey:CoreData_ShiftTypeInfo_ShortName];
     [self.shiftWorkTypeInfo setObject:shiftTypeColor forKey:CoreData_ShiftTypeInfo_Color];
     [self.shiftWorkTypeInfo setObject:shiftTimeInfo forKey:CoreData_ShiftTypeInfo_Time];
 
-
-    ShiftWorkTypeCoreData* shiftCoreData=[[CoreDataHandle shareCoreDatabase]addShiftWorkType:self.shiftWorkTypeInfo];
-    
-
-    if (shiftCoreData)
+    if (_isAddNewShiftWorkType)
     {
-        NSMutableArray *a=[[NSMutableArray alloc]init];
-        [a addObject:shiftCoreData];
-        ShiftWorkTypeCoreData*b=a[0];
-        
-        NSLog(@"1-----%@",a);
-        NSLog(@"2-----%@",b.titleName);
+        ShiftWorkTypeCoreData* shiftCoreData=[[CoreDataHandle shareCoreDatabase]addShiftWorkType:self.shiftWorkTypeInfo];
 
     }
-
+    else
+    {
+        [[CoreDataHandle shareCoreDatabase]updateShiftWorkTypeWithTypeID:typeID withShiftWorkType:self.shiftWorkTypeInfo];
+        
     
+    }
+
 }
 - (IBAction)onClickSaveBtn:(id)sender
 {
@@ -152,8 +147,11 @@
 #pragma mark - Color Chips
 -(void)initColorChipsView
 {
+
     colorChipsView=[ColorChipsView initColorChipsViewWithSubview:self.colorBasicView OrientationTypes:OrientationTypesHorizontal];
+    [colorChipsView setCurColor:shiftTypeColor];
     colorChipsView.selectBorderColor=[UIColor colorWithRed:74.0f/255.0f green:217.0f/255.0f blue:217.0f/255.0f alpha:1.0f];
+    
 }
 
 
@@ -211,6 +209,19 @@
         NSString *timeString=[[NSString alloc]initWithFormat:@"下午 %ld : %ld",(long)hour,(long)minute];
         label.text=timeString;
     }
+    else if (hour==12)
+    {
+        NSString *timeString=[[NSString alloc]initWithFormat:@"下午 %ld : %ld",(long)hour,(long)minute];
+        label.text=timeString;
+    }
+
+    else if (hour==0)
+    {
+        hour=12;
+        NSString *timeString=[[NSString alloc]initWithFormat:@"上午 %ld : %ld",(long)hour,(long)minute];
+        label.text=timeString;
+    }
+
     else
     {
         NSString *timeString=[[NSString alloc]initWithFormat:@"上午 %ld : %ld",(long)hour,(long)minute];

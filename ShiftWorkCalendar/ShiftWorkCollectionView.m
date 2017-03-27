@@ -129,8 +129,8 @@ static ShiftWorkCollectionView *instance=nil;
 {
     self.shiftWorkCollectionView.delegate=self;
     self.shiftWorkCollectionView.dataSource=self;
-    UILongPressGestureRecognizer * longPressGr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
-    longPressGr.minimumPressDuration = 1.0;
+    UILongPressGestureRecognizer * longPressGr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressCell:)];
+    longPressGr.minimumPressDuration = 0.5;
     [self.shiftWorkCollectionView addGestureRecognizer:longPressGr];
 
 
@@ -274,31 +274,34 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
     // Tag=0 New Shift Work Cell
     if (cell.tag==0)
     {
-        NSLog(@"***___%ld",(long)cell.tag);
         [self.delegate selectShiftWorkCellWithCellType:ShiftWorkCellTypeAddShiftType withShiftTypeInfo:info];
     }
     else
     {
-        NSLog(@"***___%ld",(long)cell.tag);
         info=shiftWorkTypeInfosArray[indexPath.row];
 
     }
 }
--(void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer
+-(void)handleLongPressCell:(UILongPressGestureRecognizer *)gestureRecognizer
 {
-       if (gestureRecognizer.state != UIGestureRecognizerStateEnded) {
-        return;
-    }
-    CGPoint point = [gestureRecognizer locationInView:self.shiftWorkCollectionView];
-    
-    NSIndexPath *indexPath = [self.shiftWorkCollectionView indexPathForItemAtPoint:point];
-    UICollectionViewCell *cell =[self.shiftWorkCollectionView cellForItemAtIndexPath:indexPath];
-    NSMutableDictionary *info=[NSMutableDictionary new];
-
-    if (cell.tag!=0)
+    if (gestureRecognizer.state==UIGestureRecognizerStateBegan)
     {
-        info=shiftWorkTypeInfosArray[indexPath.row];
-        [self.delegate selectShiftWorkCellWithCellType:ShiftWorkCellTypeEditShiftType withShiftTypeInfo:info];
+        CGPoint point = [gestureRecognizer locationInView:self.shiftWorkCollectionView];
+        
+        NSIndexPath *indexPath = [self.shiftWorkCollectionView indexPathForItemAtPoint:point];
+        UICollectionViewCell *cell =[self.shiftWorkCollectionView cellForItemAtIndexPath:indexPath];
+        NSMutableDictionary *info=[NSMutableDictionary new];
+        
+        if (cell.tag!=0)
+        {
+            info=shiftWorkTypeInfosArray[indexPath.row];
+            [self.delegate selectShiftWorkCellWithCellType:ShiftWorkCellTypeEditShiftType withShiftTypeInfo:info];
+        }
+    }
+    else
+    {
+        return;
+    
     }
 
 }

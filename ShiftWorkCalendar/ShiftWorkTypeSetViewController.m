@@ -72,7 +72,7 @@
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"YYYYMMddkkmmss"];
         typeID=[formatter stringFromDate:date];
-        
+        shiftTypeColor=[UIColor colorWithRed:(243/255.0f) green:(152/255.0f) blue:(1/255.0f) alpha:1];
         self.shiftWorkTypeInfo=[[NSMutableDictionary alloc]init];
         shiftTimeInfo=[[NSMutableDictionary alloc]init];
         shiftBeginTimeInfo=[[NSMutableDictionary alloc]init];

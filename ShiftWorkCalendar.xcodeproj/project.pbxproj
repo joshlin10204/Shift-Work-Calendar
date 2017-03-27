@@ -231,6 +231,7 @@
 				037C49731E78648A0050D84B /* ShiftWorkCollectionView.xib */,
 				037C496C1E785CF70050D84B /* ShiftWorkCell.h */,
 				037C496D1E785CF70050D84B /* ShiftWorkCell.m */,
+				037C496E1E785CF70050D84B /* ShiftWorkCell.xib */,
 				037C4B8B1E844C6B0050D84B /* Shift Work Set View */,
 			);
 			name = "Shift Work";
@@ -270,7 +271,6 @@
 			children = (
 				037C4A9A1E7EA82C0050D84B /* ShiftWorkTypeSetViewController.h */,
 				037C4A9B1E7EA82C0050D84B /* ShiftWorkTypeSetViewController.m */,
-				037C496E1E785CF70050D84B /* ShiftWorkCell.xib */,
 				037C4B861E8442720050D84B /* TimePickerView.h */,
 				037C4B871E8442720050D84B /* TimePickerView.m */,
 				037C4B881E8442720050D84B /* TimePickerView.xib */,

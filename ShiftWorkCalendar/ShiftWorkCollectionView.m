@@ -18,7 +18,7 @@ static ShiftWorkCollectionView *instance=nil;
     CGFloat cellLineSpacing;
     CGFloat cellInteritemSpacing;
     NSMutableArray *shiftWorkTypeInfosArray;
-
+    ShiftWorkCell * selectShiftCell;
 }
 
 @end
@@ -71,6 +71,7 @@ static ShiftWorkCollectionView *instance=nil;
         [self initShiftWorkCell];
         [self initShiftWorkCollectionView];
 
+
         
         
     }
@@ -93,6 +94,7 @@ static ShiftWorkCollectionView *instance=nil;
     shiftWorkTypeInfosArray = [[CoreDataHandle shareCoreDatabase] loadAllShiftWorkType];
 
     [self.shiftWorkCollectionView reloadData];
+
 }
 
 
@@ -132,7 +134,6 @@ static ShiftWorkCollectionView *instance=nil;
     UILongPressGestureRecognizer * longPressGr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressCell:)];
     longPressGr.minimumPressDuration = 0.5;
     [self.shiftWorkCollectionView addGestureRecognizer:longPressGr];
-
 
 
 }
@@ -232,6 +233,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
     }
     else
     {
+ 
         NSMutableDictionary* typeInfo=shiftWorkTypeInfosArray[indexPath.row];
         UIColor *shiftColor=[typeInfo objectForKey:CoreData_ShiftTypeInfo_Color];
         UIColor *clenerColor=[UIColor colorWithRed:(255/255.0f) green:(255/255.0f) blue:(255/255.0f) alpha:0];
@@ -240,14 +242,21 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
         NSInteger typeID=[[typeInfo objectForKey:CoreData_ShiftTypeInfo_TypeID]integerValue];
         
         [shiftCell setTag:typeID];
+
+
         [self setShiftCellWithLabel:shiftCell.shortNameLabel
                      withTextString:shortString
                       withTextColor:[UIColor whiteColor]
-                        withBgColor:shiftColor];
+                        withBgColor:[shiftColor colorWithAlphaComponent:0.3]];
         [self setShiftCellWithLabel:shiftCell.titleNameLabel
                      withTextString:titleString
-                      withTextColor:shiftColor
+                      withTextColor:[shiftColor colorWithAlphaComponent:0.3]
                         withBgColor:clenerColor];
+        if (indexPath.row==0)
+        {
+            selectShiftCell=shiftCell;
+            [self onSelectCellAnimation:selectShiftCell];
+        }
 
     
     }
@@ -269,16 +278,20 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    UICollectionViewCell *cell =[collectionView cellForItemAtIndexPath:indexPath];
+    [self onCancelSelectCellAnimation:selectShiftCell];
+    
+    selectShiftCell =(ShiftWorkCell*)[collectionView cellForItemAtIndexPath:indexPath];
     NSMutableDictionary *info=[NSMutableDictionary new];
+    
     // Tag=0 New Shift Work Cell
-    if (cell.tag==0)
+    if (selectShiftCell.tag==0)
     {
         [self.delegate selectShiftWorkCellWithCellType:ShiftWorkCellTypeAddShiftType withShiftTypeInfo:info];
     }
     else
     {
         info=shiftWorkTypeInfosArray[indexPath.row];
+        [self onSelectCellAnimation:selectShiftCell];
 
     }
 }
@@ -305,6 +318,36 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
     }
 
 }
+-(void)onSelectCellAnimation:(ShiftWorkCell*)cell
+{
+    cell.shortNameLabel.layer.backgroundColor=[[cell.titleNameLabel.textColor colorWithAlphaComponent:1]CGColor];
+    cell.titleNameLabel.textColor=[cell.titleNameLabel.textColor colorWithAlphaComponent:1];
 
+    CABasicAnimation* openAnim = [CABasicAnimation animationWithKeyPath: @"transform.scale"];
+    openAnim.fromValue = [NSNumber numberWithFloat:1];
+    openAnim.toValue = [NSNumber numberWithFloat:1.1];
+    openAnim.duration = 0.3;
+    openAnim.repeatCount = 0;
+    openAnim.autoreverses = NO;
+    openAnim.removedOnCompletion = NO;
+    openAnim.fillMode = kCAFillModeForwards;
+    [cell.shortNameLabel.layer addAnimation:openAnim forKey:@"scale-layer"];
+}
+-(void)onCancelSelectCellAnimation:(ShiftWorkCell*)cell
+{
+    cell.shortNameLabel.layer.backgroundColor=[[cell.titleNameLabel.textColor colorWithAlphaComponent:0.3]CGColor];
+    cell.titleNameLabel.textColor=[cell.titleNameLabel.textColor colorWithAlphaComponent:0.3];
+
+
+    CABasicAnimation* openAnim = [CABasicAnimation animationWithKeyPath: @"transform.scale"];
+    openAnim.fromValue = [NSNumber numberWithFloat:1.1];
+    openAnim.toValue = [NSNumber numberWithFloat:1.0];
+    openAnim.duration = 0.3;
+    openAnim.repeatCount = 0;
+    openAnim.autoreverses = NO;
+    openAnim.removedOnCompletion = NO;
+    openAnim.fillMode = kCAFillModeForwards;
+    [cell.shortNameLabel.layer addAnimation:openAnim forKey:@"scale-layer"];
+}
 
 @end

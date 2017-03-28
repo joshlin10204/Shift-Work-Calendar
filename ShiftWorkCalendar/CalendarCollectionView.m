@@ -28,7 +28,6 @@
     
     NSNumber * curYear;
     NSNumber * curMonth;
-    NSNumber * curDay;
     NSNumber * daysTotalInMonth;
     NSNumber * weekTotalInMonth;
     NSNumber * weekOfMonthFirstDay;
@@ -38,6 +37,9 @@
     
     BOOL isAddShiftWork;
     NSMutableDictionary*shiftTypeInfo;
+    NSMutableArray*shiftDateInfosArray;
+    NSMutableDictionary*shiftDateTempInfo;
+
 
     
     
@@ -79,8 +81,8 @@
 -(void)initDateDictionary
 {
     //取得下一個與前一個月的資料
-    nextDateInfo=[CalendarData getNextDateInfo:self.dateDictionary];
-    prevDateInfo=[CalendarData getPrevDateInfo:self.dateDictionary];
+    nextDateInfo=[CalendarData getNextCalendarInfo:self.dateDictionary];
+    prevDateInfo=[CalendarData getPrevCalendarInfo:self.dateDictionary];
 
     //今天的日期
     NSDateComponents *todayDate = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:[NSDate date]];
@@ -91,11 +93,9 @@
     //當前選擇的Calendar
     curYear=[self.dateDictionary objectForKey:CalendarData_Year];
     curMonth=[self.dateDictionary objectForKey:CalendarData_Month];
-    curDay=[self.dateDictionary objectForKey:CalendarData_Day];
     daysTotalInMonth=[self.dateDictionary objectForKey:CalendarData_DaysTotalInMonth];
     weekTotalInMonth=[self.dateDictionary objectForKey:CalendarData_WeekTotalInMonth];
     weekOfMonthFirstDay=[self.dateDictionary objectForKey:CalendarData_FirstDayWeekInMonth];
-    
     if (todayYear ==curYear &&todayMonth==curMonth)
     {
         isCurrenCalendar=YES;
@@ -105,8 +105,6 @@
         isCurrenCalendar=NO;
     
     }
-    
-    
 
 }
 
@@ -118,6 +116,7 @@
     [[NSNotificationCenter defaultCenter]postNotificationName:Calendar_Date_Notification object:calendarDateString];
 
 }
+
 
 #pragma mark - Collection View
 
@@ -203,11 +202,11 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
         NSNumber * dayInt= [NSNumber numberWithInteger:cellRow-monthFirstDayOnWeek+1];
         NSString *dayString=[[NSString alloc]initWithFormat:@"%@",dayInt];
         NSString *dateString=[[NSString alloc]initWithFormat:@"%@%@%@",curYear,curMonth,dayString];
-        NSInteger dateInt = [dateString intValue];
+        NSInteger cellID = [dateString intValue];
 
         dayCell.calendarDayLabel.text=dayString;
-        [dayCell setTag:dateInt];
-        if (isCurrenCalendar&&dayInt ==curDay)
+        [dayCell setTag:cellID];
+        if (isCurrenCalendar&&dayInt ==todayDay)
         {
             dayCell.calendarDayLabel.textColor=[UIColor colorWithRed:242.0f/255.0f green:89.0f/255.0f blue:75.0f/255.0f alpha:1.0f];
             dayCell.calendarDayLabel.backgroundColor=[UIColor colorWithRed:242.0f/255.0f green:89.0f/255.0f blue:75.0f/255.0f alpha:0.3f];
@@ -297,7 +296,8 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
         
     }
 }
-#pragma mark -- Add Shift Work in Cell
+#pragma mark - Add Shift Work
+#pragma mark -- Shift Work Notification
 
 -(void)initNotification
 {
@@ -312,28 +312,38 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
 
     
 }
+
 -(void)onAddShiftWorkNotification:(NSNotification *)notification
 {
-    NSLog(@"收到Notification");
     isAddShiftWork=YES;
     shiftTypeInfo=[notification object];
+    [self initShiftDateTempData];
 
 }
 -(void)offAddShiftWorkNotification
 {
     isAddShiftWork=NO;
-
+    [self saveShiftDateData];
 
 }
+
+#pragma mark -- Add Shift Work in Cell
 -(void)setAddShiftWorkInSelectCell:(CalendarCollectionCell*)cell
                  withShiftTypeInfo:(NSMutableDictionary*)typeInfo
 {
-    NSLog(@"選擇的日期:%ld",(long)cell.tag);
     NSString *shiftShortName=[typeInfo objectForKey:CoreData_ShiftTypeInfo_ShortName];
     UIColor *shiftColor=[typeInfo objectForKey:CoreData_ShiftTypeInfo_Color];
+    NSString *shiftTypeID=[typeInfo objectForKey:CoreData_ShiftTypeInfo_TypeID];
     
     cell.shiftShortNameLabel.text=shiftShortName;
     cell.shiftShortNameLabel.layer.backgroundColor=[shiftColor CGColor];
+    
+//    NSString*shiftCalendarID=[[NSString alloc]initWithFormat:@"%ld",(long)cell.tag];
+//    [shiftCalendarTempInfo setObject:shiftCalendarID forKey:CoreData_ShiftCalendarInfo_ShiftCalendarID];
+//    [shiftCalendarTempInfo setObject:shiftTypeID forKey:CoreData_ShiftCalendarInfo_ShiftTypeID];
+//    [shiftCalendarTempInfo setObject:shiftCalendarID forKey:CoreData_ShiftCalendarInfo_ShiftCalendarID];
+    
+    
     
 }
 -(void)setCancelShiftWorkInSelectCell:(CalendarCollectionCell*)cell
@@ -343,11 +353,30 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
     cell.shiftShortNameLabel.layer.backgroundColor=[[UIColor clearColor] CGColor];
 
 }
-#pragma mark - Core Data
 
--(void)loadShiftCalendarData
+#pragma mark - Shift Date Data
+#pragma mark -- Temporary Data
+-(void)initShiftDateTempData
+{
+    shiftDateTempInfo=[[NSMutableDictionary alloc]init];
+}
+-(void)deleteShiftDateTempData
+{
+    shiftDateTempInfo=nil;
+}
+
+#pragma mark -- Core Data
+-(void)loadShiftDateData
+{
+//    shiftCalendarInfosArray = [[CoreDataHandle shareCoreDatabase] loadAllShiftCalendar];
+//    
+//    [self.collectionView reloadData];
+
+}
+-(void)saveShiftDateData
 {
 
+    [self deleteShiftDateTempData];
 
 }
 

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		03075FF01E8AC99B00638095 /* ShiftDateCoreData+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 03075FED1E8AC99B00638095 /* ShiftDateCoreData+CoreDataClass.m */; };
+		03075FF11E8AC99B00638095 /* ShiftDateCoreData+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 03075FEF1E8AC99B00638095 /* ShiftDateCoreData+CoreDataProperties.m */; };
 		037C490F1E7511520050D84B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 037C490E1E7511520050D84B /* main.m */; };
 		037C49121E7511520050D84B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 037C49111E7511520050D84B /* AppDelegate.m */; };
 		037C49151E7511520050D84B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 037C49141E7511520050D84B /* ViewController.m */; };
@@ -56,6 +58,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		03075FEC1E8AC99B00638095 /* ShiftDateCoreData+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ShiftDateCoreData+CoreDataClass.h"; path = "../ShiftDateCoreData+CoreDataClass.h"; sourceTree = "<group>"; };
+		03075FED1E8AC99B00638095 /* ShiftDateCoreData+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "ShiftDateCoreData+CoreDataClass.m"; path = "../ShiftDateCoreData+CoreDataClass.m"; sourceTree = "<group>"; };
+		03075FEE1E8AC99B00638095 /* ShiftDateCoreData+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ShiftDateCoreData+CoreDataProperties.h"; path = "../ShiftDateCoreData+CoreDataProperties.h"; sourceTree = "<group>"; };
+		03075FEF1E8AC99B00638095 /* ShiftDateCoreData+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "ShiftDateCoreData+CoreDataProperties.m"; path = "../ShiftDateCoreData+CoreDataProperties.m"; sourceTree = "<group>"; };
 		037C490A1E7511520050D84B /* ShiftWorkCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShiftWorkCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		037C490E1E7511520050D84B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		037C49101E7511520050D84B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -134,6 +140,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		03075FC61E8A0A7100638095 /* ShiftCalendarCoreData */ = {
+			isa = PBXGroup;
+			children = (
+				03075FEC1E8AC99B00638095 /* ShiftDateCoreData+CoreDataClass.h */,
+				03075FED1E8AC99B00638095 /* ShiftDateCoreData+CoreDataClass.m */,
+				03075FEE1E8AC99B00638095 /* ShiftDateCoreData+CoreDataProperties.h */,
+				03075FEF1E8AC99B00638095 /* ShiftDateCoreData+CoreDataProperties.m */,
+			);
+			name = ShiftCalendarCoreData;
+			sourceTree = "<group>";
+		};
+		03075FC71E8A0A7600638095 /* ShiftWorkTypeCoreData */ = {
+			isa = PBXGroup;
+			children = (
+				037C4B8C1E8569E50050D84B /* ShiftWorkTypeCoreData+CoreDataClass.h */,
+				037C4B8D1E8569E50050D84B /* ShiftWorkTypeCoreData+CoreDataClass.m */,
+				037C4B8E1E8569E50050D84B /* ShiftWorkTypeCoreData+CoreDataProperties.h */,
+				037C4B8F1E8569E50050D84B /* ShiftWorkTypeCoreData+CoreDataProperties.m */,
+			);
+			name = ShiftWorkTypeCoreData;
+			sourceTree = "<group>";
+		};
 		037C49011E7511520050D84B = {
 			isa = PBXGroup;
 			children = (
@@ -243,10 +271,8 @@
 				037C49191E7511520050D84B /* ShiftWorkCalendar.xcdatamodeld */,
 				037C4A881E7DD0C10050D84B /* CoreDataHandle.h */,
 				037C4A891E7DD0C10050D84B /* CoreDataHandle.m */,
-				037C4B8C1E8569E50050D84B /* ShiftWorkTypeCoreData+CoreDataClass.h */,
-				037C4B8D1E8569E50050D84B /* ShiftWorkTypeCoreData+CoreDataClass.m */,
-				037C4B8E1E8569E50050D84B /* ShiftWorkTypeCoreData+CoreDataProperties.h */,
-				037C4B8F1E8569E50050D84B /* ShiftWorkTypeCoreData+CoreDataProperties.m */,
+				03075FC61E8A0A7100638095 /* ShiftCalendarCoreData */,
+				03075FC71E8A0A7600638095 /* ShiftWorkTypeCoreData */,
 			);
 			name = CoreData;
 			sourceTree = "<group>";
@@ -346,6 +372,7 @@
 				TargetAttributes = {
 					037C49091E7511520050D84B = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = Y82V3U924M;
 						ProvisioningStyle = Automatic;
 					};
 					037C49251E7511520050D84B = {
@@ -427,6 +454,7 @@
 				037C4A8A1E7DD0C10050D84B /* CoreDataHandle.m in Sources */,
 				037C49741E78648A0050D84B /* ShiftWorkCollectionView.m in Sources */,
 				037C4B911E8569E50050D84B /* ShiftWorkTypeCoreData+CoreDataProperties.m in Sources */,
+				03075FF01E8AC99B00638095 /* ShiftDateCoreData+CoreDataClass.m in Sources */,
 				037C491B1E7511520050D84B /* ShiftWorkCalendar.xcdatamodeld in Sources */,
 				037C49491E7516F20050D84B /* CalendarCollectionView.m in Sources */,
 				037C496F1E785CF70050D84B /* ShiftWorkCell.m in Sources */,
@@ -436,6 +464,7 @@
 				037C4B891E8442720050D84B /* TimePickerView.m in Sources */,
 				037C49121E7511520050D84B /* AppDelegate.m in Sources */,
 				037C490F1E7511520050D84B /* main.m in Sources */,
+				03075FF11E8AC99B00638095 /* ShiftDateCoreData+CoreDataProperties.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -584,6 +613,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = Y82V3U924M;
 				INFOPLIST_FILE = ShiftWorkCalendar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.josh.ShiftWorkCalendar;
@@ -595,6 +625,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = Y82V3U924M;
 				INFOPLIST_FILE = ShiftWorkCalendar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.josh.ShiftWorkCalendar;

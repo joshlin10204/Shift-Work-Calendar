@@ -44,7 +44,7 @@
 -(void)initDateData
 {
 //    self.calendarData=[[CalendarData alloc]init];
-    self.currentDateInfo=[CalendarData getCurrentDateInfo];
+    self.currentDateInfo=[CalendarData getCurrentDayCalendarInfo];
 }
 
 -(void)initMonthCollectionView
@@ -88,7 +88,7 @@
     
     CalendarCollectionView * calendarCollectionView=(CalendarCollectionView *)viewController;
     
-    self.currentDateInfo=[CalendarData getNextDateInfo:calendarCollectionView.dateDictionary];
+    self.currentDateInfo=[CalendarData getNextCalendarInfo:calendarCollectionView.dateDictionary];
     
     return [self currentCalendarViewDateInfo:self.currentDateInfo storyboard:viewController.storyboard];
 }
@@ -97,7 +97,7 @@
 {
     CalendarCollectionView * calendarCollectionView=(CalendarCollectionView *)viewController;
 
-    self.currentDateInfo=[CalendarData getPrevDateInfo:calendarCollectionView.dateDictionary];
+    self.currentDateInfo=[CalendarData getPrevCalendarInfo:calendarCollectionView.dateDictionary];
 
 
     return [self currentCalendarViewDateInfo:self.currentDateInfo storyboard:viewController.storyboard];

@@ -11,41 +11,34 @@
 @implementation CalendarData
 
 
-+(NSMutableDictionary*)getCurrentDateInfo
++(NSMutableDictionary*)getCurrentDayCalendarInfo
 {
     NSCalendar *greCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     NSDateComponents *dateComponents = [greCalendar components:NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit | NSWeekCalendarUnit | NSWeekdayCalendarUnit | NSWeekOfMonthCalendarUnit | NSWeekOfYearCalendarUnit fromDate:[NSDate date]];
     
     NSNumber * curYear=[NSNumber numberWithInteger:dateComponents.year];
     NSNumber * curMonth=[NSNumber numberWithInteger:dateComponents.month];
-    NSNumber * curDay=[NSNumber numberWithInteger:dateComponents.day];
-    NSNumber * curWeek=[NSNumber numberWithInteger:dateComponents.weekday];
-    NSNumber * curWeekOfMonth=[NSNumber numberWithInteger:dateComponents.weekOfMonth];
     NSNumber * weekOfMonthFirstDay=[self getWeekOfMonthFirstDay:curMonth inputYear:curYear];
     NSNumber* daysTotalInMonth=[self getNumberOfDaysInMonth:curMonth inputYear:curYear];
     NSNumber* weekTotalInMonth=[self getWeekTotalInMonth:curMonth inputYear:curYear];
+    NSMutableDictionary*allDayInfo=[self getAllDayInfoInCurYear:curYear withMonth:curMonth withDaysTotalInMonth:daysTotalInMonth];
+
     
-    NSLog(@"~~~~:%@",curWeek);
     NSMutableDictionary *currentDateInfo=[[NSMutableDictionary alloc]init];
     [currentDateInfo setObject:curYear  forKey:CalendarData_Year];
     [currentDateInfo setObject:curMonth  forKey:CalendarData_Month];
-    [currentDateInfo setObject:curDay  forKey:CalendarData_Day];
-    [currentDateInfo setObject:curWeek  forKey:CalendarData_Week];
-    [currentDateInfo setObject:curWeekOfMonth  forKey:CalendarData_WeekInMonth];
     [currentDateInfo setObject:weekOfMonthFirstDay  forKey:CalendarData_FirstDayWeekInMonth];
     [currentDateInfo setObject:daysTotalInMonth  forKey:CalendarData_DaysTotalInMonth];
     [currentDateInfo setObject:weekTotalInMonth  forKey:CalendarData_WeekTotalInMonth];
-
-
+    
 
     return currentDateInfo;
 }
 
-+(NSMutableDictionary*)getNextDateInfo:(NSMutableDictionary*)curDateInfo
++(NSMutableDictionary*)getNextCalendarInfo:(NSMutableDictionary*)curDateInfo
 {
     NSNumber * nextYear=[curDateInfo objectForKey:CalendarData_Year];
     NSNumber * nextMonth=[curDateInfo objectForKey:CalendarData_Month];
-    NSNumber * nextDay=[curDateInfo objectForKey:CalendarData_Day];
 
     
     NSInteger newYear = [nextYear integerValue];
@@ -71,20 +64,17 @@
     NSMutableDictionary *nextDateInfo=[[NSMutableDictionary alloc]init];
     [nextDateInfo setObject:nextYear  forKey:CalendarData_Year];
     [nextDateInfo setObject:nextMonth  forKey:CalendarData_Month];
-    [nextDateInfo setObject:nextDay  forKey:CalendarData_Day];
     [nextDateInfo setObject:weekOfMonthFirstDay  forKey:CalendarData_FirstDayWeekInMonth];
     [nextDateInfo setObject:daysTotalInMonth  forKey:CalendarData_DaysTotalInMonth];
     [nextDateInfo setObject:weekTotalInMonth  forKey:CalendarData_WeekTotalInMonth];
 
     return nextDateInfo;
 }
-+(NSMutableDictionary*)getPrevDateInfo:(NSMutableDictionary*)curDateInfo
++(NSMutableDictionary*)getPrevCalendarInfo:(NSMutableDictionary*)curDateInfo
 {
 
     NSNumber * prevYear=[curDateInfo objectForKey:CalendarData_Year];
     NSNumber * prevMonth=[curDateInfo objectForKey:CalendarData_Month];
-    NSNumber * prevDay=[curDateInfo objectForKey:CalendarData_Day];
-
 
     
     NSInteger newYear = [prevYear integerValue];
@@ -110,7 +100,6 @@
     NSMutableDictionary *prevDateInfo=[[NSMutableDictionary alloc]init];
     [prevDateInfo setObject:prevYear  forKey:CalendarData_Year];
     [prevDateInfo setObject:prevMonth  forKey:CalendarData_Month];
-    [prevDateInfo setObject:prevDay  forKey:CalendarData_Day];
     [prevDateInfo setObject:weekOfMonthFirstDay  forKey:CalendarData_FirstDayWeekInMonth];
     [prevDateInfo setObject:daysTotalInMonth  forKey:CalendarData_DaysTotalInMonth];
     [prevDateInfo setObject:weekTotalInMonth  forKey:CalendarData_WeekTotalInMonth];
@@ -198,6 +187,54 @@
     NSNumber *daysCount = [NSNumber numberWithInteger:range.length];
 
     return daysCount;
+}
+
++(NSMutableDictionary*)getAllDayInfoInCurYear:(NSNumber*)year
+                                    withMonth:(NSNumber*)month
+                         withDaysTotalInMonth:(NSNumber*)total
+
+{
+    NSMutableDictionary *allDayInfo=[[NSMutableDictionary alloc]init];
+
+    NSInteger yearInt=[year integerValue];
+    NSInteger monthInt=[month integerValue];
+    NSInteger dayTotal=[total integerValue];
+    for (int i=1; i<=dayTotal; i++)
+    {
+        NSMutableDictionary *dayInfo=[[NSMutableDictionary alloc]init];
+        NSString*day=[[NSString alloc]initWithFormat:@"%d",i];
+        NSString*weekString=[self weekdayStringFromYear:yearInt withMonth:monthInt withDay:i];
+        [dayInfo setObject:day forKey:CalendarData_AllDayInfo_Day];
+        [dayInfo setObject:weekString forKey:CalendarData_AllDayInfo_Week];
+        [allDayInfo setObject:dayInfo forKey:day];
+
+    }
+    
+    
+    
+    return allDayInfo;
+}
++(NSString*)weekdayStringFromYear:(NSInteger)year
+                        withMonth:(NSInteger)month
+                          withDay:(NSInteger)day
+{
+    
+    NSArray *weekdays = [NSArray arrayWithObjects: [NSNull null], @"星期天", @"星期一", @"星期二", @"星期三", @"星期四", @"星期五", @"星期六", nil];
+    NSDateComponents *dateComponents=[[NSDateComponents alloc]init];
+    [dateComponents setYear:year];
+    [dateComponents setMonth:month];
+    [dateComponents setDay:day];
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Taipei"];
+    [calendar setTimeZone: timeZone];
+    NSCalendarUnit calendarUnit = NSCalendarUnitWeekday;
+    
+
+    NSDate *date = [calendar dateFromComponents:dateComponents];
+    NSDateComponents *weekComponents = [calendar components:calendarUnit fromDate:date];
+    
+    return [weekdays objectAtIndex:weekComponents.weekday];
+    
 }
 
 

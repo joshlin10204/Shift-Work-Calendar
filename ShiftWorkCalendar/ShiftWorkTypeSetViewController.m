@@ -63,7 +63,7 @@
  
 }
 
-#pragma mark - Load & Save Data
+#pragma mark - Core Data
 -(void)loadShiftWorkTypeData
 {
     if (_isAddNewShiftWorkType)

@@ -25,15 +25,16 @@
     NSNumber* daysTotalInMonth=[self getNumberOfDaysInMonth:curMonth inputYear:curYear];
     NSNumber* weekTotalInMonth=[self getWeekTotalInMonth:curMonth inputYear:curYear];
     
+    NSLog(@"~~~~:%@",curWeek);
     NSMutableDictionary *currentDateInfo=[[NSMutableDictionary alloc]init];
-    [currentDateInfo setObject:curYear  forKey:@"curYear"];
-    [currentDateInfo setObject:curMonth  forKey:@"curMonth"];
-    [currentDateInfo setObject:curDay  forKey:@"curDay"];
-    [currentDateInfo setObject:curWeek  forKey:@"curWeek"];
-    [currentDateInfo setObject:curWeekOfMonth  forKey:@"curWeekOfMonth"];
-    [currentDateInfo setObject:weekOfMonthFirstDay  forKey:@"weekOfMonthFirstDay"];
-    [currentDateInfo setObject:daysTotalInMonth  forKey:@"daysTotalInMonth"];
-    [currentDateInfo setObject:weekTotalInMonth  forKey:@"weekTotalInMonth"];
+    [currentDateInfo setObject:curYear  forKey:CalendarData_Year];
+    [currentDateInfo setObject:curMonth  forKey:CalendarData_Month];
+    [currentDateInfo setObject:curDay  forKey:CalendarData_Day];
+    [currentDateInfo setObject:curWeek  forKey:CalendarData_Week];
+    [currentDateInfo setObject:curWeekOfMonth  forKey:CalendarData_WeekInMonth];
+    [currentDateInfo setObject:weekOfMonthFirstDay  forKey:CalendarData_FirstDayWeekInMonth];
+    [currentDateInfo setObject:daysTotalInMonth  forKey:CalendarData_DaysTotalInMonth];
+    [currentDateInfo setObject:weekTotalInMonth  forKey:CalendarData_WeekTotalInMonth];
 
 
 
@@ -42,9 +43,9 @@
 
 +(NSMutableDictionary*)getNextDateInfo:(NSMutableDictionary*)curDateInfo
 {
-    NSNumber * nextYear=[curDateInfo objectForKey:@"curYear"];
-    NSNumber * nextMonth=[curDateInfo objectForKey:@"curMonth"];
-    NSNumber * nextDay=[curDateInfo objectForKey:@"curDay"];
+    NSNumber * nextYear=[curDateInfo objectForKey:CalendarData_Year];
+    NSNumber * nextMonth=[curDateInfo objectForKey:CalendarData_Month];
+    NSNumber * nextDay=[curDateInfo objectForKey:CalendarData_Day];
 
     
     NSInteger newYear = [nextYear integerValue];
@@ -68,21 +69,21 @@
 
     
     NSMutableDictionary *nextDateInfo=[[NSMutableDictionary alloc]init];
-    [nextDateInfo setObject:nextYear  forKey:@"curYear"];
-    [nextDateInfo setObject:nextMonth  forKey:@"curMonth"];
-    [nextDateInfo setObject:nextDay  forKey:@"curDay"];
-    [nextDateInfo setObject:weekOfMonthFirstDay  forKey:@"weekOfMonthFirstDay"];
-    [nextDateInfo setObject:daysTotalInMonth  forKey:@"daysTotalInMonth"];
-    [nextDateInfo setObject:weekTotalInMonth  forKey:@"weekTotalInMonth"];
+    [nextDateInfo setObject:nextYear  forKey:CalendarData_Year];
+    [nextDateInfo setObject:nextMonth  forKey:CalendarData_Month];
+    [nextDateInfo setObject:nextDay  forKey:CalendarData_Day];
+    [nextDateInfo setObject:weekOfMonthFirstDay  forKey:CalendarData_FirstDayWeekInMonth];
+    [nextDateInfo setObject:daysTotalInMonth  forKey:CalendarData_DaysTotalInMonth];
+    [nextDateInfo setObject:weekTotalInMonth  forKey:CalendarData_WeekTotalInMonth];
 
     return nextDateInfo;
 }
 +(NSMutableDictionary*)getPrevDateInfo:(NSMutableDictionary*)curDateInfo
 {
 
-    NSNumber * prevYear=[curDateInfo objectForKey:@"curYear"];
-    NSNumber * prevMonth=[curDateInfo objectForKey:@"curMonth"];
-    NSNumber * prevDay=[curDateInfo objectForKey:@"curDay"];
+    NSNumber * prevYear=[curDateInfo objectForKey:CalendarData_Year];
+    NSNumber * prevMonth=[curDateInfo objectForKey:CalendarData_Month];
+    NSNumber * prevDay=[curDateInfo objectForKey:CalendarData_Day];
 
 
     
@@ -107,12 +108,12 @@
     NSNumber* weekTotalInMonth=[self getWeekTotalInMonth:prevMonth inputYear:prevYear];
 
     NSMutableDictionary *prevDateInfo=[[NSMutableDictionary alloc]init];
-    [prevDateInfo setObject:prevYear  forKey:@"curYear"];
-    [prevDateInfo setObject:prevMonth  forKey:@"curMonth"];
-    [prevDateInfo setObject:prevDay  forKey:@"curDay"];
-    [prevDateInfo setObject:weekOfMonthFirstDay  forKey:@"weekOfMonthFirstDay"];
-    [prevDateInfo setObject:daysTotalInMonth  forKey:@"daysTotalInMonth"];
-    [prevDateInfo setObject:weekTotalInMonth  forKey:@"weekTotalInMonth"];
+    [prevDateInfo setObject:prevYear  forKey:CalendarData_Year];
+    [prevDateInfo setObject:prevMonth  forKey:CalendarData_Month];
+    [prevDateInfo setObject:prevDay  forKey:CalendarData_Day];
+    [prevDateInfo setObject:weekOfMonthFirstDay  forKey:CalendarData_FirstDayWeekInMonth];
+    [prevDateInfo setObject:daysTotalInMonth  forKey:CalendarData_DaysTotalInMonth];
+    [prevDateInfo setObject:weekTotalInMonth  forKey:CalendarData_WeekTotalInMonth];
 
 
     return prevDateInfo;

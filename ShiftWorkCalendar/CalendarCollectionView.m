@@ -89,12 +89,12 @@
     todayDay =[NSNumber numberWithInteger:[todayDate day]];
 
     //當前選擇的Calendar
-    curYear=[self.dateDictionary objectForKey:@"curYear"];
-    curMonth=[self.dateDictionary objectForKey:@"curMonth"];
-    curDay=[self.dateDictionary objectForKey:@"curDay"];
-    daysTotalInMonth=[self.dateDictionary objectForKey:@"daysTotalInMonth"];
-    weekTotalInMonth=[self.dateDictionary objectForKey:@"weekTotalInMonth"];
-    weekOfMonthFirstDay=[self.dateDictionary objectForKey:@"weekOfMonthFirstDay"];
+    curYear=[self.dateDictionary objectForKey:CalendarData_Year];
+    curMonth=[self.dateDictionary objectForKey:CalendarData_Month];
+    curDay=[self.dateDictionary objectForKey:CalendarData_Day];
+    daysTotalInMonth=[self.dateDictionary objectForKey:CalendarData_DaysTotalInMonth];
+    weekTotalInMonth=[self.dateDictionary objectForKey:CalendarData_WeekTotalInMonth];
+    weekOfMonthFirstDay=[self.dateDictionary objectForKey:CalendarData_FirstDayWeekInMonth];
     
     if (todayYear ==curYear &&todayMonth==curMonth)
     {
@@ -220,7 +220,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
         // Tag=0 代表 上/下個月 Cell
         [dayCell setTag:0];
 
-        NSInteger prevDaysTotalInMonth=[[prevDateInfo objectForKey:@"daysTotalInMonth"]integerValue];
+        NSInteger prevDaysTotalInMonth=[[prevDateInfo objectForKey:CalendarData_DaysTotalInMonth]integerValue];
         
         NSInteger prevDay=prevDaysTotalInMonth-(monthFirstDayOnWeek-cellRow-1);
         NSString *dayString=[[NSString alloc]initWithFormat:@"%ld",(long)prevDay];
@@ -341,6 +341,13 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
     cell.shiftShortNameLabel.text=@"";
     cell.shiftShortNameLabel.layer.backgroundColor=[[UIColor clearColor] CGColor];
+
+}
+#pragma mark - Core Data
+
+-(void)loadShiftCalendarData
+{
+
 
 }
 

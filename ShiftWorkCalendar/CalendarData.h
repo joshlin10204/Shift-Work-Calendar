@@ -9,6 +9,15 @@
 #import <Foundation/Foundation.h>
 
 @interface CalendarData : NSObject
+#define CalendarData_Year @"CalendarData_Year"
+#define CalendarData_Month @"CalendarData_Month"
+#define CalendarData_Day @"CalendarData_Day"
+#define CalendarData_Week @"CalendarData_Week"
+#define CalendarData_WeekInMonth @"CalendarData_WeekInMonth"
+#define CalendarData_FirstDayWeekInMonth @"CalendarData_FirstDayWeekInMonth"
+#define CalendarData_DaysTotalInMonth @"CalendarData_DaysTotalInMonth"
+#define CalendarData_WeekTotalInMonth @"CalendarData_WeekTotalInMonth"
+
 
 
 +(NSMutableDictionary*)getCurrentDateInfo;

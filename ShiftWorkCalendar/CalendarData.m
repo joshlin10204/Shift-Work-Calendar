@@ -22,7 +22,6 @@
     NSNumber* daysTotalInMonth=[self getNumberOfDaysInMonth:curMonth inputYear:curYear];
     NSNumber* weekTotalInMonth=[self getWeekTotalInMonth:curMonth inputYear:curYear];
     NSMutableDictionary*allDayInfo=[self getAllDayInfoInCurYear:curYear withMonth:curMonth withDaysTotalInMonth:daysTotalInMonth];
-
     
     NSMutableDictionary *currentDateInfo=[[NSMutableDictionary alloc]init];
     [currentDateInfo setObject:curYear  forKey:CalendarData_Year];
@@ -30,6 +29,8 @@
     [currentDateInfo setObject:weekOfMonthFirstDay  forKey:CalendarData_FirstDayWeekInMonth];
     [currentDateInfo setObject:daysTotalInMonth  forKey:CalendarData_DaysTotalInMonth];
     [currentDateInfo setObject:weekTotalInMonth  forKey:CalendarData_WeekTotalInMonth];
+    [currentDateInfo setObject:allDayInfo  forKey:CalendarData_AllDayInfo];
+
     
 
     return currentDateInfo;
@@ -203,11 +204,11 @@
     {
         NSMutableDictionary *dayInfo=[[NSMutableDictionary alloc]init];
         NSString*day=[[NSString alloc]initWithFormat:@"%d",i];
+        NSString*key=[[NSString alloc]initWithFormat:@"%@%@%@",year,month,day];
         NSString*weekString=[self weekdayStringFromYear:yearInt withMonth:monthInt withDay:i];
         [dayInfo setObject:day forKey:CalendarData_AllDayInfo_Day];
         [dayInfo setObject:weekString forKey:CalendarData_AllDayInfo_Week];
-        [allDayInfo setObject:dayInfo forKey:day];
-
+        [allDayInfo setObject:dayInfo forKey:key];
     }
     
     

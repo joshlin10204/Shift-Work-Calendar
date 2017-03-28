@@ -17,7 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nullable, nonatomic, copy) NSString *shiftTypeID;
 @property (nullable, nonatomic, copy) NSString *dateID;
-@property (nullable, nonatomic, retain) NSData *dateInfo;
 @property (nullable, nonatomic, copy) NSString *calendarPage;
 
 @end

@@ -20,7 +20,7 @@
 #define CoreData_ShiftDateInfo_DateID @"CoreData_ShiftDateInfo_DateID"
 #define CoreData_ShiftDateInfo_ShiftTypeID @"CoreData_ShiftDateInfo_ShiftTypeID"
 #define CoreData_ShiftDateInfo_CalendarPage @"CoreData_ShiftDateInfo_CalendarPage"
-#define CoreData_ShiftDateInfo_DateInfo @"CoreData_ShiftDateInfo_DateInfo"
+//#define CoreData_ShiftDateInfo_DateInfo @"CoreData_ShiftDateInfo_DateInfo"
 
 
 
@@ -31,12 +31,14 @@
 - (NSMutableArray*)loadAllShiftWorkType;
 - (ShiftWorkTypeCoreData*)addShiftWorkType:(NSMutableDictionary*)typeInfo;
 - (void)updateShiftWorkTypeWithTypeID:(NSString *)typeID withShiftWorkType:(NSMutableDictionary*)typeInfo;
+- (NSMutableDictionary*)searchShiftWorkTypeOfTypeID:(NSString*)typeID;
+
 - (BOOL)deleteShiftWorkTypeWithTypeID:(NSString *)typeID;
 
 //ShiftDateCoreData
 - (NSMutableArray*)loadAllShiftDate;
-- (NSMutableArray*)loadShiftDateOfCalendarPage:(NSString*)calendarPage;
-- (ShiftDateCoreData*)addShiftDate:(NSMutableDictionary*)info;
+- (NSMutableArray*)searchShiftDateIDOfCalendarPage:(NSString*)calendarPage;
+- (void)addShiftDate:(NSMutableDictionary*)info;
 - (void)updateShiftDateID:(NSString *)dateID withShiftCalendar:(NSMutableDictionary*)info;
 - (BOOL)deleteShiftDateID:(NSString *)dateID;
 

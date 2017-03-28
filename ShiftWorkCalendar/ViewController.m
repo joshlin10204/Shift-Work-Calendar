@@ -160,6 +160,7 @@
 
     if (type==ShiftWorkCellTypeAddShiftType)
     {
+        [self onClickAddShiftWorkBtn:nil];
         UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         
         ShiftWorkTypeSetViewController* addShiftWorkTypeView = [storyboard instantiateViewControllerWithIdentifier:@"ShiftWorkTypeSetViewController"];

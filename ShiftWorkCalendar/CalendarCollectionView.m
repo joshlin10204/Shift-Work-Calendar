@@ -31,14 +31,16 @@
     NSNumber * daysTotalInMonth;
     NSNumber * weekTotalInMonth;
     NSNumber * weekOfMonthFirstDay;
+    NSMutableDictionary*allDayInfo;
     CGFloat cellLineSpacing;
     CGFloat cellInteritemSpacing;
 
     
     BOOL isAddShiftWork;
+    NSString*calendarPage;
     NSMutableDictionary*shiftTypeInfo;
-    NSMutableArray*shiftDateInfosArray;
-    NSMutableDictionary*shiftDateTempInfo;
+    NSMutableArray*shiftDateIDArray;
+    NSMutableArray*shiftDateInfoTempArray;
 
 
     
@@ -58,6 +60,8 @@
     [self initDateDictionary];
     [self initCollectionViewCell];
     [self initNotification];
+    [self loadShiftDateData];
+
     
 }
 
@@ -96,7 +100,9 @@
     daysTotalInMonth=[self.dateDictionary objectForKey:CalendarData_DaysTotalInMonth];
     weekTotalInMonth=[self.dateDictionary objectForKey:CalendarData_WeekTotalInMonth];
     weekOfMonthFirstDay=[self.dateDictionary objectForKey:CalendarData_FirstDayWeekInMonth];
-    if (todayYear ==curYear &&todayMonth==curMonth)
+    allDayInfo=[self.dateDictionary objectForKey:CalendarData_AllDayInfo];
+    calendarPage=[[NSString alloc]initWithFormat:@"%@%@",curYear,curMonth];
+    if (todayYear ==curYear&&todayMonth==curMonth)
     {
         isCurrenCalendar=YES;
     }
@@ -246,6 +252,14 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
 
     UICollectionViewCell *cell =[collectionView cellForItemAtIndexPath:indexPath];
+    //----點選 Cell Day Info
+    NSString*dayInfoKey=[[NSString alloc]initWithFormat:@"%ld",(long)cell.tag];
+    NSMutableDictionary*dayInfo=[allDayInfo objectForKey:dayInfoKey];
+    NSString *day=[dayInfo objectForKey:CalendarData_AllDayInfo_Day];
+    NSString *week=[dayInfo objectForKey:CalendarData_AllDayInfo_Week];
+    //----
+
+    
     CalendarCollectionCell *curSelectDayCell=selectDayCell;
     selectDayCell=(CalendarCollectionCell*)cell;
     if (isAddShiftWork)
@@ -253,6 +267,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
         // Tag=0 代表 上/下個月 Cell
         if (cell.tag !=0)
         {
+            
             [self setAddShiftWorkInSelectCell:selectDayCell withShiftTypeInfo:shiftTypeInfo];
         }
     }
@@ -338,12 +353,13 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
     cell.shiftShortNameLabel.text=shiftShortName;
     cell.shiftShortNameLabel.layer.backgroundColor=[shiftColor CGColor];
     
-//    NSString*shiftCalendarID=[[NSString alloc]initWithFormat:@"%ld",(long)cell.tag];
-//    [shiftCalendarTempInfo setObject:shiftCalendarID forKey:CoreData_ShiftCalendarInfo_ShiftCalendarID];
-//    [shiftCalendarTempInfo setObject:shiftTypeID forKey:CoreData_ShiftCalendarInfo_ShiftTypeID];
-//    [shiftCalendarTempInfo setObject:shiftCalendarID forKey:CoreData_ShiftCalendarInfo_ShiftCalendarID];
+    NSMutableDictionary*tempInfo=[[NSMutableDictionary alloc]init];
+    NSString*dateID=[[NSString alloc]initWithFormat:@"%ld",(long)cell.tag];
+    [tempInfo setObject:dateID forKey:CoreData_ShiftDateInfo_DateID];
+    [tempInfo setObject:calendarPage forKey:CoreData_ShiftDateInfo_CalendarPage];
+    [tempInfo setObject:shiftTypeID forKey:CoreData_ShiftDateInfo_ShiftTypeID];
     
-    
+    [shiftDateInfoTempArray addObject:tempInfo];
     
 }
 -(void)setCancelShiftWorkInSelectCell:(CalendarCollectionCell*)cell
@@ -353,28 +369,39 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
     cell.shiftShortNameLabel.layer.backgroundColor=[[UIColor clearColor] CGColor];
 
 }
+#pragma mark - Shift Type Data
+
+
 
 #pragma mark - Shift Date Data
 #pragma mark -- Temporary Data
 -(void)initShiftDateTempData
 {
-    shiftDateTempInfo=[[NSMutableDictionary alloc]init];
+    shiftDateInfoTempArray=[[NSMutableArray alloc]init];
 }
 -(void)deleteShiftDateTempData
 {
-    shiftDateTempInfo=nil;
+    shiftDateInfoTempArray=nil;
 }
 
 #pragma mark -- Core Data
 -(void)loadShiftDateData
 {
-//    shiftCalendarInfosArray = [[CoreDataHandle shareCoreDatabase] loadAllShiftCalendar];
-//    
-//    [self.collectionView reloadData];
+    NSLog(@"測試00：%@",calendarPage);
+    shiftDateIDArray = [[CoreDataHandle shareCoreDatabase] searchShiftDateIDOfCalendarPage:calendarPage];
+    NSLog(@"測試1：%@",shiftDateIDArray);
+
+//
+    [self.collectionView reloadData];
 
 }
 -(void)saveShiftDateData
 {
+    for (int i=0; i<shiftDateInfoTempArray.count; i++)
+    {
+        NSMutableDictionary*info=shiftDateInfoTempArray[i];
+        [[CoreDataHandle shareCoreDatabase]addShiftDate:info];
+    }
 
     [self deleteShiftDateTempData];
 

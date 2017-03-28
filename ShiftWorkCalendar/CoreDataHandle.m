@@ -120,7 +120,41 @@ static CoreDataHandle *database;
 
     
 }
+- (NSMutableDictionary*)searchShiftWorkTypeOfTypeID:(NSString*)typeID
+{
 
+    NSFetchRequest *request = [NSFetchRequest new];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"ShiftWorkTypeCoreData" inManagedObjectContext:[self delegate].persistentContainer.viewContext];
+    
+    NSError *error = nil;
+    
+    [request setEntity:entity];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"typeID = %@",typeID];
+    [request setPredicate:predicate];
+    
+    NSArray *coreDatainfos = [[[self delegate].persistentContainer.viewContext executeFetchRequest:request error:&error] mutableCopy];
+    
+    ShiftWorkTypeCoreData* coreData=coreDatainfos[0];
+    NSMutableDictionary*timeInfo=[[NSMutableDictionary alloc]init];
+    timeInfo=[NSKeyedUnarchiver unarchiveObjectWithData:coreData.time];
+    UIColor *color=[NSKeyedUnarchiver unarchiveObjectWithData:coreData.color];
+    NSMutableDictionary *dic=[[NSMutableDictionary alloc]init];
+    [dic setObject:coreData.typeID forKey:CoreData_ShiftTypeInfo_TypeID];
+    [dic setObject:coreData.titleName forKey:CoreData_ShiftTypeInfo_TitleName];
+    [dic setObject:coreData.shortName forKey:CoreData_ShiftTypeInfo_ShortName];
+    [dic setObject:timeInfo forKey:CoreData_ShiftTypeInfo_Time];
+    [dic setObject:color forKey:CoreData_ShiftTypeInfo_Color];
+    if (!error)
+    {
+        return dic;
+    }
+    
+    return nil;
+
+
+
+}
 - (BOOL)deleteShiftWorkTypeWithTypeID:(NSString *)typeID
 {
     NSPredicate *perdicate = [NSPredicate predicateWithFormat:@"typeID = %@",typeID];
@@ -173,13 +207,10 @@ static CoreDataHandle *database;
     {
         ShiftDateCoreData* coreData=coreDatainfos[i];
         NSMutableDictionary*dateInfo=[[NSMutableDictionary alloc]init];
-        dateInfo=[NSKeyedUnarchiver unarchiveObjectWithData:coreData.dateInfo];
- 
         NSMutableDictionary *dic=[[NSMutableDictionary alloc]init];
         [dic setObject:coreData.dateID forKey:CoreData_ShiftDateInfo_DateID];
         [dic setObject:coreData.shiftTypeID forKey:CoreData_ShiftDateInfo_ShiftTypeID];
         [dic setObject:coreData.calendarPage forKey:CoreData_ShiftDateInfo_CalendarPage];
-        [dic setObject:dateInfo forKey:CoreData_ShiftDateInfo_DateInfo];
 
         [info addObject:dic];
     }
@@ -192,7 +223,7 @@ static CoreDataHandle *database;
     return nil;
 
 }
-- (NSMutableArray*)loadShiftDateOfCalendarPage:(NSString*)calendarPage
+- (NSMutableArray*)searchShiftDateIDOfCalendarPage:(NSString*)calendarPage;
 {
     NSFetchRequest *request = [NSFetchRequest new];
 
@@ -207,19 +238,11 @@ static CoreDataHandle *database;
     NSArray *coreDatainfos = [[[self delegate].persistentContainer.viewContext executeFetchRequest:request error:&error] mutableCopy];
     
     NSMutableArray *info=[[NSMutableArray alloc]init];
+    NSLog(@"測試0:%@",coreDatainfos);
     for (int i=0; i<coreDatainfos.count; i++)
     {
-        ShiftDateCoreData* coreData=coreDatainfos[i];
-        NSMutableDictionary*dateInfo=[[NSMutableDictionary alloc]init];
-        dateInfo=[NSKeyedUnarchiver unarchiveObjectWithData:coreData.dateInfo];
-        
-        NSMutableDictionary *dic=[[NSMutableDictionary alloc]init];
-        [dic setObject:coreData.dateID forKey:CoreData_ShiftDateInfo_DateID];
-        [dic setObject:coreData.shiftTypeID forKey:CoreData_ShiftDateInfo_ShiftTypeID];
-        [dic setObject:coreData.calendarPage forKey:CoreData_ShiftDateInfo_CalendarPage];
-        [dic setObject:dateInfo forKey:CoreData_ShiftDateInfo_DateInfo];
-        
-        [info addObject:dic];
+        ShiftDateCoreData* coreData=coreDatainfos[i];        
+        [info addObject:coreData.dateID];
     }
 
     if (!error)
@@ -231,7 +254,7 @@ static CoreDataHandle *database;
 
 
 }
-- (ShiftDateCoreData*)addShiftDate:(NSMutableDictionary*)info
+- (void)addShiftDate:(NSMutableDictionary*)info
 {
     NSManagedObjectContext *managedContext = [self delegate].persistentContainer.viewContext;
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"ShiftDateCoreData" inManagedObjectContext:managedContext];
@@ -242,14 +265,13 @@ static CoreDataHandle *database;
     coreData.dateID = [info objectForKey:CoreData_ShiftDateInfo_DateID];
     coreData.shiftTypeID = [info objectForKey:CoreData_ShiftDateInfo_ShiftTypeID];
     coreData.calendarPage = [info objectForKey:CoreData_ShiftDateInfo_CalendarPage];
-    coreData.dateInfo = [NSKeyedArchiver archivedDataWithRootObject:[info objectForKey:CoreData_ShiftDateInfo_DateInfo]];
     
     
     BOOL result = [[self delegate].persistentContainer.viewContext save:&error];
     if (result) {
-        return coreData;
+        NSLog(@"儲存！");
     }
-    return nil;
+//    return nil;
 
 
 }
@@ -269,7 +291,6 @@ static CoreDataHandle *database;
     coreData.dateID = [info objectForKey:CoreData_ShiftDateInfo_DateID];
     coreData.shiftTypeID = [info objectForKey:CoreData_ShiftDateInfo_ShiftTypeID];
     coreData.calendarPage = [info objectForKey:CoreData_ShiftDateInfo_CalendarPage];
-    coreData.dateInfo = [NSKeyedArchiver archivedDataWithRootObject:[info objectForKey:CoreData_ShiftDateInfo_DateInfo]];
     
     [[self delegate].persistentContainer.viewContext save:nil];
 

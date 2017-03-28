@@ -3,7 +3,6 @@
     <entity name="ShiftDateCoreData" representedClassName="ShiftDateCoreData" syncable="YES">
         <attribute name="calendarPage" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dateID" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="dateInfo" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="shiftTypeID" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="ShiftWorkTypeCoreData" representedClassName="ShiftWorkTypeCoreData" syncable="YES">
@@ -16,6 +15,6 @@
     </entity>
     <elements>
         <element name="ShiftWorkTypeCoreData" positionX="-63" positionY="-18" width="128" height="135"/>
-        <element name="ShiftDateCoreData" positionX="-54" positionY="36" width="128" height="105"/>
+        <element name="ShiftDateCoreData" positionX="-54" positionY="36" width="128" height="90"/>
     </elements>
 </model>

@@ -16,7 +16,6 @@
 
 @dynamic shiftTypeID;
 @dynamic dateID;
-@dynamic dateInfo;
 @dynamic calendarPage;
 
 @end

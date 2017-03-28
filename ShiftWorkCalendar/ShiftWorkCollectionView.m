@@ -114,8 +114,7 @@ static ShiftWorkCollectionView *instance=nil;
     {
         self.addShiftWorkStatus=AddShiftWorkStatusOn;
         frame.origin.y =frame.size.height*4;
-        [self collectionView:self.shiftWorkCollectionView didSelectItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
-        
+        [self selectFirstCell];
     }
     else
     {
@@ -126,6 +125,14 @@ static ShiftWorkCollectionView *instance=nil;
     self.frame=frame;
     
     [UIView commitAnimations];
+}
+-(void)selectFirstCell
+{
+    if (shiftWorkTypeInfosArray.count!=0)
+    {
+        [self collectionView:self.shiftWorkCollectionView didSelectItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
+    }
+
 }
 
 #pragma mark - Shift Work Collection View
@@ -288,6 +295,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
     if (selectShiftCell.tag==0)
     {
         [self.delegate selectShiftWorkCellWithCellType:ShiftWorkCellTypeAddShiftType withShiftTypeInfo:info];
+        
     }
     else
     {

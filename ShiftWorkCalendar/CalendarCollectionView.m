@@ -12,6 +12,9 @@
 #import "CalendarData.h"
 #import "CoreDataHandle.h"
 
+#define ShiftDateTempInfo_AddInfo @"ShiftDateTempInfo_AddInfo"
+#define ShiftDateTempInfo_DeleteInfo @"ShiftDateTempInfo_DeleteInfo"
+#define ShiftDateTempInfo_UpdateInfo @"ShiftDateTempInfo_AddInfo"
 
 
 @interface CalendarCollectionView ()
@@ -42,7 +45,11 @@
 //    NSMutableDictionary*shiftDateInfo;
     NSMutableDictionary* allShiftDateTypeInfo;
     NSMutableDictionary* allShiftDateInfo;
-    NSMutableArray*shiftDateInfoTempArray;
+    
+    NSMutableDictionary* addShiftDateTempInfo;
+    NSMutableDictionary* deleteShiftDateTempInfo;
+    NSMutableDictionary* updateShiftDateTempInfo;
+
     
 
 
@@ -79,7 +86,6 @@
     
     [self sendCalendarDateNotification];
 
-//    [self.collectionView reloadData];
 
 }
 
@@ -213,7 +219,6 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
         NSString *dayString=[[NSString alloc]initWithFormat:@"%@",dayInt];
         NSString *idString=[[NSString alloc]initWithFormat:@"%@%@%@",curYear,curMonth,dayString];
         NSInteger cellID = [idString intValue];
-
         dayCell.calendarDayLabel.text=dayString;
         [dayCell setTag:cellID];
         if (isCurrenCalendar&&dayInt ==todayDay)
@@ -226,9 +231,10 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
         NSMutableDictionary *shiftDateInfo=[allShiftDateInfo objectForKey:idString];
         if (shiftDateInfo!=nil)
         {
+            dayCell.calendarCellStatus=CalendarCellStatusHaveShiftDate;
             NSString *typeID=[shiftDateInfo objectForKey:CoreData_ShiftDateInfo_ShiftTypeID];
             NSMutableDictionary *typeInfo=[allShiftDateTypeInfo objectForKey:typeID];
-            [self setAddShiftWorkInSelectCell:dayCell withShiftTypeInfo:typeInfo];
+            [self addShiftWorkInSelectCell:dayCell withShiftTypeInfo:typeInfo];
         }
 
         
@@ -279,11 +285,28 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
     selectDayCell=(CalendarCollectionCell*)cell;
     if (isAddShiftWork)
     {
+        NSInteger typeID=[[shiftTypeInfo objectForKey:CoreData_ShiftTypeInfo_TypeID]integerValue];
+        BOOL isRepeatSet=[self checkSetRepeatShiftTypeInCell:selectDayCell withShiftTypeID:typeID];
         // Tag=0 代表 上/下個月 Cell
         if (cell.tag !=0)
         {
-            
-            [self setAddShiftWorkInSelectCell:selectDayCell withShiftTypeInfo:shiftTypeInfo];
+
+            if (isRepeatSet)
+            {
+                [self cancelShiftWorkInSelectCell:selectDayCell];
+                [self addShiftDateTempInfoItemOfCell:selectDayCell
+                                   withShiftTypeInfo:shiftTypeInfo
+                                 withIsRepeatSetCell:YES];
+            }
+            else
+            {
+                [self addShiftWorkInSelectCell:selectDayCell withShiftTypeInfo:shiftTypeInfo];
+                [self addShiftDateTempInfoItemOfCell:selectDayCell
+                                   withShiftTypeInfo:shiftTypeInfo
+                                 withIsRepeatSetCell:NO];
+
+            }
+
         }
     }
     else
@@ -353,37 +376,46 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
 -(void)offAddShiftWorkNotification
 {
     isAddShiftWork=NO;
-    [self saveShiftDateData];
+    [self saveShiftDateCoreData];
+
 
 }
 
 #pragma mark -- Add Shift Work in Cell
--(void)setAddShiftWorkInSelectCell:(CalendarCollectionCell*)cell
+-(void)addShiftWorkInSelectCell:(CalendarCollectionCell*)cell
                  withShiftTypeInfo:(NSMutableDictionary*)typeInfo
 {
     NSString *shiftShortName=[typeInfo objectForKey:CoreData_ShiftTypeInfo_ShortName];
     UIColor *shiftColor=[typeInfo objectForKey:CoreData_ShiftTypeInfo_Color];
-    NSString *shiftTypeID=[typeInfo objectForKey:CoreData_ShiftTypeInfo_TypeID];
+    NSInteger typeID=[[typeInfo objectForKey:CoreData_ShiftTypeInfo_TypeID]integerValue];
     
+    cell.shiftShortNameLabel.tag=typeID;
     cell.shiftShortNameLabel.text=shiftShortName;
     cell.shiftShortNameLabel.layer.backgroundColor=[shiftColor CGColor];
     
-    NSMutableDictionary*tempInfo=[[NSMutableDictionary alloc]init];
-    NSString*dateID=[[NSString alloc]initWithFormat:@"%ld",(long)cell.tag];
-    [tempInfo setObject:dateID forKey:CoreData_ShiftDateInfo_DateID];
-    [tempInfo setObject:calendarPage forKey:CoreData_ShiftDateInfo_CalendarPage];
-    [tempInfo setObject:shiftTypeID forKey:CoreData_ShiftDateInfo_ShiftTypeID];
-    
-    [shiftDateInfoTempArray addObject:tempInfo];
-    
 }
--(void)setCancelShiftWorkInSelectCell:(CalendarCollectionCell*)cell
-                    withShiftTypeInfo:(NSMutableDictionary*)typeInfo
+-(void)cancelShiftWorkInSelectCell:(CalendarCollectionCell*)cell
 {
+    cell.shiftShortNameLabel.tag=0;
     cell.shiftShortNameLabel.text=@"";
     cell.shiftShortNameLabel.layer.backgroundColor=[[UIColor clearColor] CGColor];
-
+    
 }
+
+
+-(BOOL)checkSetRepeatShiftTypeInCell:(CalendarCollectionCell*)cell
+                withShiftTypeID:(NSInteger)typeID
+{
+    if (cell.shiftShortNameLabel.tag ==typeID)
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+}
+
 #pragma mark - Shift Type Data
 
 
@@ -392,12 +424,122 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
 #pragma mark -- Temporary Data
 -(void)initShiftDateTempData
 {
-    shiftDateInfoTempArray=[[NSMutableArray alloc]init];
+    addShiftDateTempInfo=[[NSMutableDictionary alloc]init];
+    deleteShiftDateTempInfo=[[NSMutableDictionary alloc]init];
+    updateShiftDateTempInfo=[[NSMutableDictionary alloc]init];
+
 }
 -(void)deleteShiftDateTempData
 {
-    shiftDateInfoTempArray=nil;
+    addShiftDateTempInfo=nil;
+    deleteShiftDateTempInfo=nil;
+    updateShiftDateTempInfo=nil;
 }
+
+-(void)addShiftDateTempInfoItemOfCell:(CalendarCollectionCell*)cell
+                 withShiftTypeInfo:(NSMutableDictionary*)typeInfo
+               withIsRepeatSetCell:(BOOL)isRepeatSet
+{
+    
+    NSString*dateID=[[NSString alloc]initWithFormat:@"%ld",(long)cell.tag];
+    NSString *shiftTypeID=[typeInfo objectForKey:CoreData_ShiftTypeInfo_TypeID];
+    NSMutableDictionary*dateInfo=[[NSMutableDictionary alloc]init];
+    [dateInfo setObject:dateID forKey:CoreData_ShiftDateInfo_DateID];
+    [dateInfo setObject:calendarPage forKey:CoreData_ShiftDateInfo_CalendarPage];
+    [dateInfo setObject:shiftTypeID forKey:CoreData_ShiftDateInfo_ShiftTypeID];
+    
+    switch(cell.calendarCellStatus)
+    {
+        case CalendarCellStatusNone:
+            [self saveShiftDateInfo:dateInfo intoTempInfo:addShiftDateTempInfo];
+            cell.calendarCellStatus=CalendarCellStatusAddShiftDate;
+            break;
+        case CalendarCellStatusHaveShiftDate:
+            if (isRepeatSet)
+            {
+                cell.calendarCellStatus=CalendarCellStatusDeleteShiftDate;
+                [self saveShiftDateInfo:dateInfo intoTempInfo:deleteShiftDateTempInfo];
+
+
+            }
+            else
+            {
+                cell.calendarCellStatus=CalendarCellStatusUpdateShiftDate;
+                [self saveShiftDateInfo:dateInfo intoTempInfo:updateShiftDateTempInfo];
+            
+            }
+            
+            break;
+        case CalendarCellStatusAddShiftDate:
+            
+            if (isRepeatSet)
+            {
+                cell.calendarCellStatus=CalendarCellStatusNone;
+                [self removeShiftDateInfo:dateInfo fromTempInfo:addShiftDateTempInfo];
+                
+                
+            }
+            else
+            {
+                cell.calendarCellStatus=CalendarCellStatusAddShiftDate;
+                [self saveShiftDateInfo:dateInfo intoTempInfo:addShiftDateTempInfo];
+                
+            }
+
+            break;
+            
+        case CalendarCellStatusUpdateShiftDate:
+            if (isRepeatSet)
+            {
+                cell.calendarCellStatus=CalendarCellStatusDeleteShiftDate;
+                [self removeShiftDateInfo:dateInfo fromTempInfo:updateShiftDateTempInfo];
+                [self saveShiftDateInfo:dateInfo intoTempInfo:deleteShiftDateTempInfo];
+                
+                
+            }
+            else
+            {
+                cell.calendarCellStatus=CalendarCellStatusUpdateShiftDate;
+                [self saveShiftDateInfo:dateInfo intoTempInfo:updateShiftDateTempInfo];
+                
+            }
+            break;
+            
+        case CalendarCellStatusDeleteShiftDate:
+            cell.calendarCellStatus=CalendarCellStatusUpdateShiftDate;
+            [self removeShiftDateInfo:dateInfo fromTempInfo:deleteShiftDateTempInfo];
+            [self saveShiftDateInfo:dateInfo intoTempInfo:updateShiftDateTempInfo];
+            break;
+            
+        default:
+            break;
+    }
+    
+    
+    
+    
+}
+
+
+-(void)saveShiftDateInfo:(NSMutableDictionary*)dateinfo
+            intoTempInfo:(NSMutableDictionary*)tempInfo
+{
+    
+    NSString*key=[dateinfo objectForKey:CoreData_ShiftDateInfo_DateID];
+    [tempInfo setObject:dateinfo forKey:key];
+    
+}
+
+-(void)removeShiftDateInfo:(NSMutableDictionary*)dateinfo
+              fromTempInfo:(NSMutableDictionary*)tempInfo
+{
+    
+    NSString*key=[dateinfo objectForKey:CoreData_ShiftDateInfo_DateID];
+    [tempInfo removeObjectForKey:key];
+    
+}
+
+
 
 #pragma mark -- Core Data
 -(void)loadShiftDateData
@@ -415,19 +557,41 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
         [allShiftDateTypeInfo setObject:typeInfo forKey:shiftTypeID];
     }
 
-    
-    [self.collectionView reloadData];
-
 }
--(void)saveShiftDateData
+
+-(void)saveShiftDateCoreData
 {
-    for (int i=0; i<shiftDateInfoTempArray.count; i++)
+    NSArray *addArray=[addShiftDateTempInfo allValues];
+    NSArray *updateArray=[updateShiftDateTempInfo allValues];
+    NSArray *deleteArray=[deleteShiftDateTempInfo allValues];
+
+    
+    //新增
+    for (int i=0; i<addArray.count; i++)
     {
-        NSMutableDictionary*info=shiftDateInfoTempArray[i];
+        NSMutableDictionary*info=addArray[i];
         [[CoreDataHandle shareCoreDatabase]addShiftDate:info];
     }
 
+    
+    //修改
+    for (int i=0; i<updateArray.count; i++)
+    {
+        NSMutableDictionary*info=updateArray[i];
+        NSString*dateID=[info objectForKey:CoreData_ShiftDateInfo_DateID];
+        [[CoreDataHandle shareCoreDatabase]updateShiftDateOfDateID:dateID withShiftCalendar:info];
+    }
+    //刪除
+    for (int i=0; i<deleteArray.count; i++)
+    {
+        NSMutableDictionary*info=deleteArray[i];
+        NSString*dateID=[info objectForKey:CoreData_ShiftDateInfo_DateID];
+        [[CoreDataHandle shareCoreDatabase]deleteShiftDateOfDateID:dateID];
+    }
+
     [self deleteShiftDateTempData];
+    [self loadShiftDateData];
+
 
 }
 

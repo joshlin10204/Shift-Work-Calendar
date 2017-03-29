@@ -279,7 +279,7 @@ static CoreDataHandle *database;
 
 
 }
-- (void)updateShiftDateID:(NSString *)dateID withShiftCalendar:(NSMutableDictionary*)info
+- (void)updateShiftDateOfDateID:(NSString *)dateID withShiftCalendar:(NSMutableDictionary*)info
 {
     NSFetchRequest *request = [NSFetchRequest new];
 
@@ -300,10 +300,26 @@ static CoreDataHandle *database;
 
 
 }
-//- (BOOL)deleteShiftDateID:(NSString *)dateID
-//{
-//
-//
-//}
+- (void)deleteShiftDateOfDateID:(NSString *)dateID
+{
+    NSFetchRequest *request = [NSFetchRequest new];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"ShiftDateCoreData" inManagedObjectContext:[self delegate].persistentContainer.viewContext];
+    
+    [request setEntity:entity];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dateID = %@",dateID];
+    [request setPredicate:predicate];
+    NSError *error = nil;
+    NSManagedObject *obj =[[[self delegate].persistentContainer.viewContext executeFetchRequest:request error:&error] lastObject];
+    
+    if (obj)
+    {
+        [[self delegate].persistentContainer.viewContext deleteObject:obj];
+        [[self delegate].persistentContainer.viewContext save:nil];
+    }
+
+
+}
+
 
 @end

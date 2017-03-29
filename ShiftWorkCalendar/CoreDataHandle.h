@@ -37,7 +37,7 @@
 
 //ShiftDateCoreData
 - (NSMutableArray*)loadAllShiftDate;
-- (NSMutableArray*)searchShiftDateIDOfCalendarPage:(NSString*)calendarPage;
+- (NSMutableDictionary*)searchShiftDateInfoOfCalendarPage:(NSString*)calendarPage;
 - (void)addShiftDate:(NSMutableDictionary*)info;
 - (void)updateShiftDateID:(NSString *)dateID withShiftCalendar:(NSMutableDictionary*)info;
 - (BOOL)deleteShiftDateID:(NSString *)dateID;

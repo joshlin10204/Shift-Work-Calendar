@@ -223,7 +223,7 @@ static CoreDataHandle *database;
     return nil;
 
 }
-- (NSMutableArray*)searchShiftDateIDOfCalendarPage:(NSString*)calendarPage;
+- (NSMutableDictionary*)searchShiftDateInfoOfCalendarPage:(NSString*)calendarPage;
 {
     NSFetchRequest *request = [NSFetchRequest new];
 
@@ -237,17 +237,21 @@ static CoreDataHandle *database;
     
     NSArray *coreDatainfos = [[[self delegate].persistentContainer.viewContext executeFetchRequest:request error:&error] mutableCopy];
     
-    NSMutableArray *info=[[NSMutableArray alloc]init];
+    NSMutableDictionary *dateInfo=[[NSMutableDictionary alloc]init];
     NSLog(@"測試0:%@",coreDatainfos);
     for (int i=0; i<coreDatainfos.count; i++)
     {
+        NSMutableDictionary *info=[[NSMutableDictionary alloc]init];
         ShiftDateCoreData* coreData=coreDatainfos[i];        
-        [info addObject:coreData.dateID];
+        [info setObject:coreData.dateID forKey:CoreData_ShiftDateInfo_DateID];
+        [info setObject:coreData.shiftTypeID forKey:CoreData_ShiftDateInfo_ShiftTypeID];
+        [dateInfo setObject:info forKey:coreData.dateID];
+
     }
 
     if (!error)
     {
-        return info;
+        return dateInfo;
     }
     
     return nil;

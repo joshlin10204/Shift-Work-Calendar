@@ -39,8 +39,12 @@
     BOOL isAddShiftWork;
     NSString*calendarPage;
     NSMutableDictionary*shiftTypeInfo;
-    NSMutableArray*shiftDateIDArray;
+//    NSMutableDictionary*shiftDateInfo;
+    NSMutableDictionary* allShiftDateTypeInfo;
+    NSMutableDictionary* allShiftDateInfo;
     NSMutableArray*shiftDateInfoTempArray;
+    
+
 
 
     
@@ -207,8 +211,8 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
     {
         NSNumber * dayInt= [NSNumber numberWithInteger:cellRow-monthFirstDayOnWeek+1];
         NSString *dayString=[[NSString alloc]initWithFormat:@"%@",dayInt];
-        NSString *dateString=[[NSString alloc]initWithFormat:@"%@%@%@",curYear,curMonth,dayString];
-        NSInteger cellID = [dateString intValue];
+        NSString *idString=[[NSString alloc]initWithFormat:@"%@%@%@",curYear,curMonth,dayString];
+        NSInteger cellID = [idString intValue];
 
         dayCell.calendarDayLabel.text=dayString;
         [dayCell setTag:cellID];
@@ -219,6 +223,17 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
 
         }
 
+        NSMutableDictionary *shiftDateInfo=[allShiftDateInfo objectForKey:idString];
+        if (shiftDateInfo!=nil)
+        {
+            NSString *typeID=[shiftDateInfo objectForKey:CoreData_ShiftDateInfo_ShiftTypeID];
+            NSMutableDictionary *typeInfo=[allShiftDateTypeInfo objectForKey:typeID];
+            [self setAddShiftWorkInSelectCell:dayCell withShiftTypeInfo:typeInfo];
+        }
+
+        
+        
+        
     }
     else if (cellRow<monthFirstDayOnWeek)
     {
@@ -387,11 +402,20 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
 #pragma mark -- Core Data
 -(void)loadShiftDateData
 {
-    NSLog(@"測試00：%@",calendarPage);
-    shiftDateIDArray = [[CoreDataHandle shareCoreDatabase] searchShiftDateIDOfCalendarPage:calendarPage];
-    NSLog(@"測試1：%@",shiftDateIDArray);
+    
+    allShiftDateInfo = [[CoreDataHandle shareCoreDatabase] searchShiftDateInfoOfCalendarPage:calendarPage];
+    NSArray *allDateID = [allShiftDateInfo allKeys];
+    
+    allShiftDateTypeInfo=[[NSMutableDictionary alloc]init];
+    for (int i=0; i<allDateID.count; i++)
+    {
+        NSMutableDictionary *shiftDateInfo=[allShiftDateInfo objectForKey:allDateID[i]];
+        NSString*shiftTypeID=[shiftDateInfo objectForKey:CoreData_ShiftDateInfo_ShiftTypeID];
+        NSMutableDictionary* typeInfo= [[CoreDataHandle shareCoreDatabase] searchShiftWorkTypeOfTypeID:shiftTypeID];
+        [allShiftDateTypeInfo setObject:typeInfo forKey:shiftTypeID];
+    }
 
-//
+    
     [self.collectionView reloadData];
 
 }

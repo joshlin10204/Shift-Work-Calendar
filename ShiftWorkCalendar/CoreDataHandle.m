@@ -238,7 +238,6 @@ static CoreDataHandle *database;
     NSArray *coreDatainfos = [[[self delegate].persistentContainer.viewContext executeFetchRequest:request error:&error] mutableCopy];
     
     NSMutableDictionary *dateInfo=[[NSMutableDictionary alloc]init];
-    NSLog(@"測試0:%@",coreDatainfos);
     for (int i=0; i<coreDatainfos.count; i++)
     {
         NSMutableDictionary *info=[[NSMutableDictionary alloc]init];

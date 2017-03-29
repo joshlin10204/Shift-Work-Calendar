@@ -273,6 +273,12 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
 
     UICollectionViewCell *cell =[collectionView cellForItemAtIndexPath:indexPath];
+    // Tag=0 代表 上/下個月 Cell
+    if (cell.tag ==0)
+    {
+        return;
+    }
+
     //----點選 Cell Day Info
     NSString*dayInfoKey=[[NSString alloc]initWithFormat:@"%ld",(long)cell.tag];
     NSMutableDictionary*dayInfo=[allDayInfo objectForKey:dayInfoKey];
@@ -280,43 +286,35 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
     NSString *week=[dayInfo objectForKey:CalendarData_AllDayInfo_Week];
     //----
 
-    
     CalendarCollectionCell *curSelectDayCell=selectDayCell;
     selectDayCell=(CalendarCollectionCell*)cell;
+
     if (isAddShiftWork)
     {
         NSInteger typeID=[[shiftTypeInfo objectForKey:CoreData_ShiftTypeInfo_TypeID]integerValue];
         BOOL isRepeatSet=[self checkSetRepeatShiftTypeInCell:selectDayCell withShiftTypeID:typeID];
-        // Tag=0 代表 上/下個月 Cell
-        if (cell.tag !=0)
+        if (isRepeatSet)
         {
-
-            if (isRepeatSet)
-            {
-                [self cancelShiftWorkInSelectCell:selectDayCell];
-                [self addShiftDateTempInfoItemOfCell:selectDayCell
-                                   withShiftTypeInfo:shiftTypeInfo
-                                 withIsRepeatSetCell:YES];
-            }
-            else
-            {
-                [self addShiftWorkInSelectCell:selectDayCell withShiftTypeInfo:shiftTypeInfo];
-                [self addShiftDateTempInfoItemOfCell:selectDayCell
-                                   withShiftTypeInfo:shiftTypeInfo
-                                 withIsRepeatSetCell:NO];
-
-            }
-
+            [self cancelShiftWorkInSelectCell:selectDayCell];
+            [self addShiftDateTempInfoItemOfCell:selectDayCell
+                               withShiftTypeInfo:shiftTypeInfo
+                             withIsRepeatSetCell:YES];
         }
+        else
+        {
+            [self addShiftWorkInSelectCell:selectDayCell withShiftTypeInfo:shiftTypeInfo];
+            [self addShiftDateTempInfoItemOfCell:selectDayCell
+                               withShiftTypeInfo:shiftTypeInfo
+                             withIsRepeatSetCell:NO];
+            
+        }
+
+
     }
     else
     {
-        // Tag=0 代表 上/下個月 Cell
-        if (cell.tag !=0)
-        {
-            [self updateDayCell:curSelectDayCell isSelection:NO];
-            [self updateDayCell:selectDayCell isSelection:YES];
-        }
+        [self updateDayCell:curSelectDayCell isSelection:NO];
+        [self updateDayCell:selectDayCell isSelection:YES];
     }
 
 
@@ -377,6 +375,8 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
     isAddShiftWork=NO;
     [self saveShiftDateCoreData];
+    [self loadShiftDateData];
+
 
 
 }
@@ -546,8 +546,8 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
     
     allShiftDateInfo = [[CoreDataHandle shareCoreDatabase] searchShiftDateInfoOfCalendarPage:calendarPage];
-    NSArray *allDateID = [allShiftDateInfo allKeys];
     
+    NSArray *allDateID = [allShiftDateInfo allKeys];
     allShiftDateTypeInfo=[[NSMutableDictionary alloc]init];
     for (int i=0; i<allDateID.count; i++)
     {
@@ -556,42 +556,44 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
         NSMutableDictionary* typeInfo= [[CoreDataHandle shareCoreDatabase] searchShiftWorkTypeOfTypeID:shiftTypeID];
         [allShiftDateTypeInfo setObject:typeInfo forKey:shiftTypeID];
     }
-
 }
 
 -(void)saveShiftDateCoreData
 {
-    NSArray *addArray=[addShiftDateTempInfo allValues];
-    NSArray *updateArray=[updateShiftDateTempInfo allValues];
-    NSArray *deleteArray=[deleteShiftDateTempInfo allValues];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 
-    
-    //新增
-    for (int i=0; i<addArray.count; i++)
-    {
-        NSMutableDictionary*info=addArray[i];
-        [[CoreDataHandle shareCoreDatabase]addShiftDate:info];
-    }
+        
+        NSArray *addArray=[addShiftDateTempInfo allValues];
+        NSArray *updateArray=[updateShiftDateTempInfo allValues];
+        NSArray *deleteArray=[deleteShiftDateTempInfo allValues];
+        
+        
+        //新增
+        for (int i=0; i<addArray.count; i++)
+        {
+            NSMutableDictionary*info=addArray[i];
+            [[CoreDataHandle shareCoreDatabase]addShiftDate:info];
+        }
+        
+        
+        //修改
+        for (int i=0; i<updateArray.count; i++)
+        {
+            NSMutableDictionary*info=updateArray[i];
+            NSString*dateID=[info objectForKey:CoreData_ShiftDateInfo_DateID];
+            [[CoreDataHandle shareCoreDatabase]updateShiftDateOfDateID:dateID withShiftCalendar:info];
+        }
+        //刪除
+        for (int i=0; i<deleteArray.count; i++)
+        {
+            NSMutableDictionary*info=deleteArray[i];
+            NSString*dateID=[info objectForKey:CoreData_ShiftDateInfo_DateID];
+            [[CoreDataHandle shareCoreDatabase]deleteShiftDateOfDateID:dateID];
+        }
+        
+        [self deleteShiftDateTempData];
 
-    
-    //修改
-    for (int i=0; i<updateArray.count; i++)
-    {
-        NSMutableDictionary*info=updateArray[i];
-        NSString*dateID=[info objectForKey:CoreData_ShiftDateInfo_DateID];
-        [[CoreDataHandle shareCoreDatabase]updateShiftDateOfDateID:dateID withShiftCalendar:info];
-    }
-    //刪除
-    for (int i=0; i<deleteArray.count; i++)
-    {
-        NSMutableDictionary*info=deleteArray[i];
-        NSString*dateID=[info objectForKey:CoreData_ShiftDateInfo_DateID];
-        [[CoreDataHandle shareCoreDatabase]deleteShiftDateOfDateID:dateID];
-    }
-
-    [self deleteShiftDateTempData];
-    [self loadShiftDateData];
-
+    });
 
 }
 

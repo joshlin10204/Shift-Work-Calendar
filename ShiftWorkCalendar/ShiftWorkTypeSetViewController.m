@@ -150,7 +150,7 @@
 
     colorChipsView=[ColorChipsView initColorChipsViewWithSubview:self.colorBasicView OrientationTypes:OrientationTypesHorizontal];
     [colorChipsView setCurColor:shiftTypeColor];
-    colorChipsView.selectBorderColor=[UIColor colorWithRed:74.0f/255.0f green:217.0f/255.0f blue:217.0f/255.0f alpha:1.0f];
+    colorChipsView.selectBorderColor=[UIColor colorWithRed:255.0f/255.0f green:255.0f/255.0f blue:255.0f/255.0f alpha:1.0f];
     
 }
 

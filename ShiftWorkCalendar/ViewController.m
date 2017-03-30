@@ -108,7 +108,7 @@
 {
 
     CGSize calendarPageSize;
-    calendarPageSize.height=self.view.frame.size.height*75/100;
+    calendarPageSize.height=self.view.frame.size.height*45/100;
     calendarPageSize.width=self.view.frame.size.width;
     
     CGPoint calendarPagePoint;

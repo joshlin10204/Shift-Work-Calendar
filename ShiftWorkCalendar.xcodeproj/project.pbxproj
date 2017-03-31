@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		03075FF01E8AC99B00638095 /* ShiftDateCoreData+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 03075FED1E8AC99B00638095 /* ShiftDateCoreData+CoreDataClass.m */; };
 		03075FF11E8AC99B00638095 /* ShiftDateCoreData+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 03075FEF1E8AC99B00638095 /* ShiftDateCoreData+CoreDataProperties.m */; };
+		030760491E8E6DC100638095 /* CalendarInfomationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 030760471E8E6DC100638095 /* CalendarInfomationView.m */; };
+		0307604A1E8E6DC100638095 /* CalendarInfomationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 030760481E8E6DC100638095 /* CalendarInfomationView.xib */; };
+		0307604F1E8EE0AB00638095 /* ShiftWorkInformationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0307604D1E8EE0AB00638095 /* ShiftWorkInformationView.m */; };
+		030760501E8EE0AB00638095 /* ShiftWorkInformationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0307604E1E8EE0AB00638095 /* ShiftWorkInformationView.xib */; };
 		037C490F1E7511520050D84B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 037C490E1E7511520050D84B /* main.m */; };
 		037C49121E7511520050D84B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 037C49111E7511520050D84B /* AppDelegate.m */; };
 		037C49151E7511520050D84B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 037C49141E7511520050D84B /* ViewController.m */; };
@@ -62,6 +66,12 @@
 		03075FED1E8AC99B00638095 /* ShiftDateCoreData+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "ShiftDateCoreData+CoreDataClass.m"; path = "../ShiftDateCoreData+CoreDataClass.m"; sourceTree = "<group>"; };
 		03075FEE1E8AC99B00638095 /* ShiftDateCoreData+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "ShiftDateCoreData+CoreDataProperties.h"; path = "../ShiftDateCoreData+CoreDataProperties.h"; sourceTree = "<group>"; };
 		03075FEF1E8AC99B00638095 /* ShiftDateCoreData+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "ShiftDateCoreData+CoreDataProperties.m"; path = "../ShiftDateCoreData+CoreDataProperties.m"; sourceTree = "<group>"; };
+		030760461E8E6DC100638095 /* CalendarInfomationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarInfomationView.h; sourceTree = "<group>"; };
+		030760471E8E6DC100638095 /* CalendarInfomationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarInfomationView.m; sourceTree = "<group>"; };
+		030760481E8E6DC100638095 /* CalendarInfomationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CalendarInfomationView.xib; sourceTree = "<group>"; };
+		0307604C1E8EE0AB00638095 /* ShiftWorkInformationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShiftWorkInformationView.h; sourceTree = "<group>"; };
+		0307604D1E8EE0AB00638095 /* ShiftWorkInformationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShiftWorkInformationView.m; sourceTree = "<group>"; };
+		0307604E1E8EE0AB00638095 /* ShiftWorkInformationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShiftWorkInformationView.xib; sourceTree = "<group>"; };
 		037C490A1E7511520050D84B /* ShiftWorkCalendar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShiftWorkCalendar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		037C490E1E7511520050D84B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		037C49101E7511520050D84B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -162,6 +172,19 @@
 			name = ShiftWorkTypeCoreData;
 			sourceTree = "<group>";
 		};
+		0307604B1E8E6DDE00638095 /* CalendarInfomationView */ = {
+			isa = PBXGroup;
+			children = (
+				030760461E8E6DC100638095 /* CalendarInfomationView.h */,
+				030760471E8E6DC100638095 /* CalendarInfomationView.m */,
+				030760481E8E6DC100638095 /* CalendarInfomationView.xib */,
+				0307604C1E8EE0AB00638095 /* ShiftWorkInformationView.h */,
+				0307604D1E8EE0AB00638095 /* ShiftWorkInformationView.m */,
+				0307604E1E8EE0AB00638095 /* ShiftWorkInformationView.xib */,
+			);
+			name = CalendarInfomationView;
+			sourceTree = "<group>";
+		};
 		037C49011E7511520050D84B = {
 			isa = PBXGroup;
 			children = (
@@ -189,6 +212,7 @@
 				037C49111E7511520050D84B /* AppDelegate.m */,
 				037C49131E7511520050D84B /* ViewController.h */,
 				037C49141E7511520050D84B /* ViewController.m */,
+				0307604B1E8E6DDE00638095 /* CalendarInfomationView */,
 				037C4A871E7DD0300050D84B /* CoreData */,
 				037C49551E75BF1D0050D84B /* Calendar */,
 				037C495E1E7841F50050D84B /* Shift Work */,
@@ -418,7 +442,9 @@
 				037C49531E75BB2E0050D84B /* CalendarCollectionCell.xib in Resources */,
 				037C491D1E7511520050D84B /* Assets.xcassets in Resources */,
 				037C4B8A1E8442720050D84B /* TimePickerView.xib in Resources */,
+				0307604A1E8E6DC100638095 /* CalendarInfomationView.xib in Resources */,
 				037C49701E785CF70050D84B /* ShiftWorkCell.xib in Resources */,
+				030760501E8EE0AB00638095 /* ShiftWorkInformationView.xib in Resources */,
 				037C49181E7511520050D84B /* Main.storyboard in Resources */,
 				037C4B3C1E81A6A50050D84B /* ColorChipsView.xib in Resources */,
 			);
@@ -446,9 +472,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				037C4B3B1E81A6A50050D84B /* ColorChipsView.m in Sources */,
+				030760491E8E6DC100638095 /* CalendarInfomationView.m in Sources */,
 				037C4B3F1E81A6A50050D84B /* ColorChipsData.m in Sources */,
 				037C4B901E8569E50050D84B /* ShiftWorkTypeCoreData+CoreDataClass.m in Sources */,
 				037C4B3D1E81A6A50050D84B /* ColorChipsCell.m in Sources */,
+				0307604F1E8EE0AB00638095 /* ShiftWorkInformationView.m in Sources */,
 				037C49151E7511520050D84B /* ViewController.m in Sources */,
 				037C49521E75BB2E0050D84B /* CalendarCollectionCell.m in Sources */,
 				037C4A8A1E7DD0C10050D84B /* CoreDataHandle.m in Sources */,

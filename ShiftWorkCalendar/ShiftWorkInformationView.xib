@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C68" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ShiftWorkInformationView">
+            <connections>
+                <outlet property="shiftWorkInformationView" destination="i5M-Pr-FkT" id="jre-e3-LgB"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KIq-KZ-TqW">
+                    <rect key="frame" x="140.5" y="133.5" width="187.5" height="400.5"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qwp-Ge-PvI">
+                            <rect key="frame" x="54" y="0.0" width="80.5" height="80"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="qwp-Ge-PvI" secondAttribute="height" multiplier="1:1" id="HAs-Ch-jJw"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="早班" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x9A-89-d3d">
+                            <rect key="frame" x="0.5" y="99.5" width="187.5" height="100.5"/>
+                            <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="30"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="09:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="rAt-cm-5We">
+                            <rect key="frame" x="56.5" y="200.5" width="131" height="100.5"/>
+                            <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="20"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="18:30" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="IN0-i6-arN">
+                            <rect key="frame" x="56" y="300.5" width="131.5" height="100"/>
+                            <fontDescription key="fontDescription" name="PingFangTC-Semibold" family="PingFang TC" pointSize="20"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TestType03" translatesAutoresizingMaskIntoConstraints="NO" id="pXM-0f-8Zg">
+                            <rect key="frame" x="0.0" y="327" width="47" height="47"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="pXM-0f-8Zg" secondAttribute="height" multiplier="1:1" id="BBA-su-igj"/>
+                            </constraints>
+                        </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="TestType01" translatesAutoresizingMaskIntoConstraints="NO" id="x2L-oF-keJ">
+                            <rect key="frame" x="0.0" y="227.5" width="47" height="46.5"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="x2L-oF-keJ" secondAttribute="height" multiplier="1:1" id="UBu-DM-WBQ"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="rAt-cm-5We" firstAttribute="width" secondItem="KIq-KZ-TqW" secondAttribute="width" multiplier="70/100" id="2Oy-hv-5GC"/>
+                        <constraint firstItem="qwp-Ge-PvI" firstAttribute="height" secondItem="KIq-KZ-TqW" secondAttribute="height" multiplier="20/100" id="49D-4s-dCy"/>
+                        <constraint firstItem="x9A-89-d3d" firstAttribute="height" secondItem="KIq-KZ-TqW" secondAttribute="height" multiplier="25/100" id="88i-6B-DJK"/>
+                        <constraint firstItem="x2L-oF-keJ" firstAttribute="width" secondItem="KIq-KZ-TqW" secondAttribute="width" multiplier="25/100" id="9KQ-xt-Rb0"/>
+                        <constraint firstItem="rAt-cm-5We" firstAttribute="trailing" secondItem="KIq-KZ-TqW" secondAttribute="trailing" id="9h1-aC-M2U"/>
+                        <constraint firstItem="qwp-Ge-PvI" firstAttribute="top" secondItem="KIq-KZ-TqW" secondAttribute="top" id="AaF-g0-MJa"/>
+                        <constraint firstItem="rAt-cm-5We" firstAttribute="top" secondItem="KIq-KZ-TqW" secondAttribute="bottom" multiplier="50/100" id="Evk-vd-YM4"/>
+                        <constraint firstItem="x2L-oF-keJ" firstAttribute="leading" secondItem="KIq-KZ-TqW" secondAttribute="leading" id="LkU-aK-FLX"/>
+                        <constraint firstItem="pXM-0f-8Zg" firstAttribute="width" secondItem="KIq-KZ-TqW" secondAttribute="width" multiplier="25/100" id="MxI-cf-KLX"/>
+                        <constraint firstItem="IN0-i6-arN" firstAttribute="width" secondItem="KIq-KZ-TqW" secondAttribute="width" multiplier="70/100" id="NVT-Cl-Amg"/>
+                        <constraint firstItem="IN0-i6-arN" firstAttribute="trailing" secondItem="KIq-KZ-TqW" secondAttribute="trailing" id="O4T-Bq-8P8"/>
+                        <constraint firstItem="rAt-cm-5We" firstAttribute="height" secondItem="KIq-KZ-TqW" secondAttribute="height" multiplier="25/100" id="PXB-Su-KdM"/>
+                        <constraint firstItem="x9A-89-d3d" firstAttribute="width" secondItem="KIq-KZ-TqW" secondAttribute="width" id="T9J-Ou-0Kn"/>
+                        <constraint firstItem="x9A-89-d3d" firstAttribute="top" secondItem="KIq-KZ-TqW" secondAttribute="bottom" multiplier="25/100" id="Y8J-lD-zyf"/>
+                        <constraint firstItem="pXM-0f-8Zg" firstAttribute="leading" secondItem="KIq-KZ-TqW" secondAttribute="leading" id="jEA-gv-k7J"/>
+                        <constraint firstItem="x9A-89-d3d" firstAttribute="centerX" secondItem="KIq-KZ-TqW" secondAttribute="centerX" id="jG3-HQ-RMm"/>
+                        <constraint firstItem="qwp-Ge-PvI" firstAttribute="top" secondItem="KIq-KZ-TqW" secondAttribute="top" id="jTv-j3-QdH"/>
+                        <constraint firstItem="IN0-i6-arN" firstAttribute="centerY" secondItem="pXM-0f-8Zg" secondAttribute="centerY" id="kji-e1-732"/>
+                        <constraint firstItem="IN0-i6-arN" firstAttribute="height" secondItem="KIq-KZ-TqW" secondAttribute="height" multiplier="25/100" id="lbr-La-vVi"/>
+                        <constraint firstItem="IN0-i6-arN" firstAttribute="bottom" secondItem="KIq-KZ-TqW" secondAttribute="bottom" id="riZ-BS-544"/>
+                        <constraint firstItem="rAt-cm-5We" firstAttribute="centerY" secondItem="x2L-oF-keJ" secondAttribute="centerY" id="uzd-CU-kAY"/>
+                        <constraint firstItem="qwp-Ge-PvI" firstAttribute="centerX" secondItem="KIq-KZ-TqW" secondAttribute="centerX" id="yVB-ik-tsV"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.30203919491525422" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="KIq-KZ-TqW" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="0IR-T6-1AI"/>
+                <constraint firstItem="KIq-KZ-TqW" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="trailing" multiplier="62.5/100" id="AeU-2v-a0i"/>
+                <constraint firstItem="KIq-KZ-TqW" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="60/100" id="IWO-2T-BeI"/>
+                <constraint firstItem="KIq-KZ-TqW" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="50/100" id="SPD-JQ-2CB"/>
+            </constraints>
+        </view>
+    </objects>
+    <resources>
+        <image name="TestType01" width="360" height="360"/>
+        <image name="TestType03" width="360" height="360"/>
+    </resources>
+</document>

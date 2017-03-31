@@ -31,7 +31,7 @@ static ShiftWorkCollectionView *instance=nil;
         if (instance == nil)
         {
             CGSize basicViewSize;
-            basicViewSize.height=view.frame.size.height*20/100;
+            basicViewSize.height=view.frame.size.height*14/100;
             basicViewSize.width=view.frame.size.width;
             CGPoint basicViewPoint;
             basicViewPoint.x=0;

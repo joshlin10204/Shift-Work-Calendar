@@ -10,14 +10,18 @@
 #import "CalendarPageView.h"
 #import "ShiftWorkCollectionView.h"
 #import "ShiftWorkTypeSetViewController.h"
+#import "CalendarInfomationView.h"
 
 
 
 @interface ViewController ()<ShiftWorkCollectionViewDelegate>
 @property (strong, nonatomic) CalendarPageView *calendarPageView;
 @property (strong, nonatomic) ShiftWorkCollectionView *shiftWorkCollectionView;
+@property (strong, nonatomic) CalendarInfomationView *calendarInfomationView;
+
 @property (weak, nonatomic) IBOutlet UIView *weekTitleView;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *addShiftWorkBtn;
+@property (weak, nonatomic) IBOutlet UILabel *calendarTitleLabel;
 
 @end
 
@@ -48,7 +52,7 @@
     [self initCalendarNavigationItem];
     [self initWeekTitleView];
     [self initCalendarPageView];
-    [self initScheduleTableView];
+    [self initCalendarInfomationView];
     [self initShiftWorkCollectionView];
 
     
@@ -76,7 +80,7 @@
 #pragma mark - Week Title View
 -(void)initWeekTitleView
 {
-    self.weekTitleView.backgroundColor=[UIColor colorWithRed:74.0f/255.0f green:217.0f/255.0f blue:217.0f/255.0f alpha:1.0f];
+    self.weekTitleView.backgroundColor=[UIColor colorWithRed:255/255.0f green:255/255.0f blue:255/255.0f alpha:1.0f];
 
 }
 
@@ -94,9 +98,9 @@
 -(void)switchingCalendarNotification:(NSNotification *)notification
 {
     NSString *calendarDateString=[notification object];
-//    self.calendarNavigationItem.title=calendarDateString;
-    [self.navigationItem setTitle:calendarDateString];
-    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName]];
+    self.calendarTitleLabel.text=calendarDateString;
+//    [self.navigationItem setTitle:calendarDateString];
+//    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName]];
 }
 
 
@@ -108,12 +112,12 @@
 {
 
     CGSize calendarPageSize;
-    calendarPageSize.height=self.view.frame.size.height*45/100;
+    calendarPageSize.height=self.view.frame.size.height*50/100;
     calendarPageSize.width=self.view.frame.size.width;
     
     CGPoint calendarPagePoint;
     calendarPagePoint.x=0;
-    calendarPagePoint.y=self.weekTitleView.frame.size.height;
+    calendarPagePoint.y=self.view.frame.size.height*41/100;
     self.calendarPageView=[[CalendarPageView alloc]init];
     self.calendarPageView.frame=CGRectMake(calendarPagePoint.x,
                                            calendarPagePoint.y,
@@ -190,9 +194,9 @@
 
 #pragma mark - Schedule TableView
 
--(void)initScheduleTableView
+-(void)initCalendarInfomationView
 {
-    
+    self.calendarInfomationView=[CalendarInfomationView initCalendarInfomationViewInSubview:self.view];
     
 }
 

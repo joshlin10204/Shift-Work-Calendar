@@ -127,12 +127,19 @@
 -(void)sendCalendarDateNotification
 {
     NSString *titleYear = [curYear stringValue];
-    NSString *titleMonth = [curMonth stringValue];
-    NSString *calendarDateString=[[NSString alloc ]initWithFormat:@"%@ / %@ 月",titleYear,titleMonth];
+    NSString *titleMonth = [self calendarDateMonth:curMonth ];
+    NSString *calendarDateString=[[NSString alloc ]initWithFormat:@"%@ %@ ",titleYear,titleMonth];
     [[NSNotificationCenter defaultCenter]postNotificationName:Calendar_Date_Notification object:calendarDateString];
 
 }
 
+-(NSString*)calendarDateMonth:(NSNumber*)month
+{
+    NSArray *monthArray=[NSArray arrayWithObjects: [NSNull null], @"January", @"February", @"March", @"April", @"May", @"June", @"July",@"August",@"September",@"October",@"November",@"December", nil];
+    NSInteger i=[month integerValue];
+    return [monthArray objectAtIndex:i];
+
+}
 
 #pragma mark - Collection View
 
@@ -354,11 +361,11 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
     [[NSNotificationCenter defaultCenter]addObserver:self
                                             selector:@selector(onAddShiftWorkNotification:)
-                                                name:ShiftWorkType_OnAdd_Notification
+                                                name:ShiftWorkType_AddShiftType_Notification
                                               object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self
                                             selector:@selector(offAddShiftWorkNotification)
-                                                name:ShiftWorkType_OffAdd_Notification
+                                                name:ShiftWorkType_CloseAddView_Notification
                                               object:nil];
 
     

@@ -15,13 +15,19 @@
 
 
 @interface ViewController ()<ShiftWorkCollectionViewDelegate>
+{
+    UIView *calendarBasicView;
+    UIView  *calendarTitleView;
+    UILabel *calendarTitleLabel;
+    UIView *weekTitleView;
+
+
+}
 @property (strong, nonatomic) CalendarPageView *calendarPageView;
 @property (strong, nonatomic) ShiftWorkCollectionView *shiftWorkCollectionView;
 @property (strong, nonatomic) CalendarInfomationView *calendarInfomationView;
 
 @property (weak, nonatomic) IBOutlet UIView *weekTitleView;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *addShiftWorkBtn;
-@property (weak, nonatomic) IBOutlet UILabel *calendarTitleLabel;
 
 @end
 
@@ -30,6 +36,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    [self initNotification];
+    [self initCalendarAllView];
+    
+    [self initShiftWorkCollectionView];
 
 
     
@@ -48,43 +58,8 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
-    [self initNotification];
-    [self initCalendarNavigationItem];
-    [self initWeekTitleView];
-    [self initCalendarPageView];
-    [self initCalendarInfomationView];
-    [self initShiftWorkCollectionView];
-
-    
     
 }
-
-
-#pragma mark - NavigationBar 
--(void)initCalendarNavigationItem
-{
-
-
-
-    [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
-    self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
-    
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:74.0f/255.0f green:217.0f/255.0f blue:217.0f/255.0f alpha:1.0f];
-    self.navigationController.navigationBar.translucent = NO;
-    
-    
-
-}
-
-
-#pragma mark - Week Title View
--(void)initWeekTitleView
-{
-    self.weekTitleView.backgroundColor=[UIColor colorWithRed:255/255.0f green:255/255.0f blue:255/255.0f alpha:1.0f];
-
-}
-
-
 #pragma mark - Notification
 
 -(void)initNotification
@@ -93,42 +68,201 @@
                                             selector:@selector(switchingCalendarNotification:)
                                                 name:Calendar_Date_Notification
                                               object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self
+                                            selector:@selector(moveDownCalendarBasicView)
+                                                name:ShiftWorkType_CloseAddView_Notification
+                                              object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self
+                                            selector:@selector(moveUpCalendarBasicView)
+                                                name:ShiftWorkType_ShowAddView_Notification
+                                              object:nil];
+    
+    
+    
+}
+
+
+
+#pragma mark -Calendar  Basic View
+
+-(void)initCalendarAllView
+{
+    
+    [self initCalendarBasicView];
+    [self initCalendarTitleView];
+    [self initCalendarTitleLabel];
+    [self initWeekTitleView];
+    [self initWeeksTitleLabel];
+    
+    
+    [self initCalendarPageView];
+    [self initCalendarInfomationView];
+    
+    
+}
+
+-(void)initCalendarBasicView
+{
+    CGSize viewSize;
+    CGPoint viewPoint;
+    viewSize.height=self.view.frame.size.height*62/100;
+    viewSize.width=self.view.frame.size.width;
+    viewPoint.x=0;
+    viewPoint.y=self.view.frame.size.height*30/100;
+
+    
+    calendarBasicView=[[UIView alloc]initWithFrame:CGRectMake(viewPoint.x,
+                                                             viewPoint.y,
+                                                             viewSize.width,
+                                                              viewSize.height)];
+    [self.view addSubview:calendarBasicView];
+
+
+}
+
+#pragma mark -- Calendar Title View
+
+-(void)initCalendarTitleView
+{
+    CGSize viewSize;
+    CGPoint viewPoint;
+    viewSize.height=calendarBasicView.frame.size.height*10/100;
+    viewSize.width=calendarBasicView.frame.size.width;
+    viewPoint.x=0;
+    viewPoint.y=0;
+
+    calendarTitleView=[[UIView alloc]initWithFrame:CGRectMake(viewPoint.x,
+                                                             viewPoint.y,
+                                                             viewSize.width,
+                                                              viewSize.height)];
+    
+
+    [calendarBasicView addSubview:calendarTitleView];
+
+}
+-(void)initCalendarTitleLabel
+{
+    CGPoint labelPoint;
+    CGSize labelSize;
+    labelSize.height=calendarTitleView.frame.size.height*80/100;
+    labelSize.width=calendarTitleView.frame.size.width*50/100;
+    labelPoint.x=calendarTitleView.frame.size.width*25/100;
+    labelPoint.y=calendarTitleView.frame.size.height*10/100;
+    calendarTitleLabel=[[UILabel alloc]initWithFrame:CGRectMake(labelPoint.x, labelPoint.y, labelSize.width, labelSize.height)];
+    
+    calendarTitleLabel.font=[UIFont fontWithName:@"Futura" size:200];
+    calendarTitleLabel.textAlignment=NSTextAlignmentCenter;
+    calendarTitleLabel.textColor=[UIColor colorWithRed:75/255.0f green:75/255.0f blue:75/255.0f alpha:1.0];
+    calendarTitleLabel.adjustsFontSizeToFitWidth=YES;
+    calendarTitleLabel.numberOfLines=0;
+    [calendarTitleView addSubview:calendarTitleLabel];
+
+
 
 }
 -(void)switchingCalendarNotification:(NSNotification *)notification
 {
     NSString *calendarDateString=[notification object];
-    self.calendarTitleLabel.text=calendarDateString;
-//    [self.navigationItem setTitle:calendarDateString];
-//    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName]];
+    calendarTitleLabel.text=calendarDateString;
+    
 }
 
+#pragma mark -- Week Title View
+-(void)initWeekTitleView
+{
+    CGSize viewSize;
+    CGPoint viewPoint;
+    viewSize.height=calendarBasicView.frame.size.height*10/100;
+    viewSize.width=calendarBasicView.frame.size.width;
+    viewPoint.x=0;
+    viewPoint.y=calendarBasicView.frame.size.height*10/100;
+    
+    weekTitleView=[[UIView alloc]initWithFrame:CGRectMake(viewPoint.x,
+                                                              viewPoint.y,
+                                                              viewSize.width,
+                                                              viewSize.height)];
+    
+    [calendarBasicView addSubview:weekTitleView];
+    
+
+
+}
+
+-(void)initWeeksTitleLabel
+{
+
+    NSArray *weekArray=[NSArray arrayWithObjects: @"SUN", @"MON", @"TUE", @"WED", @"THU", @"FRI",@"SAT", nil];
+    for (int i=0; i<7; i++)
+    {
+        CGPoint labelPoint;
+        CGSize labelSize;
+        labelSize.height=weekTitleView.frame.size.height*80/100;
+        labelSize.width=weekTitleView.frame.size.width/7;
+        labelPoint.x=labelSize.width*i;
+        labelPoint.y=weekTitleView.frame.size.height*10/100;
+        UILabel *weekLabel=[[UILabel alloc]initWithFrame:CGRectMake(labelPoint.x, labelPoint.y, labelSize.width, labelSize.height)];
+        
+        weekLabel.font=[UIFont fontWithName:@"Futura" size:15];
+        weekLabel.textAlignment=NSTextAlignmentCenter;
+        weekLabel.text=weekArray[i];
+        weekLabel.textColor=[UIColor colorWithRed:75/255.0f green:75/255.0f blue:75/255.0f alpha:1.0];
+        weekLabel.adjustsFontSizeToFitWidth=YES;
+        weekLabel.numberOfLines=0;
+        [weekTitleView addSubview:weekLabel];
+    }
+
+}
 
 #pragma mark - Calendar PageView
-
 
 
 -(void)initCalendarPageView
 {
 
     CGSize calendarPageSize;
-    calendarPageSize.height=self.view.frame.size.height*50/100;
-    calendarPageSize.width=self.view.frame.size.width;
+    calendarPageSize.height=calendarBasicView.frame.size.height*80/100;
+    calendarPageSize.width=calendarBasicView.frame.size.width;
     
     CGPoint calendarPagePoint;
     calendarPagePoint.x=0;
-    calendarPagePoint.y=self.view.frame.size.height*41/100;
+    calendarPagePoint.y=calendarBasicView.frame.size.height*20/100;
     self.calendarPageView=[[CalendarPageView alloc]init];
     self.calendarPageView.frame=CGRectMake(calendarPagePoint.x,
                                            calendarPagePoint.y,
                                           calendarPageSize.width,
                                            calendarPageSize.height);
 
-    [self.view addSubview:self.calendarPageView];
+    [calendarBasicView addSubview:self.calendarPageView];
 
 
 
 }
+-(void)moveUpCalendarBasicView
+{
+    CGRect frame=calendarBasicView.frame;
+    frame.origin.y=self.view.frame.size.height*24/100;
+    [self moveCalendarBasicViewAnimation:frame];
+}
+-(void)moveDownCalendarBasicView
+{
+    CGRect frame=calendarBasicView.frame;
+    frame.origin.y=self.view.frame.size.height*30/100;
+    [self moveCalendarBasicViewAnimation:frame];
+    
+}
+
+-(void)moveCalendarBasicViewAnimation:(CGRect)frame
+{
+    [UIView beginAnimations:@"animation1" context:nil];
+    [UIView setAnimationDuration:0.5];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+    calendarBasicView.frame=frame;
+    
+    
+    [UIView commitAnimations];
+    
+}
+
 #pragma mark -  Shift Work
 -(void)initShiftWorkCollectionView
 {
@@ -142,29 +276,11 @@
 }
 #pragma mark -- Add Shift Work
 
-- (IBAction)onClickAddShiftWorkBtn:(id)sender
-{
-        
-    if (self.shiftWorkCollectionView.addShiftWorkStatus==AddShiftWorkStatusOff)
-    {
-        [self.shiftWorkCollectionView showShiftWorkCollectionView:AddShiftWorkStatusOn];
-    }
-    else
-    {
-
-        [self.shiftWorkCollectionView showShiftWorkCollectionView:AddShiftWorkStatusOff];
-        [[NSNotificationCenter defaultCenter]postNotificationName:ShiftWorkType_OffAdd_Notification object:nil];
-    }
-    
-    
-    
-}
 -(void)selectShiftWorkCellWithCellType:(ShiftWorkCellType)type withShiftTypeInfo:(NSMutableDictionary *)info
 {
 
     if (type==ShiftWorkCellTypeAddShiftType)
     {
-        [self onClickAddShiftWorkBtn:nil];
         UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         
         ShiftWorkTypeSetViewController* addShiftWorkTypeView = [storyboard instantiateViewControllerWithIdentifier:@"ShiftWorkTypeSetViewController"];
@@ -184,7 +300,7 @@
     else
     {
     
-        [[NSNotificationCenter defaultCenter]postNotificationName:ShiftWorkType_OnAdd_Notification object:info];
+        [[NSNotificationCenter defaultCenter]postNotificationName:ShiftWorkType_AddShiftType_Notification object:info];
     }
     
 
@@ -197,6 +313,22 @@
 -(void)initCalendarInfomationView
 {
     self.calendarInfomationView=[CalendarInfomationView initCalendarInfomationViewInSubview:self.view];
+    
+}
+
+#pragma mark - NavigationBar
+-(void)initCalendarNavigationItem
+{
+    
+    
+    
+    [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
+    
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:74.0f/255.0f green:217.0f/255.0f blue:217.0f/255.0f alpha:1.0f];
+    self.navigationController.navigationBar.translucent = NO;
+    
+    
     
 }
 

@@ -37,6 +37,9 @@
                     <state key="normal" title="Button">
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
+                    <connections>
+                        <action selector="onClickAddShiftWorkBtn:" destination="-1" eventType="touchUpInside" id="hf0-kl-8gh"/>
+                    </connections>
                 </button>
             </subviews>
             <constraints>

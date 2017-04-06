@@ -34,7 +34,7 @@ typedef enum ShiftWorkCellType
 
 +(ShiftWorkCollectionView*)initShiftWorkCollectionView:(UIView*)view;
 +(NSMutableDictionary*)getSelectionShiftWorkType;
--(void) showShiftWorkCollectionView:(AddShiftWorkStatus)status;
+-(void) showShiftWorkCollectionViewAnimation:(AddShiftWorkStatus)status;
 -(void)reloadShiftWorkTypeData;
 
 

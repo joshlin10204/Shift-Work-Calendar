@@ -9,6 +9,8 @@
 #import "ShiftWorkCollectionView.h"
 #import "ShiftWorkCell.h"
 #import "CoreDataHandle.h"
+#import "ViewController.h"
+
 
 
 static ShiftWorkCollectionView *instance=nil;
@@ -31,11 +33,11 @@ static ShiftWorkCollectionView *instance=nil;
         if (instance == nil)
         {
             CGSize basicViewSize;
-            basicViewSize.height=view.frame.size.height*14/100;
+            basicViewSize.height=view.frame.size.height*15/100;
             basicViewSize.width=view.frame.size.width;
             CGPoint basicViewPoint;
             basicViewPoint.x=0;
-            basicViewPoint.y=view.frame.size.height;
+            basicViewPoint.y=view.frame.size.height-basicViewSize.height*30/100;
 
             instance=[[ShiftWorkCollectionView alloc]initWithFrame:CGRectMake(0,
                                                                            basicViewPoint.y,
@@ -79,16 +81,8 @@ static ShiftWorkCollectionView *instance=nil;
     return self;
 }
 #pragma mark - Shift Work Type Data
-//- (NSMutableArray *)shiftWorkTypeInfosArray
-//{
-//    if (!shiftWorkTypeInfosArray) {
-//        
-//        shiftWorkTypeInfosArray = [NSMutableArray array];
-//    }
-//    
-//    return shiftWorkTypeInfosArray;
-//}
-//
+
+
 -(void)reloadShiftWorkTypeData
 {
     shiftWorkTypeInfosArray = [[CoreDataHandle shareCoreDatabase] loadAllShiftWorkType];
@@ -99,27 +93,42 @@ static ShiftWorkCollectionView *instance=nil;
 
 
 #pragma mark - Show Shift Work View
-
--(void) showShiftWorkCollectionView:(AddShiftWorkStatus)status;
+- (IBAction)onClickAddShiftWorkBtn:(id)sender
+{
+    if (self.addShiftWorkStatus==AddShiftWorkStatusOff)
+    {
+        [self showShiftWorkCollectionViewAnimation:AddShiftWorkStatusOn];
+        [[NSNotificationCenter defaultCenter]postNotificationName:ShiftWorkType_ShowAddView_Notification object:nil];
+    }
+    else
+    {
+        
+        [self showShiftWorkCollectionViewAnimation:AddShiftWorkStatusOff];
+        [[NSNotificationCenter defaultCenter]postNotificationName:ShiftWorkType_CloseAddView_Notification object:nil];
+    }
+    
+}
+-(void) showShiftWorkCollectionViewAnimation:(AddShiftWorkStatus)status;
 {
     
     [UIView beginAnimations:@"animation1" context:nil];
-    [UIView setAnimationDuration:1.0];
+    [UIView setAnimationDuration:0.5];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
 
 
+    CGRect windowView=self.window.frame;
     CGRect frame=self.frame;
     
     if (status==AddShiftWorkStatusOn)
     {
         self.addShiftWorkStatus=AddShiftWorkStatusOn;
-        frame.origin.y =frame.size.height*4;
+        frame.origin.y =windowView.size.height*86/100;
         [self selectFirstCell];
     }
     else
     {
         self.addShiftWorkStatus=AddShiftWorkStatusOff;
-        frame.origin.y =frame.size.height*5;
+        frame.origin.y =windowView.size.height-frame.size.height*30/100;
         
     }
     self.frame=frame;

@@ -55,13 +55,19 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+    
+}
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self initTimePickerView];
-
-
  
 }
+
+
 
 #pragma mark - Core Data
 -(void)loadShiftWorkTypeData
@@ -202,29 +208,29 @@
 {
 
     NSInteger hour=[[timeInfo objectForKey:ShiftTypeInfo_Time_Hour]integerValue];
-    NSInteger minute=[[timeInfo objectForKey:ShiftTypeInfo_Time_Minute]integerValue];
+    NSString* minute=[timeInfo objectForKey:ShiftTypeInfo_Time_Minute];
     if (hour>12)
     {
         hour=hour-12;
-        NSString *timeString=[[NSString alloc]initWithFormat:@"下午 %ld : %ld",(long)hour,(long)minute];
+        NSString *timeString=[[NSString alloc]initWithFormat:@"下午 %ld : %@",(long)hour,minute];
         label.text=timeString;
     }
     else if (hour==12)
     {
-        NSString *timeString=[[NSString alloc]initWithFormat:@"下午 %ld : %ld",(long)hour,(long)minute];
+        NSString *timeString=[[NSString alloc]initWithFormat:@"下午 %ld : %@",(long)hour,minute];
         label.text=timeString;
     }
 
     else if (hour==0)
     {
         hour=12;
-        NSString *timeString=[[NSString alloc]initWithFormat:@"上午 %ld : %ld",(long)hour,(long)minute];
+        NSString *timeString=[[NSString alloc]initWithFormat:@"上午 %ld : %@",(long)hour,minute];
         label.text=timeString;
     }
 
     else
     {
-        NSString *timeString=[[NSString alloc]initWithFormat:@"上午 %ld : %ld",(long)hour,(long)minute];
+        NSString *timeString=[[NSString alloc]initWithFormat:@"上午 %ld : %@",(long)hour,minute];
         label.text=timeString;
 
     }

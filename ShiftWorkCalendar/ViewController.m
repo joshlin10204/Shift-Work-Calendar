@@ -8,13 +8,14 @@
 
 #import "ViewController.h"
 #import "CalendarPageView.h"
-#import "ShiftWorkCollectionView.h"
+//#import "ShiftWorkCollectionView.h"
 #import "ShiftWorkTypeSetViewController.h"
 #import "CalendarInfomationView.h"
+#import "ShiftWorkAllTypeView.h"
 
 
 
-@interface ViewController ()<ShiftWorkCollectionViewDelegate>
+@interface ViewController ()<ShiftWorkAllTypesViewDelegate>
 {
     UIView *calendarBasicView;
     UIView  *calendarTitleView;
@@ -24,7 +25,7 @@
 
 }
 @property (strong, nonatomic) CalendarPageView *calendarPageView;
-@property (strong, nonatomic) ShiftWorkCollectionView *shiftWorkCollectionView;
+@property (strong, nonatomic) ShiftWorkAllTypeView *shiftWorkAllTypeView;
 @property (strong, nonatomic) CalendarInfomationView *calendarInfomationView;
 
 @property (weak, nonatomic) IBOutlet UIView *weekTitleView;
@@ -39,7 +40,6 @@
     [self initNotification];
     [self initCalendarAllView];
     
-    [self initShiftWorkCollectionView];
 
 
     
@@ -50,15 +50,15 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
-    
+    [self initShiftWorkAllTypeView];
 
-}
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
 
     
+
 }
 #pragma mark - Notification
 
@@ -264,37 +264,45 @@
 }
 
 #pragma mark -  Shift Work
--(void)initShiftWorkCollectionView
+-(void)initShiftWorkAllTypeView
 {
 
-    self.shiftWorkCollectionView=[ShiftWorkCollectionView initShiftWorkCollectionView:self.view];
-    self.shiftWorkCollectionView.delegate=self;
-    [self.shiftWorkCollectionView reloadShiftWorkTypeData];
+    self.shiftWorkAllTypeView=[ShiftWorkAllTypeView initShiftWorkAllTypeView:self.view];
+    self.shiftWorkAllTypeView.delegate=self;
+    [self.shiftWorkAllTypeView reloadShiftWorkTypeData];
     
     
 
 }
 #pragma mark -- Add Shift Work
 
--(void)selectShiftWorkCellWithCellType:(ShiftWorkCellType)type withShiftTypeInfo:(NSMutableDictionary *)info
+-(void)selectShiftWorkTypeTableViewWithCellType:(ShiftWorkCellType)type withShiftTypeInfo:(NSMutableDictionary *)info
 {
 
     if (type==ShiftWorkCellTypeAddShiftType)
     {
-        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+
+        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
         
         ShiftWorkTypeSetViewController* addShiftWorkTypeView = [storyboard instantiateViewControllerWithIdentifier:@"ShiftWorkTypeSetViewController"];
         addShiftWorkTypeView.isAddNewShiftWorkType=YES;
+        
+//        [self performSegueWithIdentifier:@"goShiftWorkTypeSetting" sender:self];
+
         [self.navigationController pushViewController:addShiftWorkTypeView animated:YES];
     
     }
     else if (type==ShiftWorkCellTypeEditShiftType)
     {
-        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         
+
+        UIStoryboard* storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
         ShiftWorkTypeSetViewController* addShiftWorkTypeView = [storyboard instantiateViewControllerWithIdentifier:@"ShiftWorkTypeSetViewController"];
         addShiftWorkTypeView.isAddNewShiftWorkType=NO;
         addShiftWorkTypeView.shiftWorkTypeInfo=info;
+        
+//        [self performSegueWithIdentifier:@"goShiftWorkTypeSetting" sender:self];
+
         [self.navigationController pushViewController:addShiftWorkTypeView animated:YES];
     }
     else

@@ -178,7 +178,6 @@ static ColorChipsView *instance=nil;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@" In Cell");
     static NSString *cellID = @"ColorChipsCell";
     
     

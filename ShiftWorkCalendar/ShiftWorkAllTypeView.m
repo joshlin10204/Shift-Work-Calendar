@@ -1,32 +1,34 @@
 //
-//  ShiftWorkCollectionView.m
+//  ShiftWorkAllTypeView.m
 //  ShiftWorkCalendar
 //
-//  Created by Josh on 2017/3/15.
+//  Created by Josh on 2017/4/8.
 //  Copyright © 2017年 Josh. All rights reserved.
 //
 
-#import "ShiftWorkCollectionView.h"
-#import "ShiftWorkCell.h"
+#import "ShiftWorkAllTypeView.h"
+#import "ShiftWorkTypeCell.h"
 #import "CoreDataHandle.h"
 #import "ViewController.h"
+static ShiftWorkAllTypeView *instance=nil;
 
-
-
-static ShiftWorkCollectionView *instance=nil;
-
-@interface ShiftWorkCollectionView ()
+@interface ShiftWorkAllTypeView ()
 {
     CGFloat cellLineSpacing;
     CGFloat cellInteritemSpacing;
     NSMutableArray *shiftWorkTypeInfosArray;
-    ShiftWorkCell * selectShiftCell;
+    ShiftWorkTypeCell * selectShiftTypeCell;
+    NSIndexPath *selectIndexPath;
+    
+    NSUInteger selectShiftTypeCellTag;
+
 }
 
 @end
 
-@implementation ShiftWorkCollectionView
-+(ShiftWorkCollectionView*)initShiftWorkCollectionView:(UIView*)view
+@implementation ShiftWorkAllTypeView
+
++(ShiftWorkAllTypeView*)initShiftWorkAllTypeView:(UIView*)view
 {
     @synchronized(self)
     {
@@ -38,24 +40,22 @@ static ShiftWorkCollectionView *instance=nil;
             CGPoint basicViewPoint;
             basicViewPoint.x=0;
             basicViewPoint.y=view.frame.size.height-basicViewSize.height*30/100;
-
-            instance=[[ShiftWorkCollectionView alloc]initWithFrame:CGRectMake(0,
-                                                                           basicViewPoint.y,
-                                                                           basicViewSize.width,
-                                                                           basicViewSize.height)];
+            
+            instance=[[ShiftWorkAllTypeView alloc]initWithFrame:CGRectMake(0,
+                                                                         basicViewPoint.y,
+                                                                         basicViewSize.width,
+                                                                         basicViewSize.height)];
             
             
             
             [view addSubview:instance];
             
         }
-
+        
     }
     return instance;
-    
-    
-}
 
+}
 - (instancetype)initWithFrame:(CGRect)frame
 {
     
@@ -65,15 +65,15 @@ static ShiftWorkCollectionView *instance=nil;
     
     if (self)
     {
-        [[NSBundle mainBundle]loadNibNamed:@"ShiftWorkCollectionView" owner:self options:nil];
-        self.shiftWorkCollectionBasicView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
-        [self addSubview:self.shiftWorkCollectionBasicView];
+        [[NSBundle mainBundle]loadNibNamed:@"ShiftWorkAllTypeView" owner:self options:nil];
+        self.shiftWorkTypesBasicView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+        [self addSubview:self.shiftWorkTypesBasicView];
+        
         [self reloadShiftWorkTypeData];
 
-        [self initShiftWorkCell];
-        [self initShiftWorkCollectionView];
-
-
+        [self initShiftWorkTypeTableView];
+        
+        
         
         
     }
@@ -82,23 +82,24 @@ static ShiftWorkCollectionView *instance=nil;
 }
 #pragma mark - Shift Work Type Data
 
-
 -(void)reloadShiftWorkTypeData
 {
     shiftWorkTypeInfosArray = [[CoreDataHandle shareCoreDatabase] loadAllShiftWorkType];
+    
 
-    [self.shiftWorkCollectionView reloadData];
-
+    [self.shiftWorkTypeTableView reloadData];
+    
 }
-
-
 #pragma mark - Show Shift Work View
+
 - (IBAction)onClickAddShiftWorkBtn:(id)sender
 {
     if (self.addShiftWorkStatus==AddShiftWorkStatusOff)
     {
         [self showShiftWorkCollectionViewAnimation:AddShiftWorkStatusOn];
         [[NSNotificationCenter defaultCenter]postNotificationName:ShiftWorkType_ShowAddView_Notification object:nil];
+        [self onSelectCell];
+
     }
     else
     {
@@ -107,15 +108,18 @@ static ShiftWorkCollectionView *instance=nil;
         [[NSNotificationCenter defaultCenter]postNotificationName:ShiftWorkType_CloseAddView_Notification object:nil];
     }
     
+
+
+
 }
--(void) showShiftWorkCollectionViewAnimation:(AddShiftWorkStatus)status;
+-(void)showShiftWorkCollectionViewAnimation:(AddShiftWorkStatus)status;
 {
     
     [UIView beginAnimations:@"animation1" context:nil];
     [UIView setAnimationDuration:0.5];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-
-
+    
+    
     CGRect windowView=self.window.frame;
     CGRect frame=self.frame;
     
@@ -123,7 +127,6 @@ static ShiftWorkCollectionView *instance=nil;
     {
         self.addShiftWorkStatus=AddShiftWorkStatusOn;
         frame.origin.y =windowView.size.height*86/100;
-        [self selectFirstCell];
     }
     else
     {
@@ -135,90 +138,89 @@ static ShiftWorkCollectionView *instance=nil;
     
     [UIView commitAnimations];
 }
--(void)selectFirstCell
+-(void)onSelectCell
 {
     if (shiftWorkTypeInfosArray.count!=0)
     {
-        [self collectionView:self.shiftWorkCollectionView didSelectItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
+        if (selectIndexPath==nil)
+        {
+            selectIndexPath = [NSIndexPath indexPathForItem: 0 inSection:0];
+        }
+        
+        [self.shiftWorkTypeTableView selectRowAtIndexPath:selectIndexPath
+                                                 animated:NO
+                                           scrollPosition:(UITableViewScrollPositionTop)];
+        
+        
+        //解決最初 默認第一個cell ，沒反應之問題
+        if ([self.shiftWorkTypeTableView.delegate respondsToSelector:@selector(tableView:didSelectRowAtIndexPath:)])
+        {
+            [self.shiftWorkTypeTableView.delegate tableView:self.shiftWorkTypeTableView didSelectRowAtIndexPath: selectIndexPath];
+        }
     }
-
+    
+    
+    
 }
 
-#pragma mark - Shift Work Collection View
--(void)initShiftWorkCollectionView
+
+
+#pragma mark - Shift Work Type Table View
+-(void)initShiftWorkTypeTableView
 {
-    self.shiftWorkCollectionView.delegate=self;
-    self.shiftWorkCollectionView.dataSource=self;
+
+    self.shiftWorkTypeTableView=[[UITableView alloc]init];
+    self.shiftWorkTypeTableView.separatorStyle=UITableViewCellSeparatorStyleNone;
+    self.shiftWorkTypeTableView.backgroundColor=[UIColor colorWithRed:(255/255) green:(255/255) blue:(255/255) alpha:0];
+    
+    
+    self.shiftWorkTypeTableView.transform = CGAffineTransformMakeRotation(-M_PI / 2);
+    self.shiftWorkTypeTableView.opaque=NO;
+    self.shiftWorkTypeTableView.showsVerticalScrollIndicator=NO;
+//    clearsSelectionOnViewWillAppear
+    self.shiftWorkTypeTableView.frame=CGRectMake(0,
+                                                 self.frame.size.height*30/100,
+                                                 self.frame.size.width,
+                                                 self.frame.size.height*70/100);
+    
+    [self addSubview:self.shiftWorkTypeTableView];
+    [self.shiftWorkTypeTableView  setDelegate:self];
+    [self.shiftWorkTypeTableView setDataSource:self];
+    
+    [self initShiftWorkCell];
+
+    
     UILongPressGestureRecognizer * longPressGr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressCell:)];
     longPressGr.minimumPressDuration = 0.5;
-    [self.shiftWorkCollectionView addGestureRecognizer:longPressGr];
-
-
+    [self.shiftWorkTypeTableView addGestureRecognizer:longPressGr];
+    
+    
 }
 
 -(void)initShiftWorkCell
 {
-    [self.shiftWorkCollectionView registerNib:[UINib nibWithNibName:@"ShiftWorkCell" bundle:nil] forCellWithReuseIdentifier:@"ShiftWorkCell"];
+    [self.shiftWorkTypeTableView registerNib:[UINib nibWithNibName:@"ShiftWorkTypeCell"
+                                                            bundle:nil]
+                      forCellReuseIdentifier:@"ShiftWorkTypeCell"];
+    
     
     cellLineSpacing=self.frame.size.width/150;
     cellInteritemSpacing=self.frame.size.height/200;
-
-
-}
-
-
-- (CGFloat)collectionView:(UICollectionView *)collectionView
-                   layout:(UICollectionViewLayout*)collectionViewLayout
-minimumLineSpacingForSectionAtIndex:(NSInteger)section
-{
     
-    return cellInteritemSpacing;
-}
-//列 間距
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
-{
-    
-    return cellLineSpacing;
     
 }
-//
-//設置Cell的寬高
-- (CGSize)collectionView:(UICollectionView *)collectionView
-                  layout:(UICollectionViewLayout*)collectionViewLayout
-  sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    
-//    NSInteger cellTotal=[weekTotalInMonth integerValue];
-    
-    
-    CGFloat collectionViewWigh=(self.frame.size.width-(cellLineSpacing*5))/4;
-    
-    CGFloat collectionViewHight=self.frame.size.height-(cellInteritemSpacing*2);
-    return CGSizeMake(collectionViewWigh, collectionViewHight);
-}
-
-
-//設置Cell的間距 (上,左,下,右)
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
-{
-    
-    return UIEdgeInsetsMake(cellInteritemSpacing,cellLineSpacing,cellInteritemSpacing,cellLineSpacing);
-}
-
-
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
-{
-    
     return 1;
 }
 
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     
     if (shiftWorkTypeInfosArray.count==0)
     {
         return 1;
-
+        
     }
     else
     {
@@ -229,16 +231,15 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
     
     
 }
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    
-    static NSString *cellID = @"ShiftWorkCell";
-    ShiftWorkCell * shiftCell=[collectionView dequeueReusableCellWithReuseIdentifier:cellID forIndexPath:indexPath];
-
-    
-
+    static NSString *cellID = @"ShiftWorkTypeCell";
+    ShiftWorkTypeCell * shiftCell=[tableView dequeueReusableCellWithIdentifier:cellID ];
+    shiftCell.selectionStyle=UITableViewCellSeparatorStyleNone;
+    shiftCell.opaque=NO;
+    shiftCell.backgroundColor=[UIColor clearColor];
+    shiftCell.contentView.transform = CGAffineTransformMakeRotation(M_PI / 2);
+    shiftCell.backgroundColor=[UIColor colorWithRed:(255/255.0f) green:(255/255.0f) blue:(255/255.0f) alpha:0];
     
     if (shiftWorkTypeInfosArray.count==0||indexPath.row==shiftWorkTypeInfosArray.count)
     {
@@ -251,7 +252,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
     }
     else
     {
- 
+        
         NSMutableDictionary* typeInfo=shiftWorkTypeInfosArray[indexPath.row];
         UIColor *shiftColor=[typeInfo objectForKey:CoreData_ShiftTypeInfo_Color];
         UIColor *clenerColor=[UIColor colorWithRed:(255/255.0f) green:(255/255.0f) blue:(255/255.0f) alpha:0];
@@ -260,8 +261,8 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
         NSInteger typeID=[[typeInfo objectForKey:CoreData_ShiftTypeInfo_TypeID]integerValue];
         
         [shiftCell setTag:typeID];
-
-
+        
+        
         [self setShiftCellWithLabel:shiftCell.shortNameLabel
                      withTextString:shortString
                       withTextColor:[UIColor whiteColor]
@@ -270,19 +271,22 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
                      withTextString:titleString
                       withTextColor:[shiftColor colorWithAlphaComponent:0.3]
                         withBgColor:clenerColor];
-        if (indexPath.row==0)
+       
+        //避免UITableView更新後，將目前所選的Cell 恢復沒點擊狀況
+        if (shiftCell.tag == selectShiftTypeCellTag)
         {
-            selectShiftCell=shiftCell;
-            [self onSelectCellAnimation:selectShiftCell];
+            [self onSelectCellAnimation:selectShiftTypeCell];
         }
-
-    
+        
+        
     }
+
     
     
     return shiftCell;
+    
+    
 }
-
 -(void)setShiftCellWithLabel:(UILabel*)label
               withTextString:(NSString*)textString
                withTextColor:(UIColor*)textColor
@@ -291,57 +295,75 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
     label.text=textString;
     label.textColor=textColor;
     label.layer.backgroundColor=[bgColor CGColor];
-
+    
 }
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self onCancelSelectCellAnimation:selectShiftCell];
     
-    selectShiftCell =(ShiftWorkCell*)[collectionView cellForItemAtIndexPath:indexPath];
+    return tableView.frame.size.width*1/4;;
+    
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self onCancelSelectCellAnimation:selectShiftTypeCell];
+    
+    selectShiftTypeCell =(ShiftWorkTypeCell*)[tableView cellForRowAtIndexPath:indexPath];
     NSMutableDictionary *info=[NSMutableDictionary new];
-    
     // Tag=0 New Shift Work Cell
-    if (selectShiftCell.tag==0)
+    if (selectShiftTypeCell.tag==0)
     {
-        [self.delegate selectShiftWorkCellWithCellType:ShiftWorkCellTypeAddShiftType withShiftTypeInfo:info];
+        [self.delegate selectShiftWorkTypeTableViewWithCellType:ShiftWorkCellTypeAddShiftType withShiftTypeInfo:info];
+        [self onClickAddShiftWorkBtn:nil];
+
         
     }
     else
     {
+        selectShiftTypeCellTag=selectShiftTypeCell.tag;
+        selectIndexPath=indexPath;
         info=shiftWorkTypeInfosArray[indexPath.row];
-        [self onSelectCellAnimation:selectShiftCell];
-        [self.delegate selectShiftWorkCellWithCellType:ShiftWorkCellTypeSelShiftType withShiftTypeInfo:info];
-
+        [self onSelectCellAnimation:selectShiftTypeCell];
+        [self.delegate selectShiftWorkTypeTableViewWithCellType:ShiftWorkCellTypeSelShiftType withShiftTypeInfo:info];
+        
     }
+    
+    
+    
+    
 }
+
+
+
 -(void)handleLongPressCell:(UILongPressGestureRecognizer *)gestureRecognizer
 {
     if (gestureRecognizer.state==UIGestureRecognizerStateBegan)
     {
-        CGPoint point = [gestureRecognizer locationInView:self.shiftWorkCollectionView];
+        CGPoint point = [gestureRecognizer locationInView:self.shiftWorkTypeTableView];
         
-        NSIndexPath *indexPath = [self.shiftWorkCollectionView indexPathForItemAtPoint:point];
-        UICollectionViewCell *cell =[self.shiftWorkCollectionView cellForItemAtIndexPath:indexPath];
+        NSIndexPath *indexPath = [self.shiftWorkTypeTableView indexPathForRowAtPoint:point];
+        UITableViewCell *cell =[self.shiftWorkTypeTableView cellForRowAtIndexPath:indexPath];
         NSMutableDictionary *info=[NSMutableDictionary new];
         
         if (cell.tag!=0)
         {
             info=shiftWorkTypeInfosArray[indexPath.row];
-            [self.delegate selectShiftWorkCellWithCellType:ShiftWorkCellTypeEditShiftType withShiftTypeInfo:info];
+            [self.delegate selectShiftWorkTypeTableViewWithCellType:ShiftWorkCellTypeEditShiftType withShiftTypeInfo:info];
+            [self onClickAddShiftWorkBtn:nil];
+
         }
     }
     else
     {
         return;
-    
+        
     }
-
+    
 }
--(void)onSelectCellAnimation:(ShiftWorkCell*)cell
+-(void)onSelectCellAnimation:(ShiftWorkTypeCell*)cell
 {
     cell.shortNameLabel.layer.backgroundColor=[[cell.titleNameLabel.textColor colorWithAlphaComponent:1]CGColor];
     cell.titleNameLabel.textColor=[cell.titleNameLabel.textColor colorWithAlphaComponent:1];
-
+    
     CABasicAnimation* openAnim = [CABasicAnimation animationWithKeyPath: @"transform.scale"];
     openAnim.fromValue = [NSNumber numberWithFloat:1];
     openAnim.toValue = [NSNumber numberWithFloat:1.1];
@@ -352,12 +374,12 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
     openAnim.fillMode = kCAFillModeForwards;
     [cell.shortNameLabel.layer addAnimation:openAnim forKey:@"scale-layer"];
 }
--(void)onCancelSelectCellAnimation:(ShiftWorkCell*)cell
+-(void)onCancelSelectCellAnimation:(ShiftWorkTypeCell*)cell
 {
     cell.shortNameLabel.layer.backgroundColor=[[cell.titleNameLabel.textColor colorWithAlphaComponent:0.3]CGColor];
     cell.titleNameLabel.textColor=[cell.titleNameLabel.textColor colorWithAlphaComponent:0.3];
-
-
+    
+    
     CABasicAnimation* openAnim = [CABasicAnimation animationWithKeyPath: @"transform.scale"];
     openAnim.fromValue = [NSNumber numberWithFloat:1.1];
     openAnim.toValue = [NSNumber numberWithFloat:1.0];
@@ -369,9 +391,5 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
     [cell.shortNameLabel.layer addAnimation:openAnim forKey:@"scale-layer"];
 }
 
--(void)sendNotification
-{
 
-
-}
 @end

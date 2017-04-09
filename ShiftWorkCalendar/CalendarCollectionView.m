@@ -43,7 +43,6 @@
     BOOL isAddShiftWork;
     NSString*calendarPage;
     NSMutableDictionary*shiftTypeInfo;
-//    NSMutableDictionary*shiftDateInfo;
     NSMutableDictionary* allShiftDateTypeInfo;
     NSMutableDictionary* allShiftDateInfo;
     
@@ -87,11 +86,6 @@
     [super viewWillAppear:animated];
     
     [self sendCalendarDateNotification];
-
-}
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
     [self onSelectTodayCell];
 
 
@@ -107,10 +101,7 @@
 -(void)onSelectTodayCell
 {
 
-    if (isCurrenCalendar)
-    {
-        [self collectionView:self.calendarCollectionView didSelectItemAtIndexPath:selectIndexPath];
-    }
+    [self collectionView:self.calendarCollectionView didSelectItemAtIndexPath:selectIndexPath];
 
 }
 
@@ -269,14 +260,21 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
         NSInteger cellID = [idString intValue];
         dayCell.calendarDayLabel.text=dayString;
         [dayCell setTag:cellID];
+       
         if (isCurrenCalendar&&dayInt ==todayDay)
         {
             selectIndexPath=indexPath;
-
             dayCell.calendarDayLabel.textColor=[UIColor colorWithRed:242.0f/255.0f green:89.0f/255.0f blue:75.0f/255.0f alpha:1.0f];
-
-
         }
+        else
+        {
+            if ([dayInt integerValue]==1)
+            {
+                selectIndexPath=indexPath;
+
+            }
+        }
+
 
         NSMutableDictionary *shiftDateInfo=[allShiftDateInfo objectForKey:idString];
         if (shiftDateInfo!=nil)

@@ -276,14 +276,12 @@
 {
     if (selectTimeLabel ==self.shiftBeginTimeLabel)
     {
-        NSLog(@"BeginTimeLabel");
         shiftBeginTimeInfo=timeInfo;
         [self updateShiftTimeLabelText:selectTimeLabel withTimeInfo:shiftBeginTimeInfo];
 
     }
     else
     {
-        NSLog(@"EndTimeLabel");
 
         shiftEndTimeInfo=timeInfo;
         [self updateShiftTimeLabelText:selectTimeLabel withTimeInfo:shiftEndTimeInfo];

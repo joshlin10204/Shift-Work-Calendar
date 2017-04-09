@@ -99,7 +99,6 @@ static ShiftWorkInformationView *instance=nil;
 -(void)updateShiftWorkInformation:(NSMutableDictionary *)info
 {
 
-    NSLog(@"update :%@",info);
     shiftWorkNameLabel.text=[info objectForKey:CoreData_ShiftTypeInfo_ShortName];
     NSMutableDictionary *timeInfo=[info objectForKey:CoreData_ShiftTypeInfo_Time];
     NSMutableDictionary *beginTimeInfo=[timeInfo objectForKey:ShiftTypeInfo_BeginTimeInfo];

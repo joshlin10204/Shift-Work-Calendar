@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CalendarCollectionView : UICollectionViewController<UICollectionViewDelegate>
+@interface CalendarCollectionView : UIViewController<UICollectionViewDelegate>
 @property (strong, nonatomic) NSMutableDictionary *dateDictionary;
 
+@property(strong,nonatomic)UICollectionView *calendarCollectionView;
 
 
 @end

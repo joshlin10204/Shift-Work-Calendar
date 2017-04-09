@@ -70,7 +70,7 @@
     isCurrenCalendar=NO;
     isAddShiftWork=NO;
     [self initDateDictionary];
-    [self initCollectionViewCell];
+    [self initCalendarCollectionView];
     [self initNotification];
     [self loadShiftDateData];
 
@@ -86,37 +86,29 @@
     [super viewWillAppear:animated];
     
     [self sendCalendarDateNotification];
-    [self onSelectTodayCell];
 
 }
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [self onSelectTodayCell];
 
 
+}
+-(void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    [self onSelectTodayCell];
+    
+    
 }
 
 -(void)onSelectTodayCell
 {
-    [self.collectionView reloadData];
 
     if (isCurrenCalendar)
     {
-        
-        [self collectionView:self.collectionView didSelectItemAtIndexPath:selectIndexPath];
-
-        
-//        [self.collectionView selectItemAtIndexPath:selectIndexPath
-//                                          animated:NO
-//                                    scrollPosition:(UICollectionViewScrollPositionNone)];
-//        
-//        CalendarCollectionCell *cell =(CalendarCollectionCell*
-//                                       )[self.collectionView cellForItemAtIndexPath:selectIndexPath];
-//        NSLog(@"------- %ld",(long)cell.tag);
-//        if ([self.collectionView.delegate respondsToSelector:@selector(collectionView:didSelectItemAtIndexPath:)])
-//        {
-//            [self.collectionView.delegate collectionView:self.collectionView didSelectItemAtIndexPath:selectIndexPath];
-//        }
+        [self collectionView:self.calendarCollectionView didSelectItemAtIndexPath:selectIndexPath];
     }
 
 }
@@ -173,13 +165,29 @@
 }
 
 #pragma mark - Collection View
+-(void)initCalendarCollectionView
+{
+
+    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+    [flowLayout setScrollDirection:UICollectionViewScrollDirectionVertical];
+    //设置CollectionView的属性
+    self.calendarCollectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:flowLayout];
+    self.calendarCollectionView.backgroundColor =[UIColor whiteColor];
+    self.calendarCollectionView.delegate = self;
+    self.calendarCollectionView.dataSource = self;
+    self.calendarCollectionView.scrollEnabled = YES;
+    [self.view addSubview:self.calendarCollectionView];
+
+    [self initCollectionViewCell];
+
+}
 
 -(void)initCollectionViewCell
 {
     cellLineSpacing=self.view.frame.size.width/150;
     cellInteritemSpacing=self.view.frame.size.height/200;
     
-    [self.collectionView registerNib:[UINib nibWithNibName:@"CalendarCollectionCell" bundle:nil] forCellWithReuseIdentifier:@"CalendarCollectionCell"];
+    [self.calendarCollectionView registerNib:[UINib nibWithNibName:@"CalendarCollectionCell" bundle:nil] forCellWithReuseIdentifier:@"CalendarCollectionCell"];
 
 
 }
@@ -264,7 +272,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
             selectIndexPath=indexPath;
 
             dayCell.calendarDayLabel.textColor=[UIColor colorWithRed:242.0f/255.0f green:89.0f/255.0f blue:75.0f/255.0f alpha:1.0f];
-            dayCell.calendarDayLabel.backgroundColor=[UIColor colorWithRed:242.0f/255.0f green:89.0f/255.0f blue:75.0f/255.0f alpha:0.3f];
+
 
         }
 
@@ -357,11 +365,14 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
         NSString *typeID=[shiftDateInfo objectForKey:CoreData_ShiftDateInfo_ShiftTypeID];
         NSMutableDictionary *typeInfo=[allShiftDateTypeInfo objectForKey:typeID];
 
+
+
         NSMutableDictionary *selectDayInfo=[[NSMutableDictionary alloc]init];
         [selectDayInfo setObject:dayInfo forKey:@"dayInfo"];
+        
+
         if (typeInfo!=nil)
         {
-            NSLog(@"%@",typeInfo);
 
             [selectDayInfo setObject:typeInfo forKey:@"typeInfo"];
 

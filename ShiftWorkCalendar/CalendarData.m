@@ -60,7 +60,7 @@
     NSNumber * weekOfMonthFirstDay=[self getWeekOfMonthFirstDay:nextMonth inputYear:nextYear];
     NSNumber* daysTotalInMonth=[self getNumberOfDaysInMonth:nextMonth inputYear:nextYear];
     NSNumber* weekTotalInMonth=[self getWeekTotalInMonth:nextMonth inputYear:nextYear];
-
+    NSMutableDictionary*allDayInfo=[self getAllDayInfoInCurYear:nextYear withMonth:nextMonth withDaysTotalInMonth:daysTotalInMonth];
     
     NSMutableDictionary *nextDateInfo=[[NSMutableDictionary alloc]init];
     [nextDateInfo setObject:nextYear  forKey:CalendarData_Year];
@@ -68,6 +68,8 @@
     [nextDateInfo setObject:weekOfMonthFirstDay  forKey:CalendarData_FirstDayWeekInMonth];
     [nextDateInfo setObject:daysTotalInMonth  forKey:CalendarData_DaysTotalInMonth];
     [nextDateInfo setObject:weekTotalInMonth  forKey:CalendarData_WeekTotalInMonth];
+    [nextDateInfo setObject:allDayInfo  forKey:CalendarData_AllDayInfo];
+
 
     return nextDateInfo;
 }
@@ -97,14 +99,14 @@
     NSNumber * weekOfMonthFirstDay=[self getWeekOfMonthFirstDay:prevMonth inputYear:prevYear];
     NSNumber* daysTotalInMonth=[self getNumberOfDaysInMonth:prevMonth inputYear:prevYear];
     NSNumber* weekTotalInMonth=[self getWeekTotalInMonth:prevMonth inputYear:prevYear];
-
+    NSMutableDictionary*allDayInfo=[self getAllDayInfoInCurYear:prevYear withMonth:prevMonth withDaysTotalInMonth:daysTotalInMonth];
     NSMutableDictionary *prevDateInfo=[[NSMutableDictionary alloc]init];
     [prevDateInfo setObject:prevYear  forKey:CalendarData_Year];
     [prevDateInfo setObject:prevMonth  forKey:CalendarData_Month];
     [prevDateInfo setObject:weekOfMonthFirstDay  forKey:CalendarData_FirstDayWeekInMonth];
     [prevDateInfo setObject:daysTotalInMonth  forKey:CalendarData_DaysTotalInMonth];
     [prevDateInfo setObject:weekTotalInMonth  forKey:CalendarData_WeekTotalInMonth];
-
+    [prevDateInfo setObject:allDayInfo  forKey:CalendarData_AllDayInfo];
 
     return prevDateInfo;
 }

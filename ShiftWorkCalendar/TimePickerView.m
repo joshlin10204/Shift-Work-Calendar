@@ -153,8 +153,6 @@ static TimePickerView *instance=nil;
     hourString = [hourFormatter stringFromDate:date];
     minuteString = [minuteFormatter stringFromDate:date];
     
-    NSLog(@"---@@ : %@",minuteString);
-
     NSMutableDictionary *timeInfo=[[NSMutableDictionary alloc]init];
     [timeInfo setObject:hourString forKey:ShiftTypeInfo_Time_Hour];
     [timeInfo setObject:minuteString forKey:ShiftTypeInfo_Time_Minute];

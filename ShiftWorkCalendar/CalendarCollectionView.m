@@ -50,7 +50,8 @@
     NSMutableDictionary* deleteShiftDateTempInfo;
     NSMutableDictionary* updateShiftDateTempInfo;
 
-    
+    NSIndexPath *selectIndexPath;
+
 
 
 
@@ -85,10 +86,40 @@
     [super viewWillAppear:animated];
     
     [self sendCalendarDateNotification];
+    [self onSelectTodayCell];
+
+}
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
 
 
 }
 
+-(void)onSelectTodayCell
+{
+    [self.collectionView reloadData];
+
+    if (isCurrenCalendar)
+    {
+        
+        [self collectionView:self.collectionView didSelectItemAtIndexPath:selectIndexPath];
+
+        
+//        [self.collectionView selectItemAtIndexPath:selectIndexPath
+//                                          animated:NO
+//                                    scrollPosition:(UICollectionViewScrollPositionNone)];
+//        
+//        CalendarCollectionCell *cell =(CalendarCollectionCell*
+//                                       )[self.collectionView cellForItemAtIndexPath:selectIndexPath];
+//        NSLog(@"------- %ld",(long)cell.tag);
+//        if ([self.collectionView.delegate respondsToSelector:@selector(collectionView:didSelectItemAtIndexPath:)])
+//        {
+//            [self.collectionView.delegate collectionView:self.collectionView didSelectItemAtIndexPath:selectIndexPath];
+//        }
+    }
+
+}
 
 #pragma mark - Date Data
 
@@ -230,6 +261,8 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
         [dayCell setTag:cellID];
         if (isCurrenCalendar&&dayInt ==todayDay)
         {
+            selectIndexPath=indexPath;
+
             dayCell.calendarDayLabel.textColor=[UIColor colorWithRed:242.0f/255.0f green:89.0f/255.0f blue:75.0f/255.0f alpha:1.0f];
             dayCell.calendarDayLabel.backgroundColor=[UIColor colorWithRed:242.0f/255.0f green:89.0f/255.0f blue:75.0f/255.0f alpha:0.3f];
 
@@ -273,6 +306,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
         dayCell.calendarDayLabel.textColor=[UIColor colorWithRed:230.0f/255.0f green:230.0f/255.0f blue:230.0f/255.0f alpha:1.0f];
         
     }
+
     return dayCell;
 }
 
@@ -286,12 +320,6 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
         return;
     }
 
-    //----點選 Cell Day Info
-    NSString*dayInfoKey=[[NSString alloc]initWithFormat:@"%ld",(long)cell.tag];
-    NSMutableDictionary*dayInfo=[allDayInfo objectForKey:dayInfoKey];
-    NSString *day=[dayInfo objectForKey:CalendarData_AllDayInfo_Day];
-    NSString *week=[dayInfo objectForKey:CalendarData_AllDayInfo_Week];
-    //----
 
     CalendarCollectionCell *curSelectDayCell=selectDayCell;
     selectDayCell=(CalendarCollectionCell*)cell;
@@ -320,6 +348,28 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
     }
     else
     {
+        //----點選 Cell Day Info
+        NSString*dayInfoKey=[[NSString alloc]initWithFormat:@"%ld",(long)cell.tag];
+        NSMutableDictionary*dayInfo=[allDayInfo objectForKey:dayInfoKey];
+        NSString *day=[dayInfo objectForKey:CalendarData_AllDayInfo_Day];
+        NSString *idString=[[NSString alloc]initWithFormat:@"%@%@%@",curYear,curMonth,day];
+        NSMutableDictionary *shiftDateInfo=[allShiftDateInfo objectForKey:idString];
+        NSString *typeID=[shiftDateInfo objectForKey:CoreData_ShiftDateInfo_ShiftTypeID];
+        NSMutableDictionary *typeInfo=[allShiftDateTypeInfo objectForKey:typeID];
+
+        NSMutableDictionary *selectDayInfo=[[NSMutableDictionary alloc]init];
+        [selectDayInfo setObject:dayInfo forKey:@"dayInfo"];
+        if (typeInfo!=nil)
+        {
+            NSLog(@"%@",typeInfo);
+
+            [selectDayInfo setObject:typeInfo forKey:@"typeInfo"];
+
+        }
+        [[NSNotificationCenter defaultCenter]postNotificationName:Calendar_SelectDay_Notification
+                                                           object:selectDayInfo];
+
+        
         [self updateDayCell:curSelectDayCell isSelection:NO];
         [self updateDayCell:selectDayCell isSelection:YES];
     }

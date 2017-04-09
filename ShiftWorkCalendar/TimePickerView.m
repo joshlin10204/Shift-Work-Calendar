@@ -7,6 +7,8 @@
 //
 
 #import "TimePickerView.h"
+#import "CoreDataHandle.h"
+
 static TimePickerView *instance=nil;
 
 @interface TimePickerView ()

@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 
 #define Calendar_Date_Notification @"Calendar_Date_Notification"
+#define Calendar_SelectDay_Notification @"Calendar_SelectDay_Notification"
+
 #define ShiftWorkType_ShowAddView_Notification @"ShiftWorkType_ShowAdd_Notification"
 #define ShiftWorkType_CloseAddView_Notification @"ShiftWorkType_CloseAddView_Notification"
 #define ShiftWorkType_AddShiftType_Notification @"ShiftWorkType_AddShiftType_Notification"

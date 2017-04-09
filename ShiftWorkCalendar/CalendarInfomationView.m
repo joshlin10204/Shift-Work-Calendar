@@ -9,6 +9,10 @@
 #import "CalendarInfomationView.h"
 #import "ShiftWorkInformationView.h"
 #import "ViewController.h"
+#import "CalendarData.h"
+#import "CoreDataHandle.h"
+
+
 
 static CalendarInfomationView *instance=nil;
 
@@ -90,10 +94,29 @@ static CalendarInfomationView *instance=nil;
     
     return self;
 }
+#pragma mark -Update Calendar Information
 
--(void)updateInformation:(NSMutableDictionary*)info
+
+-(void)updateCalendarInformation:(NSNotification *)notification
 {
+    NSMutableDictionary *newInfo=[notification object];
+    NSMutableDictionary*dayInfo=[newInfo objectForKey:@"dayInfo"];
+    NSMutableDictionary *typeInfo=[newInfo objectForKey:@"typeInfo"];
     
+    NSString *day=[dayInfo objectForKey:CalendarData_AllDayInfo_Day];
+    NSString *week=[dayInfo objectForKey:CalendarData_AllDayInfo_Week];
+
+    dayLabel.text=day;
+    weekLabel.text=week;
+    if (typeInfo!=nil)
+    {
+        self.calendarInformationView.backgroundColor=[typeInfo objectForKey:CoreData_ShiftTypeInfo_Color];
+        [shiftWorkInformationView updateShiftWorkInformation:typeInfo];
+    }
+    else
+    {
+        self.calendarInformationView.backgroundColor=[UIColor colorWithRed:(68/255.0f) green:(68/255.0f) blue:(68/255.0f) alpha:1];
+    }
 
 
 }
@@ -102,6 +125,10 @@ static CalendarInfomationView *instance=nil;
 
 -(void)initNotification
 {
+    [[NSNotificationCenter defaultCenter]addObserver:self
+                                            selector:@selector(updateCalendarInformation:)
+                                                name:Calendar_SelectDay_Notification
+                                              object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self
                                             selector:@selector(enlargeInformationView)
                                                 name:ShiftWorkType_CloseAddView_Notification
@@ -112,6 +139,8 @@ static CalendarInfomationView *instance=nil;
                                               object:nil];    
     
 }
+
+#pragma mark -Zoom View Animation
 
 -(void)enlargeInformationView
 {
@@ -178,8 +207,8 @@ static CalendarInfomationView *instance=nil;
     CGPoint labelPoint;
     CGSize labelSize;
     labelSize.height=self.frame.size.height*70/100;
-    labelSize.width=self.frame.size.width*50/100;
-    labelPoint.x=0;
+    labelSize.width=self.frame.size.width*40/100;
+    labelPoint.x=self.frame.size.width/4-labelSize.width/2;
     labelPoint.y=self.frame.size.height*10/100;
     dayLabel=[[UILabel alloc]initWithFrame:CGRectMake(labelPoint.x, labelPoint.y, labelSize.width, labelSize.height)];
     
@@ -199,8 +228,8 @@ static CalendarInfomationView *instance=nil;
     CGPoint labelPoint;
     CGSize labelSize;
     labelSize.height=self.frame.size.height*25/100;
-    labelSize.width=self.frame.size.width*50/100;
-    labelPoint.x=0;
+    labelSize.width=self.frame.size.width*40/100;
+    labelPoint.x=self.frame.size.width/4-labelSize.width/2;
     labelPoint.y=self.frame.size.height*70/100;
     weekLabel=[[UILabel alloc]initWithFrame:CGRectMake(labelPoint.x, labelPoint.y, labelSize.width, labelSize.height)];
     

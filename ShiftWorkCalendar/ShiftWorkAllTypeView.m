@@ -23,6 +23,7 @@ static ShiftWorkAllTypeView *instance=nil;
     NSUInteger selectShiftTypeCellTag;
 
 }
+@property (weak, nonatomic) IBOutlet UIButton *addShiftWorkButton;
 
 @end
 
@@ -72,6 +73,7 @@ static ShiftWorkAllTypeView *instance=nil;
         [self reloadShiftWorkTypeData];
 
         [self initShiftWorkTypeTableView];
+        [self initNotification];
         
         
         
@@ -80,6 +82,39 @@ static ShiftWorkAllTypeView *instance=nil;
     
     return self;
 }
+#pragma mark -Notification
+
+-(void)initNotification
+{
+    [[NSNotificationCenter defaultCenter]addObserver:self
+                                            selector:@selector(updateAddShiftWorkBtnColor:)
+                                                name:Calendar_SelectDay_Notification
+                                              object:nil];
+    
+}
+
+#pragma mark -Update Calendar Information
+
+
+-(void)updateAddShiftWorkBtnColor:(NSNotification *)notification
+{
+    NSMutableDictionary *newInfo=[notification object];
+    NSMutableDictionary *typeInfo=[newInfo objectForKey:@"typeInfo"];
+    
+    if (typeInfo!=nil)
+    {
+        self.addShiftWorkButton.backgroundColor=[typeInfo objectForKey:CoreData_ShiftTypeInfo_Color];
+    }
+    else
+    {
+        self.addShiftWorkButton.backgroundColor=[UIColor colorWithRed:(68/255.0f) green:(68/255.0f) blue:(68/255.0f) alpha:1];
+
+    
+    }
+    
+}
+
+
 #pragma mark - Shift Work Type Data
 
 -(void)reloadShiftWorkTypeData

@@ -10,8 +10,7 @@
 #import "ColorChipsView.h"
 #import "TimePickerView.h"
 #import "CoreDataHandle.h"
-#define ShiftTypeInfo_BeginTimeInfo @"ShiftTypeInfo_BeginTimeInfo"
-#define ShiftTypeInfo_EndTimeInfo @"ShiftTypeInfo_EndTimeInfo"
+
 
 
 

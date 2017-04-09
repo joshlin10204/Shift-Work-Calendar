@@ -7,8 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#define ShiftTypeInfo_Time_Hour @"ShiftTypeInfo_Time_Hour"
-#define ShiftTypeInfo_Time_Minute @"ShiftTypeInfo_Time_Minute"
 
 typedef enum TimePickerViewSetStatus
 {

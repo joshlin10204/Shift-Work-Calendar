@@ -12,4 +12,6 @@
 +(ShiftWorkInformationView*)initShiftWorkInformationViewInSubview:(UIView*)view;
 @property (strong, nonatomic) IBOutlet UIView *shiftWorkInformationView;
 
+-(void)updateShiftWorkInformation:(NSMutableDictionary *)info;
+
 @end

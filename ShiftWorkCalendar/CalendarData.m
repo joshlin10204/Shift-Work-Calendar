@@ -220,7 +220,7 @@
                           withDay:(NSInteger)day
 {
     
-    NSArray *weekdays = [NSArray arrayWithObjects: [NSNull null], @"星期天", @"星期一", @"星期二", @"星期三", @"星期四", @"星期五", @"星期六", nil];
+    NSArray *weekdays = [NSArray arrayWithObjects: [NSNull null], @"Sunday", @"Monday", @"Tuesday", @"Wednesday", @"Thursday", @"Friday", @"Saturday", nil];
     NSDateComponents *dateComponents=[[NSDateComponents alloc]init];
     [dateComponents setYear:year];
     [dateComponents setMonth:month];

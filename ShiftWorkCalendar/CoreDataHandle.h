@@ -22,7 +22,10 @@
 #define CoreData_ShiftDateInfo_CalendarPage @"CoreData_ShiftDateInfo_CalendarPage"
 //#define CoreData_ShiftDateInfo_DateInfo @"CoreData_ShiftDateInfo_DateInfo"
 
-
+#define ShiftTypeInfo_BeginTimeInfo @"ShiftTypeInfo_BeginTimeInfo"
+#define ShiftTypeInfo_EndTimeInfo @"ShiftTypeInfo_EndTimeInfo"
+#define ShiftTypeInfo_Time_Hour @"ShiftTypeInfo_Time_Hour"
+#define ShiftTypeInfo_Time_Minute @"ShiftTypeInfo_Time_Minute"
 
 @interface CoreDataHandle : NSObject
 + (id)shareCoreDatabase;

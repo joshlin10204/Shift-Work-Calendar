@@ -12,6 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ShiftWorkAllTypeView">
             <connections>
+                <outlet property="addShiftWorkButton" destination="1a3-Ve-mTn" id="W5m-Jl-cTy"/>
                 <outlet property="shiftWorkTypesBasicView" destination="i5M-Pr-FkT" id="TYH-L0-wV4"/>
             </connections>
         </placeholder>
@@ -23,7 +24,10 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1a3-Ve-mTn">
                     <rect key="frame" x="-0.5" y="0.0" width="375" height="200"/>
                     <color key="backgroundColor" red="1" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <state key="normal" title="Button"/>
+                    <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="20"/>
+                    <state key="normal" title="Add Shift Work">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
                     <connections>
                         <action selector="onClickAddShiftWorkBtn:" destination="-1" eventType="touchUpInside" id="t02-Hd-hqy"/>
                     </connections>

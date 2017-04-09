@@ -8,6 +8,8 @@
 
 #import "ShiftWorkInformationView.h"
 #import "ViewController.h"
+#import "CoreDataHandle.h"
+
 
 static ShiftWorkInformationView *instance=nil;
 
@@ -92,6 +94,30 @@ static ShiftWorkInformationView *instance=nil;
     }
     
     return self;
+}
+#pragma mark -Update Shift Work Information
+-(void)updateShiftWorkInformation:(NSMutableDictionary *)info
+{
+
+    NSLog(@"update :%@",info);
+    shiftWorkNameLabel.text=[info objectForKey:CoreData_ShiftTypeInfo_ShortName];
+    NSMutableDictionary *timeInfo=[info objectForKey:CoreData_ShiftTypeInfo_Time];
+    NSMutableDictionary *beginTimeInfo=[timeInfo objectForKey:ShiftTypeInfo_BeginTimeInfo];
+    NSMutableDictionary *endTimeInfo=[timeInfo objectForKey:ShiftTypeInfo_EndTimeInfo];
+
+    NSString * beginHour=[beginTimeInfo objectForKey:ShiftTypeInfo_Time_Hour];
+    NSString * beginMinute=[beginTimeInfo objectForKey:ShiftTypeInfo_Time_Minute];
+    NSString * beginTime=[[NSString alloc]initWithFormat:@"%@:%@",beginHour,beginMinute];
+    NSString * endHour=[endTimeInfo objectForKey:ShiftTypeInfo_Time_Hour];
+    NSString * endMinute=[endTimeInfo objectForKey:ShiftTypeInfo_Time_Minute];
+    NSString * endTime=[[NSString alloc]initWithFormat:@"%@:%@",endHour,endMinute];
+
+    
+    shiftWorkBeginLabel.text=beginTime;
+    shiftWorkEndLabel.text=endTime;
+    
+    
+
 }
 #pragma mark -Notification
 -(void)initNotification

@@ -162,8 +162,25 @@
 }
 -(void)switchingCalendarNotification:(NSNotification *)notification
 {
-    NSString *calendarDateString=[notification object];
+    
+    NSLog(@"測試中～～～");
+    NSMutableDictionary *pageTitleInfo=[notification object];
+    
+    NSString *titleYear = [pageTitleInfo objectForKey:@"pageTitleYear"];
+    NSString *titleMonth = [self calendarDateMonth:[pageTitleInfo objectForKey:@"pageTitleMonth"] ];
+    
+    NSString *calendarDateString=[[NSString alloc ]initWithFormat:@"%@ %@ ",titleYear,titleMonth];
+    
     calendarTitleLabel.text=calendarDateString;
+
+    
+}
+
+-(NSString*)calendarDateMonth:(NSString*)month
+{
+    NSArray *monthArray=[NSArray arrayWithObjects: [NSNull null], @"January", @"February", @"March", @"April", @"May", @"June", @"July",@"August",@"September",@"October",@"November",@"December", nil];
+    NSInteger i=[month integerValue];
+    return [monthArray objectAtIndex:i];
     
 }
 

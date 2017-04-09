@@ -10,10 +10,12 @@
 #import "CalendarCollectionView.h"
 #import "CalendarData.h"
 
+#import "ViewController.h"
 
 @interface CalendarPageView ()
 {
     NSArray *viewControllers;
+    NSString *currentPageDateTitle;
 
 
 }
@@ -35,15 +37,33 @@
     if (self)
     {
         
+        [self initNotification];
         [self initDateData];
         [self initMonthCollectionView];
         [self initPageControllerView];
+        
+
+
+
     }
     return self;
 }
+
+-(void)initNotification
+{
+    [[NSNotificationCenter defaultCenter]addObserver:self
+                                            selector:@selector(reloadPageView:)
+                                                name:CalendarPageView_Reload_Notification
+                                              object:nil];
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self
+                                            selector:@selector(setCurrentPageDateTitle:)
+                                                name:Calendar_Date_Notification
+                                              object:nil];
+
+}
 -(void)initDateData
 {
-//    self.calendarData=[[CalendarData alloc]init];
     self.currentDateInfo=[CalendarData getCurrentDayCalendarInfo];
 }
 
@@ -103,5 +123,47 @@
     return [self currentCalendarViewDateInfo:self.currentDateInfo storyboard:viewController.storyboard];
 }
 
+
+
+-(void)setCurrentPageDateTitle:(NSNotification *)notification
+{
+    NSMutableDictionary*curPageInfo=[notification object];
+    
+    NSString *titleYear = [curPageInfo objectForKey:@"pageTitleYear"];
+    NSString *titleMonth =[curPageInfo objectForKey:@"pageTitleMonth"];
+    currentPageDateTitle=[[NSString alloc]initWithFormat:@"%@%@",titleYear,titleMonth];
+
+}
+
+-(void)reloadPageView:(NSNotification *)notification
+{
+    NSMutableDictionary *updateInfo=[notification object];
+    
+    
+    NSNumber * year=[updateInfo objectForKey:CalendarData_Year];
+    NSNumber * month=[updateInfo objectForKey:CalendarData_Month];
+    NSString *reloadDate=[[NSString alloc]initWithFormat:@"%@%@",year,month];
+
+
+    //判斷目前顯示的Page，更新畫面
+    if ([currentPageDateTitle isEqualToString:reloadDate])
+    {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main"
+                                                             bundle:[NSBundle mainBundle]];
+        CalendarCollectionView *calendarCollectionView=[self currentCalendarViewDateInfo:updateInfo
+                                                                              storyboard:storyboard];
+        
+        
+        viewControllers = @[calendarCollectionView];
+        NSLog(@"reloadView----%@",updateInfo);
+        [self.pageViewController setViewControllers: viewControllers
+                                          direction: UIPageViewControllerNavigationDirectionForward
+                                           animated: NO
+                                         completion: nil];
+        
+        
+    }
+    
+}
 
 @end

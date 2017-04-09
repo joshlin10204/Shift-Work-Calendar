@@ -85,6 +85,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    NSLog(@"****viewWillAppear****");
     [self sendCalendarDateNotification];
     [self onSelectTodayCell];
 
@@ -143,17 +144,13 @@
 -(void)sendCalendarDateNotification
 {
     NSString *titleYear = [curYear stringValue];
-    NSString *titleMonth = [self calendarDateMonth:curMonth ];
-    NSString *calendarDateString=[[NSString alloc ]initWithFormat:@"%@ %@ ",titleYear,titleMonth];
-    [[NSNotificationCenter defaultCenter]postNotificationName:Calendar_Date_Notification object:calendarDateString];
+    NSString *titleMonth = [curMonth stringValue];
+    
+    NSMutableDictionary *pageTitleInfo=[[NSMutableDictionary alloc]init];
+    [pageTitleInfo setObject:titleYear forKey:@"pageTitleYear"];
+    [pageTitleInfo setObject:titleMonth forKey:@"pageTitleMonth"];
 
-}
-
--(NSString*)calendarDateMonth:(NSNumber*)month
-{
-    NSArray *monthArray=[NSArray arrayWithObjects: [NSNull null], @"January", @"February", @"March", @"April", @"May", @"June", @"July",@"August",@"September",@"October",@"November",@"December", nil];
-    NSInteger i=[month integerValue];
-    return [monthArray objectAtIndex:i];
+    [[NSNotificationCenter defaultCenter]postNotificationName:Calendar_Date_Notification object:pageTitleInfo];
 
 }
 
@@ -442,12 +439,11 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
 }
 -(void)offAddShiftWorkNotification
 {
+    NSLog(@"offAddShiftWorkNotification!!!");
     isAddShiftWork=NO;
     [self saveShiftDateCoreData];
     [self loadShiftDateData];
-
-
-
+    [[NSNotificationCenter defaultCenter]postNotificationName:CalendarPageView_Reload_Notification object:self.dateDictionary];
 }
 
 #pragma mark -- Add Shift Work in Cell

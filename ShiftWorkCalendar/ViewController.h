@@ -15,6 +15,7 @@
 #define ShiftWorkType_CloseAddView_Notification @"ShiftWorkType_CloseAddView_Notification"
 #define ShiftWorkType_AddShiftType_Notification @"ShiftWorkType_AddShiftType_Notification"
 
+#define CalendarPageView_Reload_Notification @"CalendarPageView_Reload_Notification"
 
 @interface ViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UINavigationItem *calendarNavigationItem;

@@ -107,7 +107,7 @@ static ShiftWorkAllTypeView *instance=nil;
     }
     else
     {
-        self.addShiftWorkButton.backgroundColor=[UIColor colorWithRed:(68/255.0f) green:(68/255.0f) blue:(68/255.0f) alpha:1];
+        self.addShiftWorkButton.backgroundColor=[UIColor colorWithRed:(30/255.0f) green:(30/255.0f) blue:(30/255.0f) alpha:1];
 
     
     }

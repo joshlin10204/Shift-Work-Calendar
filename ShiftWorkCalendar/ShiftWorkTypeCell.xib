@@ -20,13 +20,13 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="LFx-m7-tG3">
-                        <rect key="frame" x="23.5" y="21" width="265" height="93.5"/>
-                        <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="50"/>
+                        <rect key="frame" x="23.5" y="31" width="265" height="93.5"/>
+                        <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="20"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="3jg-01-ecz">
-                        <rect key="frame" x="15.5" y="124.5" width="281" height="52"/>
+                        <rect key="frame" x="15.5" y="135" width="281" height="41.5"/>
                         <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="30"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -34,10 +34,10 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="3jg-01-ecz" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="90/100" id="0sH-6n-nZz"/>
-                    <constraint firstItem="LFx-m7-tG3" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="bottom" multiplier="10/100" id="3gc-V1-xkD"/>
-                    <constraint firstItem="3jg-01-ecz" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="bottom" multiplier="60/100" id="Qe3-aJ-Zdp"/>
+                    <constraint firstItem="LFx-m7-tG3" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="bottom" multiplier="15/100" id="3gc-V1-xkD"/>
+                    <constraint firstItem="3jg-01-ecz" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="bottom" multiplier="65/100" id="Qe3-aJ-Zdp"/>
                     <constraint firstItem="3jg-01-ecz" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="XYh-zS-r0g"/>
-                    <constraint firstItem="3jg-01-ecz" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="25/100" id="jrm-Hw-TKz"/>
+                    <constraint firstItem="3jg-01-ecz" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="20/100" id="jrm-Hw-TKz"/>
                     <constraint firstItem="LFx-m7-tG3" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="45/100" id="lxJ-QT-P6j"/>
                     <constraint firstItem="LFx-m7-tG3" firstAttribute="width" secondItem="H2p-sc-9uM" secondAttribute="width" multiplier="85/100" id="uFS-br-1yI"/>
                     <constraint firstItem="LFx-m7-tG3" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="xTV-CR-y20"/>

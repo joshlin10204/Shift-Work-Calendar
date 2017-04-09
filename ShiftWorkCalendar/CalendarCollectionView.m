@@ -24,6 +24,7 @@
     NSMutableDictionary *prevDateInfo;
     BOOL isCurrenCalendar;
     
+    NSString *todayString;
     NSNumber* todayYear ;
     NSNumber* todayMonth;
     NSNumber* todayDay;
@@ -126,6 +127,7 @@
     todayYear = [NSNumber numberWithInteger:[todayDate year]];
     todayMonth =[NSNumber numberWithInteger:[todayDate month]];
     todayDay =[NSNumber numberWithInteger:[todayDate day]];
+    todayString=[[NSString alloc]initWithFormat:@"%@%@%@",todayYear,todayMonth,todayDay];
 
     //當前選擇的Calendar
     curYear=[self.dateDictionary objectForKey:CalendarData_Year];
@@ -357,6 +359,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
     else
     {
         //----點選 Cell Day Info
+        
         NSString*dayInfoKey=[[NSString alloc]initWithFormat:@"%ld",(long)cell.tag];
         NSMutableDictionary*dayInfo=[allDayInfo objectForKey:dayInfoKey];
         NSString *day=[dayInfo objectForKey:CalendarData_AllDayInfo_Day];
@@ -364,18 +367,18 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
         NSMutableDictionary *shiftDateInfo=[allShiftDateInfo objectForKey:idString];
         NSString *typeID=[shiftDateInfo objectForKey:CoreData_ShiftDateInfo_ShiftTypeID];
         NSMutableDictionary *typeInfo=[allShiftDateTypeInfo objectForKey:typeID];
+        
+        BOOL isToday=[todayString isEqual:idString];
 
 
 
         NSMutableDictionary *selectDayInfo=[[NSMutableDictionary alloc]init];
         [selectDayInfo setObject:dayInfo forKey:@"dayInfo"];
-        
+        [selectDayInfo setObject:[NSNumber numberWithBool:isToday] forKey:@"isToday"];
 
         if (typeInfo!=nil)
         {
-
             [selectDayInfo setObject:typeInfo forKey:@"typeInfo"];
-
         }
         [[NSNotificationCenter defaultCenter]postNotificationName:Calendar_SelectDay_Notification
                                                            object:selectDayInfo];

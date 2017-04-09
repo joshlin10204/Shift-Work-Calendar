@@ -32,7 +32,7 @@ static ColorChipsData *database;
 
     
     
-    UIColor *color1=[UIColor colorWithRed:(255/255.0f) green:(255/255.0f) blue:(26/255.0f) alpha:1];
+    UIColor *color1=[UIColor colorWithRed:(255/255.0f) green:(225/255.0f) blue:(26/255.0f) alpha:1];
     UIColor *color2=[UIColor colorWithRed:(255/255.0f) green:(120/255.0f) blue:(20/255.0f) alpha:1];
     UIColor *color3=[UIColor colorWithRed:(255/255.0f) green:(60/255.0f) blue:(25/255.0f) alpha:1];
     

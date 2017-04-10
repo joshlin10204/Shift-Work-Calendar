@@ -144,11 +144,9 @@
     NSNumber * month=[updateInfo objectForKey:CalendarData_Month];
     NSString *reloadDate=[[NSString alloc]initWithFormat:@"%@%@",year,month];
 
-    NSLog(@"----%@---",reloadDate);
     //判斷目前顯示的Page，更新畫面
     if ([currentPageDateTitle isEqualToString:reloadDate])
     {
-        NSLog(@"---Reload----");
 
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main"
                                                              bundle:[NSBundle mainBundle]];

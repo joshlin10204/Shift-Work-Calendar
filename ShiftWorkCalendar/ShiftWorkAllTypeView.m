@@ -129,8 +129,11 @@ static ShiftWorkAllTypeView *instance=nil;
 
 - (IBAction)onClickAddShiftWorkBtn:(id)sender
 {
+    
     if (self.addShiftWorkStatus==AddShiftWorkStatusOff)
     {
+    
+        [self.addShiftWorkButton setTitle:@"X Close" forState:UIControlStateNormal];
         [self showShiftWorkCollectionViewAnimation:AddShiftWorkStatusOn];
         [[NSNotificationCenter defaultCenter]postNotificationName:ShiftWorkType_ShowAddView_Notification object:nil];
         [self onSelectCell];
@@ -138,7 +141,7 @@ static ShiftWorkAllTypeView *instance=nil;
     }
     else
     {
-        
+        [self.addShiftWorkButton setTitle:@"＋ Add Shift Work" forState:UIControlStateNormal];
         [self showShiftWorkCollectionViewAnimation:AddShiftWorkStatusOff];
         [[NSNotificationCenter defaultCenter]postNotificationName:ShiftWorkType_CloseAddView_Notification object:nil];
     }
@@ -360,6 +363,8 @@ static ShiftWorkAllTypeView *instance=nil;
         info=shiftWorkTypeInfosArray[indexPath.row];
         [self onSelectCellAnimation:selectShiftTypeCell];
         [self.delegate selectShiftWorkTypeTableViewWithCellType:ShiftWorkCellTypeSelShiftType withShiftTypeInfo:info];
+        
+        self.addShiftWorkButton.backgroundColor=[info objectForKey:CoreData_ShiftTypeInfo_Color];
         
     }
     

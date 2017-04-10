@@ -96,9 +96,19 @@ static ShiftWorkInformationView *instance=nil;
     return self;
 }
 #pragma mark -Update Shift Work Information
--(void)updateShiftWorkInformation:(NSMutableDictionary *)info
+-(void)updateShiftWorkInformationStatus
 {
 
+
+}
+
+-(void)updateShiftWorkInformation:(NSMutableDictionary *)info
+{
+    if (info==nil)
+    {
+        return;
+    }
+    
     shiftWorkNameLabel.text=[info objectForKey:CoreData_ShiftTypeInfo_ShortName];
     NSMutableDictionary *timeInfo=[info objectForKey:CoreData_ShiftTypeInfo_Time];
     NSMutableDictionary *beginTimeInfo=[timeInfo objectForKey:ShiftTypeInfo_BeginTimeInfo];
@@ -130,9 +140,6 @@ static ShiftWorkInformationView *instance=nil;
     
     NSInteger hour=[hourString integerValue];
     NSInteger minute=[minuteString integerValue];
-    NSLog(@"%ld",(long)hour);
-
-    NSLog(@"%ld",(long)minute);
     if (hour>3&&hour<9)
     {
         imageView.image =[UIImage imageNamed:@"ShiftCalendar_Image_Morning"];
@@ -357,7 +364,6 @@ static ShiftWorkInformationView *instance=nil;
 {
     [self transformViewMaskAnimation:originaViewlFrame withNowFrame:self.frame];
     [self transformViewFrameAnimation:originaViewlFrame];
-
     [self transformAllInfoSizeAnimation:YES];
 
 }
@@ -367,12 +373,9 @@ static ShiftWorkInformationView *instance=nil;
     CGRect viewFrame=self.frame;
     viewFrame.size.height=self.frame.size.height*80/100;
     
-    
-    
     [self transformViewMaskAnimation:viewFrame withNowFrame:self.frame];
     [self transformViewFrameAnimation:viewFrame];
     [self transformAllInfoSizeAnimation:NO];
-
     
 }
 -(void)transformViewFrameAnimation:(CGRect)frame

@@ -398,9 +398,9 @@ typedef enum RightBarBtnStatus
     }
     else
     {
-        label.textColor=[UIColor colorWithRed:100.0f/255.0f
-                                        green:100.0f/255.0f
-                                         blue:100.0f/255.0f
+        label.textColor=[UIColor colorWithRed:30.0f/255.0f
+                                        green:30.0f/255.0f
+                                         blue:30.0f/255.0f
                                         alpha:1.0f];
     }
 

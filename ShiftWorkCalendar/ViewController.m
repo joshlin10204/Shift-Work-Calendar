@@ -39,7 +39,7 @@
     // Do any additional setup after loading the view, typically from a nib.
     [self initNotification];
     [self initCalendarAllView];
-    
+    [self setNavigationbar];
 
 
     
@@ -60,6 +60,20 @@
     
 
 }
+#pragma mark - Navigationbar
+-(void)setNavigationbar
+{
+
+//    
+//    NSDictionary *attributesInfo=[[NSDictionary alloc]initWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName,[UIFont fontWithName:@"Futura-Bold" size:16.0], NSFontAttributeName, nil];
+//
+//    [self.navigationController.navigationBar setTitleTextAttributes:attributesInfo];
+//    [self.navigationController.navigationBar.backItem setTitle:@"1111"];
+
+    
+    
+}
+
 #pragma mark - Notification
 
 -(void)initNotification
@@ -163,7 +177,6 @@
 -(void)switchingCalendarNotification:(NSNotification *)notification
 {
     
-    NSLog(@"測試中～～～");
     NSMutableDictionary *pageTitleInfo=[notification object];
     
     NSString *titleYear = [pageTitleInfo objectForKey:@"pageTitleYear"];

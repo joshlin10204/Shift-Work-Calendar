@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface ShiftWorkTypeSetViewController : UIViewController
+@interface ShiftWorkTypeSetViewController : UIViewController<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *shiftTypeTitleField;
 @property (weak, nonatomic) IBOutlet UITextField *shiftTypeShortNameField;
 @property (weak, nonatomic) IBOutlet UILabel *shiftBeginTimeLabel;

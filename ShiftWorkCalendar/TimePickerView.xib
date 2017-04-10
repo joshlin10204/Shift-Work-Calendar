@@ -6,8 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -23,7 +21,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="eBt-dN-WOz">
-                    <rect key="frame" x="0.0" y="200" width="375" height="467"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <date key="date" timeIntervalSinceReferenceDate="511984272.42555898">
                         <!--2017-03-23 17:51:12 +0000-->
                     </date>
@@ -32,26 +30,12 @@
                         <action selector="timePickerViewChange:" destination="-1" eventType="valueChanged" id="0HX-Lg-8Fa"/>
                     </connections>
                 </datePicker>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sUd-PZ-laQ">
-                    <rect key="frame" x="-25" y="0.0" width="400" height="200"/>
-                    <constraints>
-                        <constraint firstAttribute="width" secondItem="sUd-PZ-laQ" secondAttribute="height" multiplier="2:1" id="9bm-in-dQ9"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                    <state key="normal" title="Done"/>
-                    <connections>
-                        <action selector="onClickDoneBtn:" destination="-1" eventType="touchUpInside" id="Ybv-Pn-MCC"/>
-                    </connections>
-                </button>
             </subviews>
             <color key="backgroundColor" red="0.80000001190000003" green="0.80000001190000003" blue="0.80000001190000003" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstItem="eBt-dN-WOz" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="70/100" id="24T-YG-Teb"/>
-                <constraint firstItem="sUd-PZ-laQ" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="30/100" id="3TK-Tk-3iD"/>
-                <constraint firstItem="sUd-PZ-laQ" firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="trailing" id="SZw-zC-elu"/>
+                <constraint firstItem="eBt-dN-WOz" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" id="24T-YG-Teb"/>
                 <constraint firstItem="eBt-dN-WOz" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="U5E-Ig-thg"/>
-                <constraint firstItem="eBt-dN-WOz" firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" id="aLf-AS-xm1"/>
-                <constraint firstItem="sUd-PZ-laQ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="frZ-dC-ZnF"/>
+                <constraint firstItem="eBt-dN-WOz" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="VYH-wA-T2e"/>
                 <constraint firstItem="eBt-dN-WOz" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="paN-Ah-4uo"/>
             </constraints>
             <point key="canvasLocation" x="76" y="100"/>

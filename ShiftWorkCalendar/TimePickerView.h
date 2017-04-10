@@ -17,7 +17,6 @@ typedef enum TimePickerViewSetStatus
 @protocol TimePickerViewDelegate <NSObject>
 @required
 - (void) selectTimePickerViewTime:(NSMutableDictionary*)timeInfo ;
-- (void) closeTimePickerView;
 
 @end
 
@@ -28,4 +27,7 @@ typedef enum TimePickerViewSetStatus
 +(TimePickerView*)initPickerViewWithSubview:(UIView*)view;
 
 -(void)showTimePickerView:(NSMutableDictionary*)timeInfo withSetStatus:(TimePickerViewSetStatus)status;
+
+- (void) closeTimePickerView;
+
 @end

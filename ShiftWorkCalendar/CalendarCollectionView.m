@@ -85,7 +85,6 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    NSLog(@"****viewWillAppear****");
     [self sendCalendarDateNotification];
     [self onSelectTodayCell];
 
@@ -439,7 +438,6 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
 }
 -(void)offAddShiftWorkNotification
 {
-    NSLog(@"offAddShiftWorkNotification!!!");
     isAddShiftWork=NO;
     [self saveShiftDateCoreData];
     [self loadShiftDateData];

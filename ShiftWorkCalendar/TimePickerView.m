@@ -102,14 +102,11 @@ static TimePickerView *instance=nil;
     [self timePickerViewAnimation];
     
 }
-- (IBAction)onClickDoneBtn:(id)sender
+- (void)closeTimePickerView
 {
     self.timePickerViewSetStatus=TimePickerViewSetStatusOff;
 
-    [self timePickerViewAnimation];
-    [self.delegate closeTimePickerView];
-
-    
+    [self timePickerViewAnimation];    
 
 }
 -(void)timePickerViewAnimation
@@ -117,6 +114,7 @@ static TimePickerView *instance=nil;
     [UIView beginAnimations:@"animation1" context:nil];
     [UIView setAnimationDuration:1.0];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+    
     
     CGRect frame=self.frame;
     

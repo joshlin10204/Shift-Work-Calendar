@@ -14,10 +14,16 @@ typedef enum OrientationTypes
     OrientationTypesHorizontal,
 } OrientationTypes;
 
+@protocol ColorChipsViewDelegate <NSObject>
+@required
+- (void) selectColorChipsViewColor:(UIColor*)color ;
+@end
+
 @interface ColorChipsView : UIView
 
 
 +(ColorChipsView*)initColorChipsViewWithSubview:(UIView*)view OrientationTypes:(OrientationTypes)type;
+@property (strong,nonatomic) id<ColorChipsViewDelegate> delegate;
 
 @property (strong, nonatomic) IBOutlet UIView *colorChipsBasicView;
 @property (strong, nonatomic) UITableView *colorChipsTableView;

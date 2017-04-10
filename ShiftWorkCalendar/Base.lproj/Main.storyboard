@@ -51,7 +51,7 @@
             </objects>
             <point key="canvasLocation" x="-90.400000000000006" y="405.24737631184411"/>
         </scene>
-        <!--Shift-->
+        <!--Shift Work Type-->
         <scene sceneID="oNe-S9-lFX">
             <objects>
                 <viewController storyboardIdentifier="ShiftWorkTypeSetViewController" id="6Oo-cy-2iQ" customClass="ShiftWorkTypeSetViewController" sceneMemberID="viewController">
@@ -63,13 +63,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Shift Work Title" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1xg-9e-If2">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Shift Work Title Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1xg-9e-If2">
                                 <rect key="frame" x="0.0" y="20" width="375" height="67"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Shift Short Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8e2-1O-sCg">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Shift Work Short Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8e2-1O-sCg">
                                 <rect key="frame" x="0.0" y="87" width="375" height="67"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
@@ -136,13 +136,7 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Shift" id="UKB-KJ-HNe">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="0BB-Ky-nCb">
-                            <connections>
-                                <action selector="onClickSaveBtn:" destination="6Oo-cy-2iQ" id="rXt-Rv-mpX"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Shift Work Type" id="UKB-KJ-HNe"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="colorBasicView" destination="kiS-mr-AAC" id="yJf-Xg-TA3"/>

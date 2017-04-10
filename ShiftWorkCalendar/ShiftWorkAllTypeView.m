@@ -342,10 +342,10 @@ static ShiftWorkAllTypeView *instance=nil;
 {
     [self onCancelSelectCellAnimation:selectShiftTypeCell];
     
-    selectShiftTypeCell =(ShiftWorkTypeCell*)[tableView cellForRowAtIndexPath:indexPath];
+    ShiftWorkTypeCell*cell =(ShiftWorkTypeCell*)[tableView cellForRowAtIndexPath:indexPath];
     NSMutableDictionary *info=[NSMutableDictionary new];
     // Tag=0 New Shift Work Cell
-    if (selectShiftTypeCell.tag==0)
+    if (cell.tag==0)
     {
         [self.delegate selectShiftWorkTypeTableViewWithCellType:ShiftWorkCellTypeAddShiftType withShiftTypeInfo:info];
         [self onClickAddShiftWorkBtn:nil];
@@ -354,6 +354,7 @@ static ShiftWorkAllTypeView *instance=nil;
     }
     else
     {
+        selectShiftTypeCell=cell;
         selectShiftTypeCellTag=selectShiftTypeCell.tag;
         selectIndexPath=indexPath;
         info=shiftWorkTypeInfosArray[indexPath.row];

@@ -210,6 +210,7 @@ static ColorChipsView *instance=nil;
 {
     self.curColor=colorChipsArray[indexPath.row];
     curSelectCellRow=indexPath.row;
+    [self.delegate selectColorChipsViewColor:self.curColor];
     [self.colorChipsTableView reloadData];
     
 }

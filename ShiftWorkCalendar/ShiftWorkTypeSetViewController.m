@@ -10,7 +10,12 @@
 #import "ColorChipsView.h"
 #import "TimePickerView.h"
 #import "CoreDataHandle.h"
-
+typedef enum RightBarBtnStatus
+{
+    RightBarBtnStatusDone  = 0,
+    RightBarBtnStatusHiddenTimer,
+    RightBarBtnStatusHiddenKeyboard,
+} RightBarBtnStatus;
 
 
 
@@ -28,10 +33,14 @@
     NSString *shortName;
     UIColor *shiftTypeColor;
     NSMutableDictionary *shiftTimeInfo;
+    
+    UIBarButtonItem *rightButton;
 
 
     
 }
+@property (nonatomic, assign) RightBarBtnStatus rightBarBtnStatus;
+
 @property (weak, nonatomic) IBOutlet UIView *colorBasicView;
 @end
 
@@ -45,7 +54,8 @@
     [self initShiftTypeNameText];
     [self initColorChipsView];
     [self initShiftTimeLabel];
-
+    [self initNavigationbarRightButton];
+    [self setNavigationbar];
 
 
 }
@@ -77,7 +87,7 @@
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"YYYYMMddkkmmss"];
         typeID=[formatter stringFromDate:date];
-        shiftTypeColor=[UIColor colorWithRed:(243/255.0f) green:(152/255.0f) blue:(1/255.0f) alpha:1];
+        shiftTypeColor=[UIColor colorWithRed:(255/255.0f) green:(225/255.0f) blue:(26/255.0f) alpha:1];
         self.shiftWorkTypeInfo=[[NSMutableDictionary alloc]init];
         shiftTimeInfo=[[NSMutableDictionary alloc]init];
         shiftBeginTimeInfo=[[NSMutableDictionary alloc]init];
@@ -131,23 +141,209 @@
     }
 
 }
-- (IBAction)onClickSaveBtn:(id)sender
+#pragma mark - Navigationbar
+-(void)setNavigationbar
 {
-    [self saveShiftWorkTypeData];
+    [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
+    
+    self.navigationController.navigationBar.barTintColor = shiftTypeColor;
+    self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
+    
+    NSDictionary *attributesInfo=[[NSDictionary alloc]initWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName,[UIFont fontWithName:@"Futura-Bold" size:16.0], NSFontAttributeName, nil];
+    
+    [self.navigationController.navigationBar setTitleTextAttributes:attributesInfo];
+    
+    self.navigationController.navigationBar.translucent = NO;
+
+    [[UIBarButtonItem appearance] setTitleTextAttributes:attributesInfo forState:UIControlStateNormal];
+
+}
+
+#pragma mark - RightBarButton
+-(void)initNavigationbarRightButton
+{
+    self.rightBarBtnStatus=RightBarBtnStatusDone;
+    UIImage *image=[UIImage imageNamed:@"ShiftCalendar_Button_Done"];
+    rightButton = [[UIBarButtonItem alloc] initWithImage:image
+                                                   style:UIBarButtonItemStyleDone
+                                                  target:self
+                                                  action:@selector(onClickRightBtn)];
+    self.navigationItem.rightBarButtonItem=rightButton;
+}
+
+- (void)onClickRightBtn
+{
+    
+    switch(self.rightBarBtnStatus)
+    {
+        case RightBarBtnStatusDone:
+            [self checkSaveShiftWorkType];
+
+            
+            break;
+            
+        case RightBarBtnStatusHiddenTimer:
+
+            [self closeTimePickerView];
+            [self updateRightBarButtonBtnImage:RightBarBtnStatusDone];
+            [self updateRightBarBtnStatus:RightBarBtnStatusDone];
+
+            break;
+        case RightBarBtnStatusHiddenKeyboard:
+
+            [self.shiftTypeTitleField resignFirstResponder];
+            [self.shiftTypeShortNameField resignFirstResponder];
+            [self updateRightBarButtonBtnImage:RightBarBtnStatusDone];
+            [self updateRightBarBtnStatus:RightBarBtnStatusDone];
+            break;
+            
+        default:
+            break;
+    }
+
     
     
+}
+
+-(void)updateRightBarButtonBtnImage:(RightBarBtnStatus)status
+{
+    UIImage *image;
+    switch(status)
+    {
+        case RightBarBtnStatusDone:
+            image=[UIImage imageNamed:@"ShiftCalendar_Button_Done"];
+            break;
+            
+        case RightBarBtnStatusHiddenTimer:
+            image=[UIImage imageNamed:@"ShiftCalendar_Button_HiddenKeyboard"];
+            break;
+        case RightBarBtnStatusHiddenKeyboard:
+            image=[UIImage imageNamed:@"ShiftCalendar_Button_HiddenKeyboard"];
+            break;
+            
+        default:
+            break;
+    }
+    
+    rightButton.image=image;
+    
+}
+
+-(void)updateRightBarBtnStatus:(RightBarBtnStatus)status
+{
+    switch(self.rightBarBtnStatus)
+    {
+        case RightBarBtnStatusDone:
+            self.rightBarBtnStatus=status;
+            break;
+            
+        case RightBarBtnStatusHiddenTimer:
+            if (status !=RightBarBtnStatusHiddenTimer)
+            {
+                [self closeTimePickerView];
+                self.rightBarBtnStatus=status;
+            }
+            break;
+            
+        case RightBarBtnStatusHiddenKeyboard:
+            if (status !=RightBarBtnStatusHiddenKeyboard)
+            {
+                [self.shiftTypeTitleField resignFirstResponder];
+                [self.shiftTypeShortNameField resignFirstResponder];
+                self.rightBarBtnStatus=status;
+
+            }
+            break;
+            
+        default:
+            break;
+    }
+
+
+
+}
+-(void)checkSaveShiftWorkType
+{
+    BOOL isEmptyTitleField=self.shiftTypeTitleField.text.length==0;
+    BOOL isEmptyShortField=self.shiftTypeShortNameField.text.length==0;
+
+    
+    if (isEmptyTitleField || isEmptyShortField)
+    {
+        NSString*string=[[NSString alloc]init];
+        if (isEmptyTitleField)
+        {
+            string=@"Shift Work Title Name This Empty";
+        }
+        else if (isEmptyShortField)
+        {
+            string=@"Shift Work Short Name This Empty";
+
+        }
+        else
+        {
+            string=@"Field is Empty";
+        }
+        [self showAlertView:string];
+
+    }
+    else
+    {
+        [self saveShiftWorkTypeData];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+
+    }
+
+}
+
+-(void)showAlertView:(NSString*)string
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Note"
+                                                                             message:string preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDestructive handler:nil];
+    
+    [alertController addAction:okAction];
+
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+    
+
 }
 #pragma mark - Shift Work Text Field
 -(void)initShiftTypeNameText
 {
+    
+    
     self.shiftTypeTitleField.text=titleName;
     self.shiftTypeShortNameField.text=shortName;
-    self.shiftTypeTitleField.textColor=[UIColor colorWithRed:74.0f/255.0f green:217.0f/255.0f blue:217.0f/255.0f alpha:1.0f];
-    self.shiftTypeShortNameField.textColor=[UIColor colorWithRed:74.0f/255.0f green:217.0f/255.0f blue:217.0f/255.0f alpha:1.0f];
+    self.shiftTypeTitleField.textColor=[UIColor colorWithRed:30.0f/255.0f green:30.0f/255.0f blue:30.0f/255.0f alpha:1.0f];
+    self.shiftTypeShortNameField.textColor=[UIColor colorWithRed:30.0f/255.0f green:30.0f/255.0f blue:30.0f/255.0f alpha:1.0f];
+
+    self.shiftTypeTitleField.delegate=self;
+    self.shiftTypeShortNameField.delegate=self;
 
 
     
 }
+-(BOOL)textFieldShouldReturn:(UITextField*)textField
+{
+    [textField resignFirstResponder];
+    [self updateRightBarButtonBtnImage:RightBarBtnStatusDone];
+
+    return YES;
+}
+-(void)textFieldDidBeginEditing:(UITextField*)textField
+{
+
+    [self updateRightBarButtonBtnImage:RightBarBtnStatusHiddenKeyboard];
+    [self updateRightBarBtnStatus:RightBarBtnStatusHiddenKeyboard];
+
+}
+//-(void)textFieldDidEndEditing:(UITextField*)textField
+//{
+//    [self updateRightBarButtonBtnImage:RightBarBtnStatusHiddenKeyboard];
+//}
 
 #pragma mark - Color Chips
 -(void)initColorChipsView
@@ -155,10 +351,19 @@
 
     colorChipsView=[ColorChipsView initColorChipsViewWithSubview:self.colorBasicView OrientationTypes:OrientationTypesHorizontal];
     [colorChipsView setCurColor:shiftTypeColor];
+    colorChipsView.delegate=self;
     colorChipsView.selectBorderColor=[UIColor colorWithRed:255.0f/255.0f green:255.0f/255.0f blue:255.0f/255.0f alpha:1.0f];
     
 }
+- (void) selectColorChipsViewColor:(UIColor*)color
+{
 
+    shiftTypeColor=color;
+    selectTimeLabel.textColor=shiftTypeColor;
+
+    self.navigationController.navigationBar.barTintColor = shiftTypeColor;
+
+}
 
 #pragma mark - Shift Work Time
 #pragma mark -- Shift Work Time Label
@@ -189,10 +394,7 @@
 {
     if (isSelect)
     {
-        label.textColor=[UIColor colorWithRed:74.0f/255.0f
-                                        green:217.0f/255.0f
-                                         blue:217.0f/255.0f
-                                        alpha:1.0f];
+        label.textColor=shiftTypeColor;
     }
     else
     {
@@ -240,8 +442,8 @@
     
     [self updateShiftTimeLabelColor:self.shiftBeginTimeLabel withIsSelect:YES];
     [self updateShiftTimeLabelColor:self.shiftEndTimeLabel withIsSelect:NO];
-    
-    
+    [self updateRightBarButtonBtnImage:RightBarBtnStatusHiddenTimer];
+    [self updateRightBarBtnStatus:RightBarBtnStatusHiddenTimer];
     [timePickerView showTimePickerView:shiftBeginTimeInfo withSetStatus:TimePickerViewSetStatusOn];
     
     
@@ -251,7 +453,10 @@
     selectTimeLabel=self.shiftEndTimeLabel;
     [self updateShiftTimeLabelColor:self.shiftBeginTimeLabel withIsSelect:NO];
     [self updateShiftTimeLabelColor:self.shiftEndTimeLabel withIsSelect:YES];
-    
+    [self updateRightBarButtonBtnImage:RightBarBtnStatusHiddenTimer];
+    [self updateRightBarBtnStatus:RightBarBtnStatusHiddenTimer];
+
+
     
     [timePickerView showTimePickerView:shiftEndTimeInfo withSetStatus:TimePickerViewSetStatusOn];
     
@@ -268,6 +473,7 @@
 - (void) closeTimePickerView
 {
     selectTimeLabel=nil;
+    [timePickerView closeTimePickerView];
     [self updateShiftTimeLabelColor:self.shiftBeginTimeLabel withIsSelect:NO];
     [self updateShiftTimeLabelColor:self.shiftEndTimeLabel withIsSelect:NO];    
 }

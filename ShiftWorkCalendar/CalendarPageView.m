@@ -155,7 +155,6 @@
         
         
         viewControllers = @[calendarCollectionView];
-        NSLog(@"reloadView----%@",updateInfo);
         [self.pageViewController setViewControllers: viewControllers
                                           direction: UIPageViewControllerNavigationDirectionForward
                                            animated: NO

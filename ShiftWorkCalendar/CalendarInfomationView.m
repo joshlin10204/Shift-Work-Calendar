@@ -129,7 +129,7 @@ static CalendarInfomationView *instance=nil;
         [self calendarInfoViewAnimation:YES];
 
         [self shiftInfoViewAnimation:YES];
-        self.calendarInformationView.backgroundColor=[UIColor colorWithRed:(30/255.0f) green:(30/255.0f) blue:(30/255.0f) alpha:1];
+        self.calendarInformationView.backgroundColor=[UIColor colorWithRed:(216/255.0f) green:(216/255.0f) blue:(216/255.0f) alpha:1];
     }
 
 

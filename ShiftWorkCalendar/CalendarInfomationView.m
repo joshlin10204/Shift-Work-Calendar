@@ -62,10 +62,11 @@ static CalendarInfomationView *instance=nil;
         {
             CGSize viewSize;
             CGPoint viewPoint;
-            viewSize.height=view.frame.size.height*40/100;
+            viewSize.height=view.frame.size.height*30/100;
             viewSize.width=view.frame.size.width;
             viewPoint.x=0;
             viewPoint.y=0;
+
 
             instance.frame=CGRectMake(viewPoint.x,viewPoint.y,viewSize.width,viewSize.height);
             [view addSubview:instance];

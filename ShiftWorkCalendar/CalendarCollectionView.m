@@ -142,14 +142,14 @@
 
 -(void)sendCalendarDateNotification
 {
-    NSString *titleYear = [curYear stringValue];
-    NSString *titleMonth = [curMonth stringValue];
-    
-    NSMutableDictionary *pageTitleInfo=[[NSMutableDictionary alloc]init];
-    [pageTitleInfo setObject:titleYear forKey:@"pageTitleYear"];
-    [pageTitleInfo setObject:titleMonth forKey:@"pageTitleMonth"];
+//    NSString *titleYear = [curYear stringValue];
+//    NSString *titleMonth = [curMonth stringValue];
+//    
+//    NSMutableDictionary *pageTitleInfo=[[NSMutableDictionary alloc]init];
+//    [pageTitleInfo setObject:titleYear forKey:CalendarData_Year];
+//    [pageTitleInfo setObject:titleMonth forKey:CalendarData_Month];
 
-    [[NSNotificationCenter defaultCenter]postNotificationName:Calendar_Date_Notification object:pageTitleInfo];
+    [[NSNotificationCenter defaultCenter]postNotificationName:Calendar_Date_Notification object:self.dateDictionary];
 
 }
 

@@ -12,6 +12,7 @@
 #import "ShiftWorkTypeSetViewController.h"
 #import "CalendarInfomationView.h"
 #import "ShiftWorkAllTypeView.h"
+#import "CalendarData.h"
 
 
 
@@ -21,7 +22,7 @@
     UIView  *calendarTitleView;
     UILabel *calendarTitleLabel;
     UIView *weekTitleView;
-
+    NSMutableDictionary *pageTitleInfo;
 
 }
 @property (strong, nonatomic) CalendarPageView *calendarPageView;
@@ -36,12 +37,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     // Do any additional setup after loading the view, typically from a nib.
     [self initNotification];
     [self initCalendarAllView];
-    [self setNavigationbar];
-
-
     
 }
 
@@ -52,28 +51,16 @@
 }
 - (void)viewWillAppear:(BOOL)animated
 {
+
     [super viewWillAppear:animated];
     [self initShiftWorkAllTypeView];
+    [self reloadCalendarPageView];
 
     [self.navigationController setNavigationBarHidden:YES animated:animated];
 
     
 
 }
-#pragma mark - Navigationbar
--(void)setNavigationbar
-{
-
-//    
-//    NSDictionary *attributesInfo=[[NSDictionary alloc]initWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName,[UIFont fontWithName:@"Futura-Bold" size:16.0], NSFontAttributeName, nil];
-//
-//    [self.navigationController.navigationBar setTitleTextAttributes:attributesInfo];
-//    [self.navigationController.navigationBar.backItem setTitle:@"1111"];
-
-    
-    
-}
-
 #pragma mark - Notification
 
 -(void)initNotification
@@ -177,10 +164,10 @@
 -(void)switchingCalendarNotification:(NSNotification *)notification
 {
     
-    NSMutableDictionary *pageTitleInfo=[notification object];
+    pageTitleInfo=[notification object];
     
-    NSString *titleYear = [pageTitleInfo objectForKey:@"pageTitleYear"];
-    NSString *titleMonth = [self calendarDateMonth:[pageTitleInfo objectForKey:@"pageTitleMonth"] ];
+    NSNumber *titleYear = [pageTitleInfo objectForKey:CalendarData_Year];
+    NSString *titleMonth = [self calendarDateMonth:[pageTitleInfo objectForKey:CalendarData_Month] ];
     
     NSString *calendarDateString=[[NSString alloc ]initWithFormat:@"%@ %@ ",titleYear,titleMonth];
     
@@ -189,7 +176,7 @@
     
 }
 
--(NSString*)calendarDateMonth:(NSString*)month
+-(NSString*)calendarDateMonth:(NSNumber*)month
 {
     NSArray *monthArray=[NSArray arrayWithObjects: [NSNull null], @"January", @"February", @"March", @"April", @"May", @"June", @"July",@"August",@"September",@"October",@"November",@"December", nil];
     NSInteger i=[month integerValue];
@@ -292,7 +279,11 @@
     [UIView commitAnimations];
     
 }
+-(void)reloadCalendarPageView
+{
 
+    [[NSNotificationCenter defaultCenter]postNotificationName:CalendarPageView_Reload_Notification object:pageTitleInfo];
+}
 #pragma mark -  Shift Work
 -(void)initShiftWorkAllTypeView
 {

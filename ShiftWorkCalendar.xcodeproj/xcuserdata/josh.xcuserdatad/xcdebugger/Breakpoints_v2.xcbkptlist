@@ -9,13 +9,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ShiftWorkCalendar/ShiftWorkTypeSetViewController.m"
-            timestampString = "513516726.918904"
+            filePath = "ShiftWorkCalendar/CalendarCollectionView.m"
+            timestampString = "513540611.294815"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "339"
-            endingLineNumber = "339"
-            landmarkName = "-textFieldDidBeginEditing:"
+            startingLineNumber = "149"
+            endingLineNumber = "149"
+            landmarkName = "-sendCalendarDateNotification"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ShiftWorkCalendar/CalendarPageView.m"
+            timestampString = "513540618.972869"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "132"
+            endingLineNumber = "132"
+            landmarkName = "-setCurrentPageDateTitle:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

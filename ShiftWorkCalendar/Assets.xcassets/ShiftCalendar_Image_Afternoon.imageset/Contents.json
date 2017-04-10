@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "ShiftCalendar_Button_Done.png",
+      "filename" : "ShiftCalendar_Image_Afternoon.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "ShiftCalendar_Button_Done@2x.png",
+      "filename" : "ShiftCalendar_Image_Afternoon@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "ShiftCalendar_Button_Done@3x.png",
+      "filename" : "ShiftCalendar_Image_Afternoon@3x.png",
       "scale" : "3x"
     }
   ],

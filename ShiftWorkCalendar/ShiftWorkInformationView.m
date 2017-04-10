@@ -112,10 +112,106 @@ static ShiftWorkInformationView *instance=nil;
     NSString * endTime=[[NSString alloc]initWithFormat:@"%@:%@",endHour,endMinute];
 
     
+    [self updateTimeImage:shiftWorkBeginImage withHourString:beginHour withMinuteString:beginMinute];
+    [self updateTimeImage:shiftWorkEndImage withHourString:endHour withMinuteString:endMinute];
+
     shiftWorkBeginLabel.text=beginTime;
     shiftWorkEndLabel.text=endTime;
     
     
+
+}
+
+-(void)updateTimeImage:(UIImageView*)imageView
+        withHourString:(NSString*)hourString
+      withMinuteString:(NSString*)minuteString
+
+{
+    
+    NSInteger hour=[hourString integerValue];
+    NSInteger minute=[minuteString integerValue];
+    NSLog(@"%ld",(long)hour);
+
+    NSLog(@"%ld",(long)minute);
+    if (hour>3&&hour<9)
+    {
+        imageView.image =[UIImage imageNamed:@"ShiftCalendar_Image_Morning"];
+    }
+    else if (hour>9&&hour<15)
+    {
+        imageView.image =[UIImage imageNamed:@"ShiftCalendar_Image_Afternoon"];
+
+    }
+    else if (hour>15&&hour<21)
+    {
+        imageView.image =[UIImage imageNamed:@"ShiftCalendar_Image_Evening"];
+
+    }
+    else if (hour>21||hour<3)
+    {
+        imageView.image =[UIImage imageNamed:@"ShiftCalendar_Image_Night"];
+
+    }
+    
+    
+    
+    else if (hour==3)
+    {
+        if (minute==0)
+        {
+            imageView.image =[UIImage imageNamed:@"ShiftCalendar_Image_Night"];
+            
+        }
+        else
+        {
+            imageView.image =[UIImage imageNamed:@"ShiftCalendar_Image_Morning"];
+
+        }
+
+    }
+    else if (hour==9)
+    {
+        if (minute==0)
+        {
+            imageView.image =[UIImage imageNamed:@"ShiftCalendar_Image_Morning"];
+            
+        }
+        else
+        {
+            imageView.image =[UIImage imageNamed:@"ShiftCalendar_Image_Afternoon"];
+            
+        }
+
+    }
+    else if (hour==15)
+    {
+        if (minute==0)
+        {
+            imageView.image =[UIImage imageNamed:@"ShiftCalendar_Image_Afternoon"];
+            
+        }
+        else
+        {
+            imageView.image =[UIImage imageNamed:@"ShiftCalendar_Image_Evening"];
+            
+        }
+
+    }
+    else if (hour==21)
+    {
+        if (minute==0)
+        {
+            imageView.image =[UIImage imageNamed:@"ShiftCalendar_Image_Evening"];
+            
+        }
+        else
+        {
+            imageView.image =[UIImage imageNamed:@"ShiftCalendar_Image_Night"];
+            
+        }
+
+    }
+
 
 }
 #pragma mark -Notification

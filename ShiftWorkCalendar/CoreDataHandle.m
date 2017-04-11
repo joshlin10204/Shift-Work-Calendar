@@ -155,37 +155,27 @@ static CoreDataHandle *database;
 
 
 }
-- (BOOL)deleteShiftWorkTypeWithTypeID:(NSString *)typeID
+- (void)deleteShiftWorkTypeOfTypeID:(NSString *)typeID;
 {
-    NSPredicate *perdicate = [NSPredicate predicateWithFormat:@"typeID = %@",typeID];
+    NSFetchRequest *request = [NSFetchRequest new];
     
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"ShiftWorkTypeCoreData" inManagedObjectContext:[self delegate].persistentContainer.viewContext];
     
     [request setEntity:entity];
-    
-    [request setPredicate:perdicate];
-    
-    [request setFetchLimit:1];
-    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"typeID = %@",typeID];
+    [request setPredicate:predicate];
     NSError *error = nil;
+    NSManagedObject *obj =[[[self delegate].persistentContainer.viewContext executeFetchRequest:request error:&error] lastObject];
     
-    NSArray *infos = [[[self delegate].persistentContainer.viewContext executeFetchRequest:request error:&error] mutableCopy];
-    if (infos == nil) {
-        return NO;
+    if (obj)
+    {
+        [[self delegate].persistentContainer.viewContext deleteObject:obj];
+        [[self delegate].persistentContainer.viewContext save:nil];
     }
-    
-    for (ShiftWorkTypeCoreData *shiftWorkType in infos) {
-        [[self delegate].persistentContainer.viewContext deleteObject:shiftWorkType];
-        [[self delegate].persistentContainer.viewContext save:&error];
-        return YES;
-    }
-    
-    return NO;
-
 
 
 }
+
 #pragma mark - Shift Date Core Data
 - (NSMutableArray*)loadAllShiftDate
 {
@@ -226,11 +216,9 @@ static CoreDataHandle *database;
 - (NSMutableDictionary*)searchShiftDateInfoOfCalendarPage:(NSString*)calendarPage;
 {
     NSFetchRequest *request = [NSFetchRequest new];
-
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"ShiftDateCoreData" inManagedObjectContext:[self delegate].persistentContainer.viewContext];
     
     NSError *error = nil;
-
     [request setEntity:entity];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"calendarPage = %@",calendarPage];
     [request setPredicate:predicate];
@@ -299,6 +287,34 @@ static CoreDataHandle *database;
 
 
 }
+- (void)deleteShiftDateOfShiftTypeID:(NSString *)typeID
+{
+    
+    NSFetchRequest *request = [NSFetchRequest new];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"ShiftDateCoreData" inManagedObjectContext:[self delegate].persistentContainer.viewContext];
+    
+    [request setEntity:entity];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"shiftTypeID = %@",typeID];
+    [request setPredicate:predicate];
+    NSError *error = nil;
+
+    NSArray *objArray=[[[self delegate].persistentContainer.viewContext executeFetchRequest:request error:&error] mutableCopy];
+    
+    for (int i=0; i<objArray.count; i++)
+    {
+        
+        NSManagedObject *obj=objArray[i];
+        [[self delegate].persistentContainer.viewContext deleteObject:obj];
+        [[self delegate].persistentContainer.viewContext save:nil];
+        
+    }
+
+    
+}
+
+
+
 - (void)deleteShiftDateOfDateID:(NSString *)dateID
 {
     NSFetchRequest *request = [NSFetchRequest new];

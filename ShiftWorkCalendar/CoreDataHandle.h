@@ -36,13 +36,14 @@
 - (void)updateShiftWorkTypeWithTypeID:(NSString *)typeID withShiftWorkType:(NSMutableDictionary*)typeInfo;
 - (NSMutableDictionary*)searchShiftWorkTypeOfTypeID:(NSString*)typeID;
 
-- (BOOL)deleteShiftWorkTypeWithTypeID:(NSString *)typeID;
+- (void)deleteShiftWorkTypeOfTypeID:(NSString *)typeID;
 
 //ShiftDateCoreData
 - (NSMutableArray*)loadAllShiftDate;
 - (NSMutableDictionary*)searchShiftDateInfoOfCalendarPage:(NSString*)calendarPage;
 - (void)addShiftDate:(NSMutableDictionary*)info;
 - (void)updateShiftDateOfDateID:(NSString *)dateID withShiftCalendar:(NSMutableDictionary*)info;
+- (void)deleteShiftDateOfShiftTypeID:(NSString *)typeID;
 - (void)deleteShiftDateOfDateID:(NSString *)dateID;
 
 

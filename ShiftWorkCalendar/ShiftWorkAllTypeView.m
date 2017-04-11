@@ -21,7 +21,7 @@ static ShiftWorkAllTypeView *instance=nil;
     NSIndexPath *selectIndexPath;
     
     NSUInteger selectShiftTypeCellTag;
-
+    
 }
 @property (weak, nonatomic) IBOutlet UIButton *addShiftWorkButton;
 
@@ -43,19 +43,39 @@ static ShiftWorkAllTypeView *instance=nil;
             basicViewPoint.y=view.frame.size.height-basicViewSize.height*30/100;
             
             instance=[[ShiftWorkAllTypeView alloc]initWithFrame:CGRectMake(0,
-                                                                         basicViewPoint.y,
-                                                                         basicViewSize.width,
-                                                                         basicViewSize.height)];
+                                                                           basicViewPoint.y,
+                                                                           basicViewSize.width,
+                                                                           basicViewSize.height)];
             
             
             
             [view addSubview:instance];
             
         }
+        else
+        {
+            CGSize basicViewSize;
+            basicViewSize.height=view.frame.size.height*15/100;
+            basicViewSize.width=view.frame.size.width;
+            CGPoint basicViewPoint;
+            basicViewPoint.x=0;
+            basicViewPoint.y=view.frame.size.height-basicViewSize.height*30/100;
+            instance.frame=CGRectMake(0,
+                                      basicViewPoint.y,
+                                      basicViewSize.width,
+                                      basicViewSize.height);
+            
+            
+            
+            [view addSubview:instance];
+            
+            
+            
+        }
         
     }
     return instance;
-
+    
 }
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -71,7 +91,7 @@ static ShiftWorkAllTypeView *instance=nil;
         [self addSubview:self.shiftWorkTypesBasicView];
         
         [self reloadShiftWorkTypeData];
-
+        
         [self initShiftWorkTypeTableView];
         [self initNotification];
         
@@ -108,8 +128,8 @@ static ShiftWorkAllTypeView *instance=nil;
     else
     {
         self.addShiftWorkButton.backgroundColor=[UIColor colorWithRed:(216/255.0f) green:(216/255.0f) blue:(216/255.0f) alpha:1];
-
-    
+        
+        
     }
     
 }
@@ -121,7 +141,7 @@ static ShiftWorkAllTypeView *instance=nil;
 {
     shiftWorkTypeInfosArray = [[CoreDataHandle shareCoreDatabase] loadAllShiftWorkType];
     
-
+    
     [self.shiftWorkTypeTableView reloadData];
     
 }
@@ -132,12 +152,12 @@ static ShiftWorkAllTypeView *instance=nil;
     
     if (self.addShiftWorkStatus==AddShiftWorkStatusOff)
     {
-    
+        
         [self.addShiftWorkButton setTitle:@"X Close" forState:UIControlStateNormal];
         [self showShiftWorkCollectionViewAnimation:AddShiftWorkStatusOn];
         [[NSNotificationCenter defaultCenter]postNotificationName:ShiftWorkType_ShowAddView_Notification object:nil];
         [self onSelectCell];
-
+        
     }
     else
     {
@@ -146,9 +166,9 @@ static ShiftWorkAllTypeView *instance=nil;
         [[NSNotificationCenter defaultCenter]postNotificationName:ShiftWorkType_CloseAddView_Notification object:nil];
     }
     
-
-
-
+    
+    
+    
 }
 -(void)showShiftWorkCollectionViewAnimation:(AddShiftWorkStatus)status;
 {
@@ -198,7 +218,6 @@ static ShiftWorkAllTypeView *instance=nil;
     }
     
     
-    
 }
 
 
@@ -206,7 +225,7 @@ static ShiftWorkAllTypeView *instance=nil;
 #pragma mark - Shift Work Type Table View
 -(void)initShiftWorkTypeTableView
 {
-
+    
     self.shiftWorkTypeTableView=[[UITableView alloc]init];
     self.shiftWorkTypeTableView.separatorStyle=UITableViewCellSeparatorStyleNone;
     self.shiftWorkTypeTableView.backgroundColor=[UIColor colorWithRed:(255/255) green:(255/255) blue:(255/255) alpha:0];
@@ -215,7 +234,7 @@ static ShiftWorkAllTypeView *instance=nil;
     self.shiftWorkTypeTableView.transform = CGAffineTransformMakeRotation(-M_PI / 2);
     self.shiftWorkTypeTableView.opaque=NO;
     self.shiftWorkTypeTableView.showsVerticalScrollIndicator=NO;
-//    clearsSelectionOnViewWillAppear
+    //    clearsSelectionOnViewWillAppear
     self.shiftWorkTypeTableView.frame=CGRectMake(0,
                                                  self.frame.size.height*30/100,
                                                  self.frame.size.width,
@@ -226,7 +245,7 @@ static ShiftWorkAllTypeView *instance=nil;
     [self.shiftWorkTypeTableView setDataSource:self];
     
     [self initShiftWorkCell];
-
+    
     
     UILongPressGestureRecognizer * longPressGr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressCell:)];
     longPressGr.minimumPressDuration = 0.5;
@@ -309,7 +328,7 @@ static ShiftWorkAllTypeView *instance=nil;
                      withTextString:titleString
                       withTextColor:[shiftColor colorWithAlphaComponent:0.3]
                         withBgColor:clenerColor];
-       
+        
         //避免UITableView更新後，將目前所選的Cell 恢復沒點擊狀況
         if (shiftCell.tag == selectShiftTypeCellTag)
         {
@@ -318,7 +337,7 @@ static ShiftWorkAllTypeView *instance=nil;
         
         
     }
-
+    
     
     
     return shiftCell;
@@ -351,8 +370,9 @@ static ShiftWorkAllTypeView *instance=nil;
     if (cell.tag==0)
     {
         [self.delegate selectShiftWorkTypeTableViewWithCellType:ShiftWorkCellTypeAddShiftType withShiftTypeInfo:info];
+        
         [self onClickAddShiftWorkBtn:nil];
-
+        
         
     }
     else
@@ -387,10 +407,11 @@ static ShiftWorkAllTypeView *instance=nil;
         
         if (cell.tag!=0)
         {
+            selectIndexPath=nil;
             info=shiftWorkTypeInfosArray[indexPath.row];
             [self.delegate selectShiftWorkTypeTableViewWithCellType:ShiftWorkCellTypeEditShiftType withShiftTypeInfo:info];
             [self onClickAddShiftWorkBtn:nil];
-
+            
         }
     }
     else

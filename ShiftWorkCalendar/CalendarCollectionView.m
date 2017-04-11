@@ -620,6 +620,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section
         NSMutableDictionary* typeInfo= [[CoreDataHandle shareCoreDatabase] searchShiftWorkTypeOfTypeID:shiftTypeID];
         [allShiftDateTypeInfo setObject:typeInfo forKey:shiftTypeID];
     }
+
 }
 
 -(void)saveShiftDateCoreData

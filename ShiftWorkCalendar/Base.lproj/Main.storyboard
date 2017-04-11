@@ -114,6 +114,17 @@
                                     <constraint firstItem="fA1-MJ-4kO" firstAttribute="centerY" secondItem="9iw-NX-TSS" secondAttribute="centerY" id="wQV-v4-pGY"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ztq-Xy-EUi">
+                                <rect key="frame" x="-0.5" y="627" width="375" height="40"/>
+                                <color key="backgroundColor" red="1" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="20"/>
+                                <state key="normal" title="Delet Shift Work Type">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="onClickDeleteShiftTypeBtn:" destination="6Oo-cy-2iQ" eventType="touchUpInside" id="Wwd-EH-ZSO"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -127,9 +138,13 @@
                             <constraint firstItem="8e2-1O-sCg" firstAttribute="height" secondItem="1xg-9e-If2" secondAttribute="height" id="KBs-fP-ysr"/>
                             <constraint firstItem="kiS-mr-AAC" firstAttribute="width" secondItem="MyB-AF-Yx0" secondAttribute="width" id="Loe-h1-Nfd"/>
                             <constraint firstItem="kiS-mr-AAC" firstAttribute="centerX" secondItem="MyB-AF-Yx0" secondAttribute="centerX" id="Now-6D-VRR"/>
+                            <constraint firstItem="Ztq-Xy-EUi" firstAttribute="width" secondItem="MyB-AF-Yx0" secondAttribute="width" id="WEY-D5-tZ2"/>
                             <constraint firstItem="8e2-1O-sCg" firstAttribute="centerX" secondItem="MyB-AF-Yx0" secondAttribute="centerX" id="Yi5-eL-ZAM"/>
                             <constraint firstItem="8e2-1O-sCg" firstAttribute="width" secondItem="1xg-9e-If2" secondAttribute="width" id="ZJK-Kn-gXx"/>
+                            <constraint firstItem="Ztq-Xy-EUi" firstAttribute="bottom" secondItem="MyB-AF-Yx0" secondAttribute="bottom" id="boz-Fn-UDf"/>
+                            <constraint firstItem="Ztq-Xy-EUi" firstAttribute="height" secondItem="MyB-AF-Yx0" secondAttribute="height" multiplier="6/100" id="cU1-eo-51O"/>
                             <constraint firstItem="1xg-9e-If2" firstAttribute="top" secondItem="tUT-Gx-PFA" secondAttribute="bottom" id="oZV-lU-poO"/>
+                            <constraint firstItem="Ztq-Xy-EUi" firstAttribute="centerX" secondItem="MyB-AF-Yx0" secondAttribute="centerX" id="rZp-jd-15T"/>
                             <constraint firstItem="kiS-mr-AAC" firstAttribute="top" secondItem="8e2-1O-sCg" secondAttribute="bottom" id="vLI-fM-3PX"/>
                             <constraint firstItem="kiS-mr-AAC" firstAttribute="height" secondItem="MyB-AF-Yx0" secondAttribute="height" multiplier="10/100" id="xLR-qG-gch"/>
                             <constraint firstItem="1xg-9e-If2" firstAttribute="centerX" secondItem="MyB-AF-Yx0" secondAttribute="centerX" id="yGI-Ng-znq"/>
@@ -140,6 +155,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="colorBasicView" destination="kiS-mr-AAC" id="yJf-Xg-TA3"/>
+                        <outlet property="deleteShiftTypeBtn" destination="Ztq-Xy-EUi" id="yY8-ol-kCn"/>
                         <outlet property="shiftBeginTimeLabel" destination="fA1-MJ-4kO" id="1yy-kU-YXJ"/>
                         <outlet property="shiftEndTimeLabel" destination="6F4-Ru-QLP" id="KZu-7N-ZCj"/>
                         <outlet property="shiftTypeShortNameField" destination="8e2-1O-sCg" id="n5R-oz-ehM"/>

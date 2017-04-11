@@ -23,6 +23,14 @@ static ShiftWorkInformationView *instance=nil;
     UILabel *shiftWorkEndLabel;
     UIImageView *shiftWorkBeginImage;
     UIImageView *shiftWorkEndImage;
+    
+    CGAffineTransform originalNameLabelAffineTransform;
+    CGAffineTransform originalBeginLabelAffineTransform;
+    CGAffineTransform originalEndLabelAffineTransform;
+    CGAffineTransform originalBeginImageAffineTransform;
+    CGAffineTransform originalEndImageAffineTransform;
+
+
 }
 
 @end
@@ -279,9 +287,10 @@ static ShiftWorkInformationView *instance=nil;
     CGPoint labelPoint;
     CGSize labelSize;
     labelSize.width=self.frame.size.width*60/100;
-    labelSize.height=self.frame.size.height*15/100;
+    labelSize.height=self.frame.size.height*20/100;
     labelPoint.x=self.frame.size.width*30/100;
     labelPoint.y=self.frame.size.height*20/100;
+
     shiftWorkNameLabel=[[UILabel alloc]initWithFrame:CGRectMake(labelPoint.x, labelPoint.y, labelSize.width, labelSize.height)];
     
     shiftWorkNameLabel.font=[UIFont fontWithName:@"Futura-Bold" size:200];
@@ -350,8 +359,8 @@ static ShiftWorkInformationView *instance=nil;
     CGSize imageSize;
     imageSize.width=self.frame.size.width*12/100;
     imageSize.height=imageSize.width;
-    imagePoint.x=self.frame.size.width*30/100;;
-    imagePoint.y=self.frame.size.height*65/100;
+    imagePoint.x=self.frame.size.width*30/100;
+    imagePoint.y=self.frame.size.height*72.5/100-imageSize.height/2;
     shiftWorkEndImage = [[UIImageView alloc] initWithFrame: CGRectMake(imagePoint.x,imagePoint.y,imageSize.width,imageSize.height)];
     shiftWorkEndImage.image =[UIImage imageNamed:@"TestType03"];
     [self addSubview:shiftWorkEndImage];
@@ -374,9 +383,9 @@ static ShiftWorkInformationView *instance=nil;
     viewFrame.size.height=self.frame.size.height*80/100;
     
     [self transformViewMaskAnimation:viewFrame withNowFrame:self.frame];
-    [self transformViewFrameAnimation:viewFrame];
     [self transformAllInfoSizeAnimation:NO];
-    
+    [self transformViewFrameAnimation:viewFrame];
+
 }
 -(void)transformViewFrameAnimation:(CGRect)frame
 {
@@ -399,11 +408,11 @@ static ShiftWorkInformationView *instance=nil;
     shiftWorkEndLabel.frame=endLabelFrame;
 
     CGRect beginImageFrame=shiftWorkBeginImage.frame;
-    beginImageFrame.origin.y=frame.size.height/2-beginLabelFrame.size.height/2;
+    beginImageFrame.origin.y=frame.size.height/2-beginImageFrame.size.height/2;
     shiftWorkBeginImage.frame=beginImageFrame;
 
     CGRect endImageFrame=shiftWorkEndImage.frame;
-    endImageFrame.origin.y=frame.size.height*65/100;
+    endImageFrame.origin.y=frame.size.height*65/100+ endLabelFrame.size.height/2- endImageFrame.size.height/2;
     shiftWorkEndImage.frame=endImageFrame;
 
 
@@ -430,32 +439,35 @@ static ShiftWorkInformationView *instance=nil;
     [viewMaskLayer addAnimation:pathAnim forKey:@"scale-layer"];
     
 }
-
 -(void)transformAllInfoSizeAnimation:(BOOL)isRecovery
 {
-    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
-    
-    animation.duration = 0.5;
-    animation.repeatCount = 0;
-    animation.autoreverses = NO;
-    if (isRecovery){
-        animation.fromValue = [NSNumber numberWithFloat:0.9];
-        animation.toValue = [NSNumber numberWithFloat:1.0];
-    }else{
-        animation.fromValue = [NSNumber numberWithFloat:1.0];
-        animation.toValue = [NSNumber numberWithFloat:0.9];
+    if (isRecovery)
+    {
+        [UIView animateWithDuration:0.5 animations:^{
+            shiftWorkNameLabel.transform = originalNameLabelAffineTransform;
+            shiftWorkBeginLabel.transform = originalBeginLabelAffineTransform;
+            shiftWorkBeginImage.transform = originalBeginImageAffineTransform;
+            shiftWorkEndLabel.transform = originalEndLabelAffineTransform;
+            shiftWorkEndImage.transform = originalEndImageAffineTransform;
+
+        }];
     }
-    //防止動畫結束後返回初始layer大小
-    animation.removedOnCompletion = NO;
-    animation.fillMode = kCAFillModeForwards;
+    else
+    {
+        originalNameLabelAffineTransform=shiftWorkNameLabel.transform;
+        originalBeginLabelAffineTransform=shiftWorkBeginLabel.transform;
+        originalBeginImageAffineTransform=shiftWorkBeginImage.transform;
+        originalEndLabelAffineTransform=shiftWorkEndLabel.transform;
+        originalEndImageAffineTransform=shiftWorkEndImage.transform;
+        [UIView animateWithDuration:0.5 animations:^{
+            shiftWorkNameLabel.transform = CGAffineTransformScale(shiftWorkNameLabel.transform,0.9,0.9);
+            shiftWorkBeginLabel.transform = CGAffineTransformScale(shiftWorkBeginLabel.transform,0.9,0.9);
+            shiftWorkBeginImage.transform = CGAffineTransformScale(shiftWorkBeginImage.transform,0.9,0.89);
+            shiftWorkEndLabel.transform = CGAffineTransformScale(shiftWorkEndLabel.transform,0.9,0.9);
+            shiftWorkEndImage.transform = CGAffineTransformScale(shiftWorkEndImage.transform,0.9,0.9);
+        }];
 
-    [shiftWorkNameLabel.layer addAnimation:animation forKey:@"scale-layer"];
-    [shiftWorkBeginLabel.layer addAnimation:animation forKey:@"scale-layer"];
-    [shiftWorkEndLabel.layer addAnimation:animation forKey:@"scale-layer"];
-    [shiftWorkBeginImage.layer addAnimation:animation forKey:@"scale-layer"];
-    [shiftWorkEndImage.layer addAnimation:animation forKey:@"scale-layer"];
-    
-
+    }
 
 
 }

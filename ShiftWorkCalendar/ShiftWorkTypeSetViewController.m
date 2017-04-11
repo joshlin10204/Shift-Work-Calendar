@@ -40,6 +40,7 @@ typedef enum RightBarBtnStatus
     
 }
 @property (nonatomic, assign) RightBarBtnStatus rightBarBtnStatus;
+@property (weak, nonatomic) IBOutlet UIButton *deleteShiftTypeBtn;
 
 @property (weak, nonatomic) IBOutlet UIView *colorBasicView;
 @end
@@ -56,6 +57,8 @@ typedef enum RightBarBtnStatus
     [self initShiftTimeLabel];
     [self initNavigationbarRightButton];
     [self setNavigationbar];
+    [self updateDeleteShiftTypeBtn];
+
 
 
 }
@@ -109,7 +112,6 @@ typedef enum RightBarBtnStatus
         shiftTimeInfo=[self.shiftWorkTypeInfo objectForKey:CoreData_ShiftTypeInfo_Time];
         shiftBeginTimeInfo=[shiftTimeInfo objectForKey:ShiftTypeInfo_BeginTimeInfo];
         shiftEndTimeInfo=[shiftTimeInfo objectForKey:ShiftTypeInfo_EndTimeInfo];
-    
     }
     
 }
@@ -157,6 +159,27 @@ typedef enum RightBarBtnStatus
     self.navigationController.navigationBar.translucent = NO;
 
     [[UIBarButtonItem appearance] setTitleTextAttributes:attributesInfo forState:UIControlStateNormal];
+
+}
+#pragma mark - Delete Button
+-(void)updateDeleteShiftTypeBtn
+{
+    if (_isAddNewShiftWorkType)
+    {
+        self.deleteShiftTypeBtn.hidden=YES;
+    }
+    else
+    {
+        self.deleteShiftTypeBtn.hidden=NO;
+    }
+
+
+}
+- (IBAction)onClickDeleteShiftTypeBtn:(id)sender
+{
+    [[CoreDataHandle shareCoreDatabase]deleteShiftDateOfShiftTypeID:typeID];
+    [[CoreDataHandle shareCoreDatabase]deleteShiftWorkTypeOfTypeID:typeID];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 
 }
 

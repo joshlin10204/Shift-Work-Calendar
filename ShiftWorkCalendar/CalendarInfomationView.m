@@ -33,9 +33,7 @@ static CalendarInfomationView *instance=nil;
     UILabel *dayLabel;
     UILabel *weekLabel;
     UILabel *todayLabel;
-    CGRect dayLabelOriginalFrame;
-    CGRect weekLabelOriginalFrame;
-    CGRect todayLabelOriginalFrame;
+
 
 }
 @property (weak, nonatomic) IBOutlet UIView *labelBasciView;
@@ -115,11 +113,11 @@ static CalendarInfomationView *instance=nil;
 -(void)initNotification
 {
     [[NSNotificationCenter defaultCenter]addObserver:self
-                                            selector:@selector(updateCalendarInformation:)
+                                            selector:@selector(updateInformationTypeOfCalendarInfo:)
                                                 name:Calendar_SelectDay_Notification
                                               object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self
-                                            selector:@selector(updateCalendarInformation:)
+                                            selector:@selector(updateInformationTypeOfShiftInfo:)
                                                 name:ShiftWorkType_AddShiftType_Notification
                                               object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self
@@ -138,50 +136,54 @@ static CalendarInfomationView *instance=nil;
 
 #pragma mark -Update Calendar Information
 
-
--(void)updateCalendarInformation:(NSNotification *)notification
+-(void)updateInformationTypeOfShiftInfo:(NSNotification *)notification
 {
     NSMutableDictionary *newInfo=[notification object];
-    
-    
-    if (self.informationDisplayType==InformationDisplayTypeShowDate)
+    if (newInfo==nil)
     {
-        NSMutableDictionary*dayInfo=[newInfo objectForKey:@"dayInfo"];
-        NSMutableDictionary *typeInfo=[newInfo objectForKey:@"typeInfo"];
-        BOOL isToday = [[newInfo objectForKey:@"isToday"]boolValue];
-        BOOL isHaveTypeInfo=typeInfo;
-        NSString *day=[dayInfo objectForKey:CalendarData_AllDayInfo_Day];
-        NSString *week=[dayInfo objectForKey:CalendarData_AllDayInfo_Week];
-        UIColor *color=[typeInfo objectForKey:CoreData_ShiftTypeInfo_Color];
-
-        [self updateLabelInfo:dayLabel withString:day withIsHidden:NO];
-        [self updateLabelInfo:weekLabel withString:week withIsHidden:NO];
-        [self updateLabelInfo:todayLabel withString:@"Today" withIsHidden:!isToday];
-        [self moveDayLabel:isHaveTypeInfo];
-        [self moveWeekLabel:isHaveTypeInfo];
-        [self moveTodayLabel:isHaveTypeInfo];
-        [self moveShiftInfoViewPoint:isHaveTypeInfo];
-        [self updateCalendarInformationBackgroundColor:color];
-        [shiftWorkInformationView updateShiftWorkInformation:typeInfo];
+        return;
     }
-    else
-    {
-        NSString *shiftTitle=[newInfo objectForKey:CoreData_ShiftTypeInfo_TitleName];
-        UIColor *color=[newInfo objectForKey:CoreData_ShiftTypeInfo_Color];
-        [self updateLabelInfo:dayLabel withString:shiftTitle withIsHidden:NO];
-        [self updateLabelInfo:weekLabel withString:@"" withIsHidden:YES];
-        [self updateLabelInfo:todayLabel withString:@"On Add" withIsHidden:YES];
-        [self updateCalendarInformationBackgroundColor:color];
-        [self moveShiftInfoViewPoint:YES];
-        [self moveDayLabel:YES];
-        [self moveWeekLabel:YES];
-        [self moveTodayLabel:YES];
+    
+    self.informationDisplayType=InformationDisplayTypeShowShiftTitle;
+    NSString *shiftTitle=[newInfo objectForKey:CoreData_ShiftTypeInfo_TitleName];
+    UIColor *color=[newInfo objectForKey:CoreData_ShiftTypeInfo_Color];
+    [self updateLabelInfo:dayLabel withString:shiftTitle withIsHidden:NO];
+    [self updateLabelInfo:weekLabel withString:@"" withIsHidden:YES];
+    [self updateLabelInfo:todayLabel withString:@"On Add" withIsHidden:YES];
+    [self updateCalendarInformationBackgroundColor:color];
+    [self moveShiftInfoViewPoint:YES];
+    [self moveDayLabel:YES];
+    [self moveWeekLabel:YES];
+    [self moveTodayLabel:YES];
+    [shiftWorkInformationView updateShiftWorkInformation:newInfo];
 
 
-        [shiftWorkInformationView updateShiftWorkInformation:newInfo];
+}
 
-    }
 
+-(void)updateInformationTypeOfCalendarInfo:(NSNotification *)notification
+{
+    
+    self.informationDisplayType=InformationDisplayTypeShowDate;
+
+    NSMutableDictionary *newInfo=[notification object];
+    NSMutableDictionary*dayInfo=[newInfo objectForKey:@"dayInfo"];
+    NSMutableDictionary *typeInfo=[newInfo objectForKey:@"typeInfo"];
+    BOOL isToday = [[newInfo objectForKey:@"isToday"]boolValue];
+    BOOL isHaveTypeInfo=typeInfo;
+    NSString *day=[dayInfo objectForKey:CalendarData_AllDayInfo_Day];
+    NSString *week=[dayInfo objectForKey:CalendarData_AllDayInfo_Week];
+    UIColor *color=[typeInfo objectForKey:CoreData_ShiftTypeInfo_Color];
+    
+    [self updateLabelInfo:dayLabel withString:day withIsHidden:NO];
+    [self updateLabelInfo:weekLabel withString:week withIsHidden:NO];
+    [self updateLabelInfo:todayLabel withString:@"Today" withIsHidden:!isToday];
+    [self moveDayLabel:isHaveTypeInfo];
+    [self moveWeekLabel:isHaveTypeInfo];
+    [self moveTodayLabel:isHaveTypeInfo];
+    [self moveShiftInfoViewPoint:isHaveTypeInfo];
+    [self updateCalendarInformationBackgroundColor:color];
+    [shiftWorkInformationView updateShiftWorkInformation:typeInfo];
 }
 -(void)updateLabelInfo:(UILabel*)label withString:(NSString*)string withIsHidden:(BOOL)isHedden
 {
@@ -203,12 +205,12 @@ static CalendarInfomationView *instance=nil;
 -(void)moveDayLabel:(BOOL)isShowShift
 {
     CGPoint newPoint;
-    CGRect labelframe=dayLabel.frame;
+    CGRect labelframe=[self getDayLabelFrame];
     
     if (self.informationDisplayType==InformationDisplayTypeShowShiftTitle)
     {
+        newPoint.x =self.frame.size.width/2-labelframe.size.width;
         newPoint.y=self.frame.size.height/2-labelframe.size.height/2;
-        newPoint.x =self.frame.size.width/4-labelframe.size.width/2;
 
     }
     else
@@ -216,7 +218,7 @@ static CalendarInfomationView *instance=nil;
         newPoint.y=labelframe.origin.y;
         if (isShowShift)
         {
-            newPoint.x =dayLabelOriginalFrame.origin.x;
+            newPoint.x =labelframe.origin.x;
         }
         else
         {
@@ -233,12 +235,12 @@ static CalendarInfomationView *instance=nil;
 -(void)moveWeekLabel:(BOOL)isShowShift
 {
     CGPoint newPoint;
-    CGRect labelframe=weekLabel.frame;
+    CGRect labelframe=[self getWeekLabelFrame];
     
-    newPoint.y=weekLabelOriginalFrame.origin.y;
+    newPoint.y=labelframe.origin.y;
     if (isShowShift)
     {
-        newPoint.x =weekLabelOriginalFrame.origin.x;
+        newPoint.x =labelframe.origin.x;
     }
     else
     {
@@ -253,12 +255,12 @@ static CalendarInfomationView *instance=nil;
 -(void)moveTodayLabel:(BOOL)isShowShift
 {
     CGPoint newPoint;
-    CGRect labelframe=todayLabel.frame;
+    CGRect labelframe=[self getTodayLabelFrame];
     
-    newPoint.y=todayLabelOriginalFrame.origin.y;
+    newPoint.y=labelframe.origin.y;
     if (isShowShift)
     {
-        newPoint.x =todayLabelOriginalFrame.origin.x;
+        newPoint.x =labelframe.origin.x;
     }
     else
     {
@@ -276,16 +278,14 @@ static CalendarInfomationView *instance=nil;
 -(void)enlargeInformationView
 {
 
-    self.informationDisplayType=InformationDisplayTypeShowDate;
     [UIView animateWithDuration:0.5 animations:^{
         dayLabel.transform = originalDayLabelAffineTransform;
-    }];
-    [UIView animateWithDuration:0.5 animations:^{
         weekLabel.transform = originalWeekLabelAffineTransform;
-    }];
-    [UIView animateWithDuration:0.5 animations:^{
         todayLabel.transform = originalTodayLabelAffineTransform;
+
+
     }];
+
 
     
     CGRect frame=originaViewlFrame;
@@ -296,26 +296,17 @@ static CalendarInfomationView *instance=nil;
 }
 -(void)reducedInformationView
 {
-    self.informationDisplayType=InformationDisplayTypeShowShiftTitle;
-
 
     originalDayLabelAffineTransform=dayLabel.transform;
-    [UIView animateWithDuration:0.5 animations:^{
-        dayLabel.transform = CGAffineTransformScale(dayLabel.transform,0.8,0.8);
-    }];
-    
     originalWeekLabelAffineTransform=CGAffineTransformScale(weekLabel.transform, 1, 1);
-    [UIView animateWithDuration:0.5 animations:^{
-        weekLabel.transform = CGAffineTransformScale(weekLabel.transform,0.8,0.8);
-    }];
-
     originalTodayLabelAffineTransform=CGAffineTransformScale(todayLabel.transform, 1, 1);
     [UIView animateWithDuration:0.5 animations:^{
+        dayLabel.transform = CGAffineTransformScale(dayLabel.transform,0.8,0.8);
+        weekLabel.transform = CGAffineTransformScale(weekLabel.transform,0.8,0.8);
         todayLabel.transform = CGAffineTransformScale(todayLabel.transform,0.8,0.8);
-    }];
 
-    
-    
+
+    }];
     originaViewlFrame=self.frame;
     CGRect viewFrame=self.frame;
     viewFrame.size.height=self.frame.size.height*80/100;
@@ -352,30 +343,49 @@ static CalendarInfomationView *instance=nil;
 
 -(void)initDaylabel
 {
-    CGPoint labelPoint;
-    CGSize labelSize;
-    labelSize.height=self.frame.size.height*60/100;
-    labelSize.width=self.frame.size.width*40/100;
-    labelPoint.x=self.frame.size.width/4-labelSize.width/2;
-    labelPoint.y=self.frame.size.height*15/100;
-    dayLabelOriginalFrame=CGRectMake(labelPoint.x, labelPoint.y, labelSize.width, labelSize.height);
-    dayLabel=[[UILabel alloc]initWithFrame:dayLabelOriginalFrame];
+    dayLabel=[[UILabel alloc]initWithFrame:[self getDayLabelFrame]];
     
     dayLabel.font=[UIFont fontWithName:@"Futura-Bold" size:200];
     dayLabel.textAlignment=NSTextAlignmentCenter;
     dayLabel.text=@"3";
     dayLabel.textColor=[UIColor whiteColor];
     dayLabel.adjustsFontSizeToFitWidth=YES;
-    dayLabel.baselineAdjustment= UIBaselineAdjustmentNone;
+    dayLabel.baselineAdjustment= UIBaselineAdjustmentAlignCenters;
 //    dayLabel.minimumScaleFactor=0.01;
-    dayLabel.numberOfLines=10;
+    dayLabel.numberOfLines=2;
 
     [self addSubview:dayLabel];
 
 }
+-(CGRect)getDayLabelFrame
+{
+    CGPoint labelPoint;
+    CGSize labelSize;
+    labelSize.height=self.frame.size.height*60/100;
+    labelSize.width=self.frame.size.width*40/100;
+    labelPoint.x=self.frame.size.width/4-labelSize.width/2;
+    labelPoint.y=self.frame.size.height*15/100;
+    CGRect dayLabelFrame=CGRectMake(labelPoint.x, labelPoint.y, labelSize.width, labelSize.height);
+    return dayLabelFrame;
 
+}
 
 -(void)initWeeklabel
+{
+
+    weekLabel=[[UILabel alloc]initWithFrame:[self getWeekLabelFrame]];
+    weekLabel.font=[UIFont fontWithName:@"Futura" size:200];
+    weekLabel.textAlignment=NSTextAlignmentCenter;
+    weekLabel.text=@"Friday";
+    weekLabel.textColor=[UIColor whiteColor];
+    weekLabel.adjustsFontSizeToFitWidth=YES;
+    weekLabel.numberOfLines=2;
+//    weekLabel.baselineAdjustment= UIBaselineAdjustmentAlignBaselines;
+
+    [self addSubview:weekLabel];
+    
+}
+-(CGRect)getWeekLabelFrame
 {
     CGPoint labelPoint;
     CGSize labelSize;
@@ -383,31 +393,16 @@ static CalendarInfomationView *instance=nil;
     labelSize.width=self.frame.size.width*40/100;
     labelPoint.x=self.frame.size.width/4-labelSize.width/2;
     labelPoint.y=self.frame.size.height*65/100;
-    weekLabelOriginalFrame=CGRectMake(labelPoint.x,labelPoint.y,labelSize.width,labelSize.height);
-    weekLabel=[[UILabel alloc]initWithFrame:weekLabelOriginalFrame];
-    weekLabel.font=[UIFont fontWithName:@"Futura" size:200];
-    weekLabel.textAlignment=NSTextAlignmentCenter;
-    weekLabel.text=@"Friday";
-    weekLabel.textColor=[UIColor whiteColor];
-    weekLabel.adjustsFontSizeToFitWidth=YES;
-    weekLabel.numberOfLines=2;
-    weekLabel.baselineAdjustment= UIBaselineAdjustmentAlignBaselines;
+    CGRect weekLabelFrame=CGRectMake(labelPoint.x,labelPoint.y,labelSize.width,labelSize.height);
 
-    [self addSubview:weekLabel];
-    
+    return weekLabelFrame;
+
 }
 
 -(void)initTodaylabel
 {
-    CGPoint labelPoint;
-    CGSize labelSize;
-    labelSize.height=self.frame.size.height*10/100;
-    labelSize.width=self.frame.size.width*20/100;
-    labelPoint.x=self.frame.size.width/4-labelSize.width/2;
-    labelPoint.y=self.frame.size.height*88/100;
-    todayLabelOriginalFrame=CGRectMake(labelPoint.x, labelPoint.y, labelSize.width, labelSize.height);
-    todayLabel=[[UILabel alloc]initWithFrame:todayLabelOriginalFrame];
-    
+
+    todayLabel=[[UILabel alloc]initWithFrame:[self getTodayLabelFrame]];
     todayLabel.font=[UIFont fontWithName:@"Futura-Bold" size:200];
     todayLabel.textAlignment=NSTextAlignmentCenter;
     todayLabel.text=@"Today";
@@ -422,9 +417,19 @@ static CalendarInfomationView *instance=nil;
     todayLabel.hidden=YES;
 
     [self addSubview:todayLabel];
-    
 }
 
+-(CGRect)getTodayLabelFrame
+{
+    CGPoint labelPoint;
+    CGSize labelSize;
+    labelSize.height=self.frame.size.height*10/100;
+    labelSize.width=self.frame.size.width*20/100;
+    labelPoint.x=self.frame.size.width/4-labelSize.width/2;
+    labelPoint.y=self.frame.size.height*88/100;
+    CGRect todayLabelFrame=CGRectMake(labelPoint.x, labelPoint.y, labelSize.width, labelSize.height);
+    return todayLabelFrame;
+}
 
 
 #pragma mark -Shift Work Information

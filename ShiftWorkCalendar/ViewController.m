@@ -308,8 +308,6 @@
         ShiftWorkTypeSetViewController* addShiftWorkTypeView = [storyboard instantiateViewControllerWithIdentifier:@"ShiftWorkTypeSetViewController"];
         addShiftWorkTypeView.isAddNewShiftWorkType=YES;
         
-//        [self performSegueWithIdentifier:@"goShiftWorkTypeSetting" sender:self];
-
         [self.navigationController pushViewController:addShiftWorkTypeView animated:YES];
     
     }
@@ -322,8 +320,6 @@
         addShiftWorkTypeView.isAddNewShiftWorkType=NO;
         addShiftWorkTypeView.shiftWorkTypeInfo=info;
         
-//        [self performSegueWithIdentifier:@"goShiftWorkTypeSetting" sender:self];
-
         [self.navigationController pushViewController:addShiftWorkTypeView animated:YES];
     }
     else
